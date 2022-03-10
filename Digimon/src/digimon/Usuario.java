@@ -12,8 +12,13 @@ public class Usuario {
     
     private String nomUsu;
     private String contUsu;
-    private String idUsu;
+    private int idUsu;
     private int partidasGan;
+    
+    public Usuario(String nombre, String contrasena){
+        nomUsu = nombre;
+        contUsu = contrasena;
+    }
     
     public String getNomUsu() {
         return nomUsu;
@@ -31,11 +36,11 @@ public class Usuario {
         this.contUsu = contUsu;
     }
 
-    public String getIdUsu() {
+    public int getIdUsu() {
         return idUsu;
     }
 
-    public void setIdUsu(String idUsu) {
+    public void setIdUsu(int idUsu) {
         this.idUsu = idUsu;
     }
 
