@@ -4,33 +4,40 @@
  */
 package digimon;
 
+import java.util.HashSet;
+
 /**
  *
  * @author jmanuel
  */
 public class Digimon {
 
-    enum Tipos {
-        Virus,
-        Vacuna,
-        Elemental,
-        Animal,
-        Planta,
+    public enum Tipos {
+        VIRUS,
+        VACUNA,
+        ELEMENTAL,
+        ANIMAL,
+        PLANTA,
 
     }
-
+   
+    
     private int id;
     private String nomDig;
-    private String tipo;
+    private Tipos tipo;
     private int nivel;
     private int ataque;
     private int defensa;
 
-    public Digimon(String Nombre,String Tipo) {
+    public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def) {
         nomDig = Nombre;
-        tipo=Tipos.Tipo;
+        tipo=t;
+        nivel = lvl;
+        ataque = ataq;
+        defensa= def;
+        
     }
-
+    
     public int getId() {
         return id;
     }
@@ -47,11 +54,11 @@ public class Digimon {
         this.nomDig = nomDig;
     }
 
-    public String getTipo() {
+    public Tipos getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(Tipos tipo) {
         this.tipo = tipo;
     }
 
