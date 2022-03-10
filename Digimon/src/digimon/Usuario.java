@@ -14,9 +14,9 @@ public class Usuario {
     private String contUsu;
     private int partidasGan;
     
-    public Usuario(String nombre, String contrasena){
-        nomUsu = nombre;
-        contUsu = contrasena;
+    public Usuario(String nomUsu, String contUsu){
+        this.nomUsu = nomUsu;
+        this.contUsu = contUsu;
     }
     
     public String getNomUsu() {
