@@ -9,12 +9,27 @@ package digimon;
  * @author jmanuel
  */
 public class Digimon {
+
+    enum Tipos {
+        Virus,
+        Vacuna,
+        Elemental,
+        Animal,
+        Planta,
+
+    }
+
     private int id;
     private String nomDig;
     private String tipo;
     private int nivel;
     private int ataque;
     private int defensa;
+
+    public Digimon(String Nombre,String Tipo) {
+        nomDig = Nombre;
+        tipo=Tipos.Tipo;
+    }
 
     public int getId() {
         return id;
@@ -63,5 +78,5 @@ public class Digimon {
     public void setDefensa(int defensa) {
         this.defensa = defensa;
     }
-   
+
 }
