@@ -9,5 +9,5 @@ package digimon;
  * @author jmanuel
  */
 public class Digimon {
-    
+    int klk;
 }
