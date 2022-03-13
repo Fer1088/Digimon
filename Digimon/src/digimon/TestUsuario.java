@@ -14,7 +14,8 @@ public class TestUsuario {
     
     private static HashMap<String,Usuario> listaUsuarios = new HashMap<>();
     
-    public static void anadeUsuario(Usuario usuario){
+    public static void creaUsuario(String nombre, String contrasena){
+        Usuario usuario = new Usuario(nombre, contrasena);
         try{
             if(listaUsuarios.containsKey(usuario.getNombre())) {
                 throw new Exception("Ya existe un usuario con ese nombre.");
@@ -26,11 +27,6 @@ public class TestUsuario {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
-    }
-    
-    public static void creaUsuario(String nombre, String contrasena){
-        Usuario usuario = new Usuario(nombre, contrasena);
-        anadeUsuario(usuario);
     }
     
     public static void main(String[] args){
