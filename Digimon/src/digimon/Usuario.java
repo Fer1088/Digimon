@@ -13,10 +13,13 @@ public class Usuario {
     private String nomUsu;
     private String contUsu;
     private int partidasGan;
+    private int tokensEvo;
     
     public Usuario(String nomUsu, String contUsu){
         this.nomUsu = nomUsu;
         this.contUsu = contUsu;
+        this.partidasGan = 0;
+        this.tokensEvo = 0;
     }
     
     public String getNomUsu() {
@@ -35,11 +38,4 @@ public class Usuario {
         this.contUsu = contUsu;
     }
 
-    public int getPartidasGan() {
-        return partidasGan;
-    }
-
-    public void setPartidasGan(int partidasGan) {
-        this.partidasGan = partidasGan;
-    }
 }
