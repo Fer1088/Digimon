@@ -10,32 +10,59 @@ package digimon;
  */
 public class Usuario {
     
-    private String nomUsu;
-    private String contUsu;
+    private String nombre;
+    private String contrasena;
     private int partidasGan;
     private int tokensEvo;
     
-    public Usuario(String nomUsu, String contUsu){
-        this.nomUsu = nomUsu;
-        this.contUsu = contUsu;
+    public Usuario(){
+        this.nombre = "Usuario";
+        this.contrasena = "1234";
         this.partidasGan = 0;
         this.tokensEvo = 0;
     }
     
-    public String getNomUsu() {
-        return nomUsu;
+    public Usuario(String nombre, String contrasena){
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.partidasGan = 0;
+        this.tokensEvo = 0;
+    }
+    
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNomUsu(String nomUsu) {
-        this.nomUsu = nomUsu;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getContUsu() {
-        return contUsu;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContUsu(String contUsu) {
-        this.contUsu = contUsu;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    
+    public int getPartidasGan() {
+        return partidasGan;
+    }
+
+    public int getTokensEvo() {
+        return tokensEvo;
+    }
+    
+    public void incPartidasGan(){
+        this.partidasGan++;
+    }
+    
+    public void incTokensEvo(){
+        this.tokensEvo++;
+    }
+    
+    public void decTokensEvo(){
+        this.tokensEvo--;
     }
 
 }
