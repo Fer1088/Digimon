@@ -21,4 +21,5 @@ public class Tiene {
     public void setEstasiono(boolean estasiono) {
         this.estasiono = estasiono;
     }
+    int hola;
 }
