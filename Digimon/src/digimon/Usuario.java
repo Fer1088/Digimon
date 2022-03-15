@@ -10,45 +10,59 @@ package digimon;
  */
 public class Usuario {
     
-    private String nomUsu;
-    private String contUsu;
-    private int idUsu;
+    private String nombre;
+    private String contrasena;
     private int partidasGan;
+    private int tokensEvo;
+    
+    public Usuario(){
+        this.nombre = "Usuario";
+        this.contrasena = "1234";
+        this.partidasGan = 0;
+        this.tokensEvo = 0;
+    }
     
     public Usuario(String nombre, String contrasena){
-        nomUsu = nombre;
-        contUsu = contrasena;
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.partidasGan = 0;
+        this.tokensEvo = 0;
     }
     
-    public String getNomUsu() {
-        return nomUsu;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNomUsu(String nomUsu) {
-        this.nomUsu = nomUsu;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getContUsu() {
-        return contUsu;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContUsu(String contUsu) {
-        this.contUsu = contUsu;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
-
-    public int getIdUsu() {
-        return idUsu;
-    }
-
-    public void setIdUsu(int idUsu) {
-        this.idUsu = idUsu;
-    }
-
+    
     public int getPartidasGan() {
         return partidasGan;
     }
 
-    public void setPartidasGan(int partidasGan) {
-        this.partidasGan = partidasGan;
+    public int getTokensEvo() {
+        return tokensEvo;
     }
+    
+    public void incPartidasGan(){
+        this.partidasGan++;
+    }
+    
+    public void incTokensEvo(){
+        this.tokensEvo++;
+    }
+    
+    public void decTokensEvo(){
+        this.tokensEvo--;
+    }
+
 }
