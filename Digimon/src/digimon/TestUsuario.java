@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public class TestUsuario {
     
-    private static HashMap<String,Usuario> listaUsuarios = new HashMap<>();
+    private static final HashMap<String,Usuario> listaUsuarios = new HashMap<>();
     
     public static void creaUsuario(String nombre, String contrasena){
         Usuario usuario = new Usuario(nombre, contrasena);
