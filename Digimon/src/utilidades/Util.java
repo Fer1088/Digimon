@@ -27,7 +27,37 @@ public class Util {
         }
     }
     
-    public static void recogeDigimones(Conexion c, HashMap<String,Digimon> listaDigimones){
+    public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
+        Usuario usuario = new Usuario(nombre, contrasena);
+        try{
+            if(lista.containsKey(usuario.getNombre())) {
+                throw new Exception("Ya existe un usuario con ese nombre.");
+            }
+            else{
+                lista.put(usuario.getNombre(), usuario);
+            }
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, HashMap<String,Digimon> lista){
+        Digimon digimon = new Digimon(nombre,tipo,nivel,ataque,defensa);
+        try{
+            if(lista.containsKey(digimon.getNomDig())) {
+                throw new Exception("Ya existe un Digimon con ese nombre.");
+            }
+            else{
+                lista.put(digimon.getNomDig(), digimon);
+            }
+        }
+        catch(Exception e){
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public static void recogeDigimones(Conexion c, HashMap<String,Digimon> lista){
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Digimon");
             if(res){
@@ -41,7 +71,7 @@ public class Util {
 
                     Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig);
 
-                    listaDigimones.put(nomDig, digimon);
+                    lista.put(nomDig, digimon);
                 }
             }
         }catch(SQLException e){
@@ -49,7 +79,7 @@ public class Util {
         }    
     }
     
-    public static void recogeUsuarios(Conexion c, HashMap<String,Usuario> listaUsuarios){
+    public static void recogeUsuarios(Conexion c, HashMap<String,Usuario> lista){
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Usuario");
             if(res){
@@ -62,7 +92,7 @@ public class Util {
 
                     Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo);
 
-                    listaUsuarios.put(nomUsu, usuario);
+                    lista.put(nomUsu, usuario);
                 }
             }
         }catch(SQLException e){

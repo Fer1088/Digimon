@@ -14,14 +14,14 @@ public class TestUsuario {
     
     private static final HashMap<String,Usuario> listaUsuarios = new HashMap<>();
     
-    public static void creaUsuario(String nombre, String contrasena){
+    public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
         Usuario usuario = new Usuario(nombre, contrasena);
         try{
-            if(listaUsuarios.containsKey(usuario.getNombre())) {
+            if(lista.containsKey(usuario.getNombre())) {
                 throw new Exception("Ya existe un usuario con ese nombre.");
             }
             else{
-                listaUsuarios.put(usuario.getNombre(), usuario);
+                lista.put(usuario.getNombre(), usuario);
             }
         }
         catch(Exception e){
@@ -31,10 +31,10 @@ public class TestUsuario {
     
     public static void main(String[] args){
         
-        creaUsuario("hola","123");
-        creaUsuario("adios","456");
-        creaUsuario("cara","789");
-        creaUsuario("cruz","987");
+        creaUsuario("hola","123",listaUsuarios);
+        creaUsuario("adios","456",listaUsuarios);
+        creaUsuario("cara","789",listaUsuarios);
+        creaUsuario("cruz","987",listaUsuarios);
         
         System.out.println(listaUsuarios);
         
