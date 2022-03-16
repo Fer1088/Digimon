@@ -4,6 +4,7 @@
  */
 package conexion;
 import java.sql.*;
+import utilidades.Util;
 /**
  *
  * @author jmanuel
@@ -11,29 +12,18 @@ import java.sql.*;
 public class Conexion {
     
     private Connection conexion;
+    private String url;
     private String puerto;
     private String baseDatos;
     private String nombre;
     private String contrasena;
     
-    public void printSQLException(SQLException ex){
-        ex.printStackTrace(System.err);
-        System.err.println("Código SQLState: " + ex.getSQLState());
-        System.err.println("Código error: " + ex.getErrorCode());
-        System.err.println("Mensaje: " + ex.getMessage());
-        Throwable t = ex.getCause();
-        while(t != null){
-            System.out.println("Causa: " + t);
-            t = t.getCause();
-        }
-    }
-    
     public void conectar(){
         try{
-            conexion = DriverManager.getConnection("jdbc:mariadb://localhost:" +
-                    puerto + "/" + baseDatos,nombre,contrasena);
+            conexion = DriverManager.getConnection("jdbc:mariadb://" + url + 
+                    ":" + puerto + "/" + baseDatos,nombre,contrasena);
         }catch(SQLException e){
-            printSQLException(e);
+            Util.printSQLException(e);
         }
     }
     
@@ -41,11 +31,12 @@ public class Conexion {
         try{
             conexion.close();
         }catch(SQLException e){
-            printSQLException(e);
+            Util.printSQLException(e);
         }
     }
 
-    public Conexion(String puerto, String baseDatos, String nombre, String contrasena) {
+    public Conexion(String url, String puerto, String baseDatos, String nombre, String contrasena) {
+        this.url = url;
         this.puerto = puerto;
         this.baseDatos = baseDatos;
         this.nombre = nombre;
