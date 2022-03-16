@@ -11,7 +11,6 @@ import java.sql.*;
 public class Conexion {
     
     private static Connection connection;
-    private static Statement statement;
     
     public static void printSQLException(SQLException ex){
         ex.printStackTrace(System.err);
