@@ -10,9 +10,13 @@ import java.sql.*;
  */
 public class Conexion {
     
-    private static Connection connection;
+    private Connection conexion;
+    private String puerto;
+    private String baseDatos;
+    private String nombre;
+    private String contrasena;
     
-    public static void printSQLException(SQLException ex){
+    public void printSQLException(SQLException ex){
         ex.printStackTrace(System.err);
         System.err.println("Código SQLState: " + ex.getSQLState());
         System.err.println("Código error: " + ex.getErrorCode());
@@ -24,26 +28,60 @@ public class Conexion {
         }
     }
     
-    public static void conectar(){
+    public void conectar(){
         try{
-            connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/Digimon","jmanuel","");
+            conexion = DriverManager.getConnection("jdbc:mariadb://localhost:" +
+                    puerto + "/" + baseDatos,nombre,contrasena);
         }catch(SQLException e){
             printSQLException(e);
         }
     }
     
-    public static void cerrar(){
+    public void cerrar(){
         try{
-            connection.close();
+            conexion.close();
         }catch(SQLException e){
             printSQLException(e);
         }
     }
-    
-    public static void main(String[] args) {
-        
-        conectar();
-        
-        cerrar();
+
+    public Conexion(String puerto, String baseDatos, String nombre, String contrasena) {
+        this.puerto = puerto;
+        this.baseDatos = baseDatos;
+        this.nombre = nombre;
+        this.contrasena = contrasena;
     }
+
+    public String getPuerto() {
+        return puerto;
+    }
+
+    public void setPuerto(String puerto) {
+        this.puerto = puerto;
+    }
+
+    public String getBaseDatos() {
+        return baseDatos;
+    }
+
+    public void setBaseDatos(String baseDatos) {
+        this.baseDatos = baseDatos;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+    
 }
