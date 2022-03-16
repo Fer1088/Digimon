@@ -8,6 +8,7 @@ import conexion.Conexion;
 import digimon.*;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -98,5 +99,29 @@ public class Util {
         }catch(SQLException e){
             muestraSQLException(e);
         }    
+    }
+    
+    public static void recogeUsuDigi(Conexion c, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        try(Statement st = c.getConexion().createStatement()){
+            boolean res = st.execute("SELECT NomUsu FROM Tiene GROUP BY NomUsu");
+            if(res){
+                ResultSet rs = st.getResultSet();
+                while(rs.next()){
+                    String nomUsu = rs.getString(1);
+                    HashSet<Digimon> digimones = new HashSet<>();
+                    boolean res1 = st.execute("SELECT NomDig FROM Tiene WHERE NomUsu = '" + nomUsu + "'");
+                    if(res1){
+                        ResultSet rs1 = st.getResultSet();
+                        while(rs1.next()){
+                            String nomDig = rs1.getString(1);
+                            digimones.add(dig.get(nomDig));
+                            usuDig.put(usu.get(nomUsu), digimones);
+                        }
+                    }
+                }
+            }
+        }catch(SQLException ex){
+            muestraSQLException(ex);
+        }
     }
 }
