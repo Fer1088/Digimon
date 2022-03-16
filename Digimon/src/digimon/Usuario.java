@@ -29,6 +29,13 @@ public class Usuario {
         this.tokensEvo = 0;
     }
     
+    public Usuario(String nombre, String contrasena, int partidasGan, int tokensEvo) {
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.partidasGan = partidasGan;
+        this.tokensEvo = tokensEvo;
+    }
+    
     public String getNombre() {
         return nombre;
     }

@@ -43,6 +43,10 @@ public class Conexion {
         this.contrasena = contrasena;
     }
 
+    public Connection getConexion() {
+        return conexion;
+    }
+    
     public String getPuerto() {
         return puerto;
     }
