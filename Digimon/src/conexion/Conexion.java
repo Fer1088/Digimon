@@ -23,7 +23,7 @@ public class Conexion {
             conexion = DriverManager.getConnection("jdbc:mariadb://" + url + 
                     ":" + puerto + "/" + baseDatos,nombre,contrasena);
         }catch(SQLException e){
-            Util.printSQLException(e);
+            Util.muestraSQLException(e);
         }
     }
     
@@ -31,7 +31,7 @@ public class Conexion {
         try{
             conexion.close();
         }catch(SQLException e){
-            Util.printSQLException(e);
+            Util.muestraSQLException(e);
         }
     }
 
@@ -73,6 +73,14 @@ public class Conexion {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
     
 }

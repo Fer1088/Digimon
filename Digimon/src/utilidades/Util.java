@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * @author jmanuel
  */
 public class Util {
-    public static void printSQLException(SQLException ex){
+    public static void muestraSQLException(SQLException ex){
         ex.printStackTrace(System.err);
         System.err.println("Código SQLState: " + ex.getSQLState());
         System.err.println("Código error: " + ex.getErrorCode());
