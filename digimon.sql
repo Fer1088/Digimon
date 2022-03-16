@@ -1,0 +1,31 @@
+CREATE DATABASE Digimon
+CHARACTER SET utf8
+COLLATE utf8_spanish_ci;
+
+USE Digimon;
+
+CREATE TABLE Digimon(
+	NomDig VARCHAR(50) PRIMARY KEY,
+	AtacDig INT,
+	DefDig INT,
+	TipoDig ENUM('ANIMAL','PLANTA','VIRUS','VACUNA','ELEMENTAL'),
+	NivDig INT
+);
+
+CREATE TABLE Usuario(
+	NomUsu VARCHAR(20) PRIMARY KEY,
+	ContUsu VARCHAR(50),
+	PartidasGan INT,
+	TokensEvo INT
+);
+
+CREATE TABLE Tiene(
+	NomDig VARCHAR(50),
+	NomUsu VARCHAR(20),
+	EstaEquipo BOOLEAN,
+	PRIMARY KEY(NomDig,NomUsu),
+	CONSTRAINT fk_digimon_tiene FOREIGN KEY(NomDig)
+	REFERENCES Digimon(NomDig) ON DELETE NO ACTION ON UPDATE CASCADE,
+	CONSTRAINT fk_usuario_tiene FOREIGN KEY(NomUsu)
+	REFERENCES Usuario(NomUsu) ON DELETE NO ACTION ON UPDATE CASCADE
+);
