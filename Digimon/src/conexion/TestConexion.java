@@ -7,7 +7,7 @@ package conexion;
 import digimon.Usuario;
 import java.sql.*;
 import java.util.HashMap;
-import utilidades.Util;
+import static utilidades.Util.*;
 
 /**
  *
@@ -15,12 +15,9 @@ import utilidades.Util;
  */
 public class TestConexion {
     
-    private static HashMap<String,Usuario> listaUsuarios = new HashMap<>();
-    
-    public static void recogeUsuarios(Conexion c){
+    public static void recogeUsuarios(Conexion c, HashMap<String,Usuario> listaUsuarios){
         try(Statement st = c.getConexion().createStatement()){
-            boolean res = st.execute("SELECT NomUsu,ContUsu,PartidasGan,"
-                    + "TokensEvo FROM Usuario");
+            boolean res = st.execute("SELECT * FROM Usuario");
             if(res){
                 ResultSet rs = st.getResultSet();
                 while(rs.next()){
@@ -35,16 +32,47 @@ public class TestConexion {
                 }
             }
         }catch(SQLException e){
-            Util.muestraSQLException(e);
+            muestraSQLException(e);
+        }    
+    }
+    
+    public static void recogeDigimones(Conexion c, HashMap<String,Digimon> listaDigimones){
+        try(Statement st = c.getConexion().createStatement()){
+            boolean res = st.execute("SELECT * FROM Digimon");
+            if(res){
+                ResultSet rs = st.getResultSet();
+                while(rs.next()){
+                    String nomDig = rs.getString(1);
+                    int atacDig = rs.getInt(2);
+                    int defDig = rs.getInt(3);
+                    String tipoDig = rs.getString(4);
+                    int nivDig = rs.getInt(5);
+
+                    Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig);
+
+                    listaDigimones.put(nomDig, digimon);
+                }
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
         }    
     }
     
     public static void main(String[] args){
+        final HashMap<String,Usuario> USUARIOS = new HashMap<>();
+        final HashMap<String,Digimon> DIGIMONES = new HashMap<>();
+        
         Conexion con = new Conexion("localhost","3306","Digimon","jmanuel","");
         con.conectar();
+        
         System.out.println(listaUsuarios);
-        recogeUsuarios(con);
+        recogeUsuarios(con,listaUsuarios);
         System.out.println(listaUsuarios);
+        
+        System.out.println(listaDigimones);
+        recogeDigimones(con,listaDigimones);
+        System.out.println(listaDigimones);
+        
         con.cerrar();
     }
 }

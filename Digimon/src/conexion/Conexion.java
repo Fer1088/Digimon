@@ -4,7 +4,7 @@
  */
 package conexion;
 import java.sql.*;
-import utilidades.Util;
+import static utilidades.Util.*;
 /**
  *
  * @author jmanuel
@@ -23,7 +23,7 @@ public class Conexion {
             conexion = DriverManager.getConnection("jdbc:mariadb://" + url + 
                     ":" + puerto + "/" + baseDatos,nombre,contrasena);
         }catch(SQLException e){
-            Util.muestraSQLException(e);
+            muestraSQLException(e);
         }
     }
     
@@ -31,7 +31,7 @@ public class Conexion {
         try{
             conexion.close();
         }catch(SQLException e){
-            Util.muestraSQLException(e);
+            muestraSQLException(e);
         }
     }
 
