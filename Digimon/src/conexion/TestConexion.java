@@ -8,7 +8,6 @@ import digimon.Digimon;
 import digimon.Usuario;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import static utilidades.Util.*;
 
 /**

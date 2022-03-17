@@ -25,23 +25,26 @@ public class Digimon implements Cloneable{
     private int ataque;
     private int defensa;
     private boolean estaEquipo;
+    private String nomDigEvo;
 
-    public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def) {
+    public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def,String nombreEvo) {
         nomDig = Nombre;
         tipo=t;
         nivel = lvl;
         ataque = ataq;
         defensa= def;
         estaEquipo = false;
+        nomDigEvo = nombreEvo;
         
     }
 
-    public Digimon(String nomDig, String tipo, int nivel, int ataque, int defensa) {
+    public Digimon(String nomDig, String tipo, int nivel, int ataque, int defensa, String nomDigEvo) {
         this.nomDig = nomDig;
         this.nivel = nivel;
         this.ataque = ataque;
         this.defensa = defensa;
         this.estaEquipo = false;
+        this.nomDigEvo = nomDigEvo;
         
         switch(tipo){
             case "VIRUS":
@@ -65,7 +68,7 @@ public class Digimon implements Cloneable{
     }
     
     @Override
-    public Object clone(){
+    public Object clone() {
         Object objeto = null;
         try{
             objeto = super.clone();

@@ -43,8 +43,8 @@ public class Util {
         }
     }
     
-    public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, HashMap<String,Digimon> lista){
-        Digimon digimon = new Digimon(nombre,tipo,nivel,ataque,defensa);
+    public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, String nomEvo, HashMap<String,Digimon> lista){
+        Digimon digimon = new Digimon(nombre,tipo,nivel,ataque,defensa,nomEvo);
         try{
             if(lista.containsKey(digimon.getNomDig())) {
                 throw new Exception("Ya existe un Digimon con ese nombre.");
@@ -69,8 +69,9 @@ public class Util {
                     int defDig = rs.getInt(3);
                     String tipoDig = rs.getString(4);
                     int nivDig = rs.getInt(5);
+                    String nomDigEvo = rs.getString(6);
 
-                    Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig);
+                    Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig,nomDigEvo);
 
                     lista.put(nomDig, digimon);
                 }
