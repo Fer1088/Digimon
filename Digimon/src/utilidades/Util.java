@@ -109,14 +109,21 @@ public class Util {
                 while(rs.next()){
                     String nomUsu = rs.getString(1);
                     HashSet<Digimon> digimones = new HashSet<>();
-                    boolean res1 = st.execute("SELECT NomDig FROM Tiene WHERE NomUsu = '" + nomUsu + "'");
+                    boolean res1 = st.execute("SELECT NomDig, EstaEquipo FROM Tiene WHERE NomUsu = '" + nomUsu + "'");
                     if(res1){
                         ResultSet rs1 = st.getResultSet();
                         while(rs1.next()){
                             String nomDig = rs1.getString(1);
-                            digimones.add(dig.get(nomDig));
-                            usuDig.put(usu.get(nomUsu), digimones);
+                            int estaEquipo = rs1.getByte(2);
+                            
+                            Digimon digimon = (Digimon)dig.get(nomDig).clone();
+                            if(estaEquipo == 0){
+                                digimon.setEstaEquipo(true);
+                            }
+                            
+                            digimones.add(digimon);
                         }
+                        usuDig.put(usu.get(nomUsu), digimones);
                     }
                 }
             }

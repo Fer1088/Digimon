@@ -4,13 +4,11 @@
  */
 package digimon;
 
-import java.util.HashSet;
-
 /**
  *
  * @author jmanuel
  */
-public class Digimon {
+public class Digimon implements Cloneable{
 
     public enum Tipos {
         VIRUS,
@@ -21,13 +19,12 @@ public class Digimon {
 
     }
    
-    
-    private int id;
     private String nomDig;
     private Tipos tipo;
     private int nivel;
     private int ataque;
     private int defensa;
+    private boolean estaEquipo;
 
     public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def) {
         nomDig = Nombre;
@@ -35,6 +32,7 @@ public class Digimon {
         nivel = lvl;
         ataque = ataq;
         defensa= def;
+        estaEquipo = false;
         
     }
 
@@ -43,6 +41,7 @@ public class Digimon {
         this.nivel = nivel;
         this.ataque = ataque;
         this.defensa = defensa;
+        this.estaEquipo = false;
         
         switch(tipo){
             case "VIRUS":
@@ -65,16 +64,17 @@ public class Digimon {
         }
     }
     
-    
-    
-    public int getId() {
-        return id;
+    @Override
+    public Object clone(){
+        Object objeto = null;
+        try{
+            objeto = super.clone();
+        }catch(CloneNotSupportedException ex){
+            ex.printStackTrace();
+        }
+        return objeto;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public String getNomDig() {
         return nomDig;
     }
@@ -113,6 +113,14 @@ public class Digimon {
 
     public void setDefensa(int defensa) {
         this.defensa = defensa;
+    }
+
+    public boolean isEstaEquipo() {
+        return estaEquipo;
+    }
+
+    public void setEstaEquipo(boolean estaEquipo) {
+        this.estaEquipo = estaEquipo;
     }
 
 }

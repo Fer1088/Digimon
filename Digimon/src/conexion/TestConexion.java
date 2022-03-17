@@ -8,6 +8,7 @@ import digimon.Digimon;
 import digimon.Usuario;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import static utilidades.Util.*;
 
 /**
@@ -75,7 +76,7 @@ public class TestConexion {
         
         System.out.println(USUDIGI);*/
         
-        /*recogeUsuarios(con,USUARIOS);
+        recogeUsuarios(con,USUARIOS);
         recogeDigimones(con,DIGIMONES);
         recogeUsuDigi(con,USUARIOS,DIGIMONES,USUDIGI);
         
@@ -83,10 +84,28 @@ public class TestConexion {
             System.out.println(u.getNombre());
             System.out.println("=========");
             for(Digimon d : USUDIGI.get(u)){
-                System.out.println(d.getNomDig());
+                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() + " " + d.isEstaEquipo() + "\n");
+                System.out.println(d);
             }
             System.out.println("");
+        }
+        /*recogeDigimones(con,DIGIMONES);
+        HashSet<Digimon> digi = new HashSet<>();
+        digi.add(DIGIMONES.get("Felipomon"));
+        digi.add(DIGIMONES.get("Sambon"));
+        digi.add(DIGIMONES.get("Josepomon"));
+        
+        Iterator it = digi.iterator();
+        
+        /*byte o = 0;
+        
+        if(o == 0){
+            ((Digimon) it.next()).setEstaEquipo(true);
         }*/
+        
+        /*System.out.println(((Digimon) it.next()).getNomDig());
+        System.out.println(((Digimon) it.next()).getNomDig());
+        System.out.println(((Digimon) it.next()).getNomDig());*/
         
         con.cerrar();
     }
