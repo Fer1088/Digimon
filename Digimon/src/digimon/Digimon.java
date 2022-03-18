@@ -126,4 +126,12 @@ public class Digimon implements Cloneable{
         this.estaEquipo = estaEquipo;
     }
 
+    public String getNomDigEvo() {
+        return nomDigEvo;
+    }
+
+    public void setNomDigEvo(String nomDigEvo) {
+        this.nomDigEvo = nomDigEvo;
+    }
+
 }

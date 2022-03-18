@@ -83,7 +83,7 @@ public class TestConexion {
             System.out.println(u.getNombre());
             System.out.println("=========");
             for(Digimon d : USUDIGI.get(u)){
-                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() + " " + d.isEstaEquipo() + "\n");
+                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() + " " + d.isEstaEquipo() + " " + d.getNomDigEvo() + "\n");
                 System.out.println(d);
             }
             System.out.println("");
