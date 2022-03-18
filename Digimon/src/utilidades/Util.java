@@ -32,7 +32,7 @@ public class Util {
         Usuario usuario = new Usuario(nombre, contrasena);
         try{
             if(lista.containsKey(usuario.getNombre())) {
-                throw new Exception("Ya existe un usuario con ese nombre.");
+                throw new Exception("Ya existe un Usuario con ese nombre.");
             }
             else{
                 lista.put(usuario.getNombre(), usuario);
@@ -117,7 +117,8 @@ public class Util {
                             String nomDig = rs1.getString(1);
                             int estaEquipo = rs1.getByte(2);
                             
-                            Digimon digimon = (Digimon)dig.get(nomDig).clone();
+                            //Digimon digimon = (Digimon)dig.get(nomDig).clone();
+                            Digimon digimon = new Digimon(dig.get(nomDig));
                             if(estaEquipo == 0){
                                 digimon.setEstaEquipo(true);
                             }

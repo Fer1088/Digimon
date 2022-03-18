@@ -15,9 +15,7 @@ import static utilidades.Util.*;
  * @author jmanuel
  */
 public class TestConexion {
-    
-    
-    
+
     public static void main(String[] args){
         
         final HashMap<String,Usuario> USUARIOS = new HashMap<>();
@@ -105,7 +103,7 @@ public class TestConexion {
         /*System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());*/
-        
+                
         con.cerrar();
     }
 }

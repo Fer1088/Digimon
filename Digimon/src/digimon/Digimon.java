@@ -8,15 +8,14 @@ package digimon;
  *
  * @author jmanuel
  */
-public class Digimon implements Cloneable{
+public class Digimon/* implements Cloneable*/{
 
     public enum Tipos {
         VIRUS,
         VACUNA,
         ELEMENTAL,
         ANIMAL,
-        PLANTA,
-
+        PLANTA
     }
    
     private String nomDig;
@@ -44,30 +43,26 @@ public class Digimon implements Cloneable{
         this.ataque = ataque;
         this.defensa = defensa;
         this.estaEquipo = false;
-        this.nomDigEvo = nomDigEvo;
+        this.tipo = Tipos.valueOf(tipo);
         
-        switch(tipo){
-            case "VIRUS":
-                this.tipo = Tipos.VIRUS;
-                break;
-            case "VACUNA":
-                this.tipo = Tipos.VACUNA;
-                break;
-            case "ELEMENTAL":
-                this.tipo = Tipos.ELEMENTAL;
-                break;
-            case "ANIMAL":
-                this.tipo = Tipos.ANIMAL;
-                break;
-            case "PLANTA":
-                this.tipo = Tipos.PLANTA;
-                break;
-            default:
-                this.tipo = null;
+        if(nomDigEvo == null){
+            this.nomDigEvo = "";
+        }else{
+            this.nomDigEvo = nomDigEvo;
         }
     }
     
-    @Override
+    public Digimon(Digimon d){
+        this.nomDig = d.nomDig;
+        this.nivel = d.nivel;
+        this.ataque = d.ataque;
+        this.defensa = d.defensa;
+        this.tipo = d.tipo;
+        this.nomDigEvo = d.nomDigEvo;
+        this.estaEquipo = false;
+    }
+    
+    /*@Override
     public Object clone() {
         Object objeto = null;
         try{
@@ -76,7 +71,7 @@ public class Digimon implements Cloneable{
             ex.printStackTrace();
         }
         return objeto;
-    }
+    }*/
     
     public String getNomDig() {
         return nomDig;

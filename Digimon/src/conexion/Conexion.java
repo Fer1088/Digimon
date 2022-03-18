@@ -29,7 +29,9 @@ public class Conexion {
     
     public void cerrar(){
         try{
-            conexion.close();
+            if(conexion != null){
+                conexion.close();
+            }
         }catch(SQLException e){
             muestraSQLException(e);
         }
