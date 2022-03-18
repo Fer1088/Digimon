@@ -138,30 +138,44 @@ public class Util {
         }
     }
     
-    public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){        
-        Digimon[] arrayDig = dig.values().toArray(new Digimon[dig.values().size()]);
-        Random rnd = new Random();
-        int numRnd = rnd.nextInt(arrayDig.length);
+    public static Digimon randomizaDigimon(Collection<Digimon> dig){
+        int numRnd = new Random().nextInt(dig.size());
+        Iterator it = dig.iterator();
         
-        Digimon[] arrayUsuDig = usuDig.values().toArray(new Digimon[usuDig.values().size()]);
+        int indice = 0;
+        Digimon digimonRnd = null;
         
-        Digimon digimon = arrayDig[numRnd];
-        String nomDig = digimon.getNomDig();
-        System.out.println(nomDig);
-        
-        /*if(!usuDig.get(usu).contains(arrayDig[numRnd])){
-        usuDig.get(usu).add(arrayDig[numRnd]);
-        }
-        boolean insertar = false;
-        for(Digimon d : usuDig.get(usu)){
-            insertar = !(d.getNomDig().equals(digimon.getNomDig().toString()));
-            if(insertar){
-                usuDig.get(usu).add(digimon);
-                break;
+        while(it.hasNext()){
+            digimonRnd = (Digimon) it.next();
+            if(indice == numRnd){
+                return digimonRnd;
             }
+            indice++;
         }
-        for(Digimon arrayDig1 : arrayDig) {
-            System.out.println(arrayDig1.getNomDig());
-        }*/
+        return digimonRnd;
+    }
+    
+    public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        int tamano = usuDig.get(usu).size();
+        
+        if(usuDig.get(usu).size() != dig.values().size()){
+            do{
+                Digimon digRnd = randomizaDigimon(dig.values());
+                String nomDigRnd = digRnd.getNomDig();
+
+                boolean insertar = true;
+                String nomDig = null;
+                for(Digimon d : usuDig.get(usu)){
+                    nomDig = d.getNomDig();
+                    if(nomDig.equals(nomDigRnd)){
+                        insertar = false;
+                    }
+                }
+
+                if(insertar){
+                    usuDig.get(usu).add(digRnd);
+                }
+            }while(usuDig.get(usu).size() == tamano);
+        }
     }    
 }

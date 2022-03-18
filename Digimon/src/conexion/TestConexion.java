@@ -88,7 +88,8 @@ public class TestConexion {
             }
         }*/
         
-        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
+        /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
+        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
         
         for(Usuario u : USUDIGI.keySet()){
             System.out.println(u.getNombre() + " " + u.isEsAdmin());
