@@ -77,8 +77,18 @@ public class TestConexion {
         recogeDigimones(con,DIGIMONES);
         recogeUsuDigi(con,USUARIOS,DIGIMONES,USUDIGI);
         
+        /*for(Usuario u : USUDIGI.keySet()){
+            if(u.getNombre().equals("Manolo")){
+                for(Digimon d : USUDIGI.get(u)){
+                    if(d.getNomDig().equals("Felipomon")){
+                        d.setNomDig("payo");
+                    }
+                }
+            }
+        }*/
+        
         for(Usuario u : USUDIGI.keySet()){
-            System.out.println(u.getNombre());
+            System.out.println(u.getNombre() + " " + u.isEsAdmin());
             System.out.println("=========");
             for(Digimon d : USUDIGI.get(u)){
                 System.out.print(d.getNomDig() + ", tipo " + d.getTipo() + " " + d.isEstaEquipo() + " " + d.getNomDigEvo() + "\n");

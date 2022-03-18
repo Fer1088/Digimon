@@ -12,7 +12,7 @@ import static utilidades.Util.*;
 public class Conexion {
     
     private Connection conexion;
-    private String url;
+    private String host;
     private String puerto;
     private String baseDatos;
     private String nombre;
@@ -20,7 +20,7 @@ public class Conexion {
     
     public void conectar(){
         try{
-            conexion = DriverManager.getConnection("jdbc:mariadb://" + url + 
+            conexion = DriverManager.getConnection("jdbc:mariadb://" + host + 
                     ":" + puerto + "/" + baseDatos,nombre,contrasena);
         }catch(SQLException e){
             muestraSQLException(e);
@@ -37,8 +37,8 @@ public class Conexion {
         }
     }
 
-    public Conexion(String url, String puerto, String baseDatos, String nombre, String contrasena) {
-        this.url = url;
+    public Conexion(String host, String puerto, String baseDatos, String nombre, String contrasena) {
+        this.host = host;
         this.puerto = puerto;
         this.baseDatos = baseDatos;
         this.nombre = nombre;
@@ -81,12 +81,12 @@ public class Conexion {
         this.contrasena = contrasena;
     }
 
-    public String getUrl() {
-        return url;
+    public String getHost() {
+        return host;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setHost(String host) {
+        this.host = host;
     }
     
 }

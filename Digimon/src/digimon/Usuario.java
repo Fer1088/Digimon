@@ -14,6 +14,7 @@ public class Usuario {
     private String contrasena;
     private int partidasGan;
     private int tokensEvo;
+    private boolean esAdmin;
     
     public Usuario(){
         this.nombre = "Usuario";
@@ -27,6 +28,7 @@ public class Usuario {
         this.contrasena = contrasena;
         this.partidasGan = 0;
         this.tokensEvo = 0;
+        this.esAdmin = false;
     }
     
     public Usuario(String nombre, String contrasena, int partidasGan, int tokensEvo) {
@@ -34,6 +36,7 @@ public class Usuario {
         this.contrasena = contrasena;
         this.partidasGan = partidasGan;
         this.tokensEvo = tokensEvo;
+        this.esAdmin = false;
     }
     
     public String getNombre() {
@@ -70,6 +73,14 @@ public class Usuario {
     
     public void decTokensEvo(){
         this.tokensEvo--;
+    }
+
+    public boolean isEsAdmin() {
+        return esAdmin;
+    }
+
+    public void setEsAdmin(boolean esAdmin) {
+        this.esAdmin = esAdmin;
     }
 
 }

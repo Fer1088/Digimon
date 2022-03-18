@@ -91,8 +91,12 @@ public class Util {
                     String contUsu = rs.getString(2);
                     int partidasGan = rs.getInt(3);
                     int tokensEvo = rs.getInt(4);
+                    byte esAdmin = rs.getByte(5);
 
                     Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo);
+                    if(esAdmin == 0){
+                        usuario.setEsAdmin(true);
+                    }
 
                     lista.put(nomUsu, usuario);
                 }
