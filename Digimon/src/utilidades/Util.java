@@ -7,8 +7,8 @@ package utilidades;
 import conexion.Conexion;
 import digimon.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
+import java.io.*;
 
 /**
  *
@@ -94,7 +94,7 @@ public class Util {
                     byte esAdmin = rs.getByte(5);
 
                     Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo);
-                    if(esAdmin == 0){
+                    if(esAdmin == 1){
                         usuario.setEsAdmin(true);
                     }
 
@@ -119,11 +119,11 @@ public class Util {
                         ResultSet rs1 = st.getResultSet();
                         while(rs1.next()){
                             String nomDig = rs1.getString(1);
-                            int estaEquipo = rs1.getByte(2);
+                            byte estaEquipo = rs1.getByte(2);
                             
                             //Digimon digimon = (Digimon)dig.get(nomDig).clone();
                             Digimon digimon = new Digimon(dig.get(nomDig));
-                            if(estaEquipo == 0){
+                            if(estaEquipo == 1){
                                 digimon.setEstaEquipo(true);
                             }
                             
@@ -137,4 +137,31 @@ public class Util {
             muestraSQLException(ex);
         }
     }
+    
+    public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){        
+        Digimon[] arrayDig = dig.values().toArray(new Digimon[dig.values().size()]);
+        Random rnd = new Random();
+        int numRnd = rnd.nextInt(arrayDig.length);
+        
+        Digimon[] arrayUsuDig = usuDig.values().toArray(new Digimon[usuDig.values().size()]);
+        
+        Digimon digimon = arrayDig[numRnd];
+        String nomDig = digimon.getNomDig();
+        System.out.println(nomDig);
+        
+        /*if(!usuDig.get(usu).contains(arrayDig[numRnd])){
+        usuDig.get(usu).add(arrayDig[numRnd]);
+        }
+        boolean insertar = false;
+        for(Digimon d : usuDig.get(usu)){
+            insertar = !(d.getNomDig().equals(digimon.getNomDig().toString()));
+            if(insertar){
+                usuDig.get(usu).add(digimon);
+                break;
+            }
+        }
+        for(Digimon arrayDig1 : arrayDig) {
+            System.out.println(arrayDig1.getNomDig());
+        }*/
+    }    
 }

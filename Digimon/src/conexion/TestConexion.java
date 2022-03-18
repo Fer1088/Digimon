@@ -78,14 +78,17 @@ public class TestConexion {
         recogeUsuDigi(con,USUARIOS,DIGIMONES,USUDIGI);
         
         /*for(Usuario u : USUDIGI.keySet()){
-            if(u.getNombre().equals("Manolo")){
+            if(u.getNombre().equals("Dulsesico")){
                 for(Digimon d : USUDIGI.get(u)){
                     if(d.getNomDig().equals("Felipomon")){
                         d.setNomDig("payo");
                     }
                 }
+                otorgaDigimon(u,DIGIMONES,USUDIGI);
             }
         }*/
+        
+        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
         
         for(Usuario u : USUDIGI.keySet()){
             System.out.println(u.getNombre() + " " + u.isEsAdmin());
