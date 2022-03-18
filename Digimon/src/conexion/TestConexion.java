@@ -4,10 +4,8 @@
  */
 package conexion;
 
-import digimon.Digimon;
-import digimon.Usuario;
-import java.util.HashMap;
-import java.util.HashSet;
+import digimon.*;
+import java.util.*;
 import static utilidades.Util.*;
 
 /**
@@ -95,7 +93,9 @@ public class TestConexion {
             System.out.println(u.getNombre() + " " + u.isEsAdmin());
             System.out.println("=========");
             for(Digimon d : USUDIGI.get(u)){
-                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() + " " + d.isEstaEquipo() + " " + d.getNomDigEvo() + "\n");
+                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() +
+                        " " + d.isEstaEquipo() + " " + d.getNomDigEvo() +
+                        "nivel" + d.getNivel() + "\n");
                 System.out.println(d);
             }
             System.out.println("");

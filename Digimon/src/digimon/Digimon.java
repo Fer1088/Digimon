@@ -26,7 +26,7 @@ public class Digimon/* implements Cloneable*/{
     private boolean estaEquipo;
     private String nomDigEvo;
 
-    public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def,String nombreEvo) {
+    /*public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def,String nombreEvo) {
         nomDig = Nombre;
         tipo=t;
         nivel = lvl;
@@ -35,7 +35,7 @@ public class Digimon/* implements Cloneable*/{
         estaEquipo = false;
         nomDigEvo = nombreEvo;
         
-    }
+    }*/
 
     public Digimon(String nomDig, String tipo, int nivel, int ataque, int defensa, String nomDigEvo) {
         this.nomDig = nomDig;
@@ -45,10 +45,22 @@ public class Digimon/* implements Cloneable*/{
         this.estaEquipo = false;
         this.tipo = Tipos.valueOf(tipo);
         
+        if(nivel > 3){
+            this.nivel = 3;
+        }else if(nivel < 1){
+            this.nivel = 1;
+        }else{
+            this.nivel = nivel;
+        }
+        
         if(nomDigEvo == null){
             this.nomDigEvo = "";
         }else{
-            this.nomDigEvo = nomDigEvo;
+            if(this.nivel < 3){
+                this.nomDigEvo = nomDigEvo;
+            }else{
+                this.nomDigEvo = "";
+            }
         }
     }
     
