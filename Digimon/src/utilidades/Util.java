@@ -132,12 +132,9 @@ public class Util {
                     String contUsu = rs.getString(2);
                     int partidasGan = rs.getInt(3);
                     int tokensEvo = rs.getInt(4);
-                    byte esAdmin = rs.getByte(5);
+                    boolean esAdmin = rs.getBoolean(5);
 
-                    Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo);
-                    if(esAdmin == 1){
-                        usuario.setEsAdmin(true);
-                    }
+                    Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo,esAdmin);
 
                     lista.put(nomUsu, usuario);
                 }
@@ -171,13 +168,10 @@ public class Util {
                         ResultSet rs1 = st.getResultSet();
                         while(rs1.next()){
                             String nomDig = rs1.getString(1);
-                            byte estaEquipo = rs1.getByte(2);
+                            boolean estaEquipo = rs1.getBoolean(2);
                             
                             //Digimon digimon = (Digimon)dig.get(nomDig).clone();
-                            Digimon digimon = new Digimon(dig.get(nomDig));
-                            if(estaEquipo == 1){
-                                digimon.setEstaEquipo(true);
-                            }
+                            Digimon digimon = new Digimon(dig.get(nomDig),estaEquipo);
                             
                             digimones.add(digimon);
                         }

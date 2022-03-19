@@ -33,13 +33,14 @@ public class Usuario {
      * @param contrasena La contraseña del Usuario.
      * @param partidasGan El número de partidas ganadas por el Usuario.
      * @param tokensEvo El número de tokens que el Usuario tiene para poder digievolucionar a sus Digimones.
+     * @param esAdmin Si el Usuario es Administrador (true), o no (false).
      */
-    public Usuario(String nombre, String contrasena, int partidasGan, int tokensEvo) {
+    public Usuario(String nombre, String contrasena, int partidasGan, int tokensEvo, boolean esAdmin) {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.partidasGan = partidasGan;
         this.tokensEvo = tokensEvo;
-        this.esAdmin = false;
+        this.esAdmin = esAdmin;
     }
     
     /**

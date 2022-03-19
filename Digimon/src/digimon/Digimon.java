@@ -61,15 +61,16 @@ public class Digimon/* implements Cloneable*/{
      * Constructor copia de Digimon, copia los valores de los atributos de un
      * Digimon a los atributos de otro nuevo.
      * @param d El Digimon que se quiere copiar.
+     * @param estaEquipo Si el Digimon está en el Equipo (true), o no (false).
      */
-    public Digimon(Digimon d){
+    public Digimon(Digimon d, boolean estaEquipo){
         this.nomDig = d.nomDig;
         this.nivel = d.nivel;
         this.ataque = d.ataque;
         this.defensa = d.defensa;
         this.tipo = d.tipo;
         this.nomDigEvo = d.nomDigEvo;
-        this.estaEquipo = false;
+        this.estaEquipo = estaEquipo;
     }
 
     /*@Override
