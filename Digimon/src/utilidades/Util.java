@@ -39,9 +39,9 @@ public class Util {
      * Crea un usuario y lo añade a una colección que almacena todos los
      * usuarios como valores, cada usuario es identificado por una clave
      * definida con su nombre.
-     * @param nombre El nombre que se le quiere dar al usuario.
-     * @param contrasena La contraseña que se le quiere dar al usuario.
-     * @param lista Un HashMap en el que se almacenan todos los usuarios.
+     * @param nombre El nombre que se le quiere dar al Usuario.
+     * @param contrasena La contraseña que se le quiere dar al Usuario.
+     * @param lista Un HashMap en el que se almacenan todos los Usuarios.
      * @see Usuario 
      */
     public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
@@ -63,13 +63,13 @@ public class Util {
      * Crea un digimon y lo añade a una colección que almacena todos los
      * digimones como valores, cada digimon es identificado por una clave
      * definida con su nombre.
-     * @param nombre El nombre que se le quiere dar al digimon.
-     * @param tipo El tipo que se le quiere dar al digimon.
-     * @param ataque El ataque (entero) que se le quiere dar al digimon.
-     * @param defensa La defensa (entero) que se le quiere dar al digimon.
-     * @param nivel El nivel (entero) que se le quiere dar al digimon.
-     * @param nomEvo El nombre del digimon al que podrá evolucionar.
-     * @param lista Un HashMap en el que se almacenan todos los digimones.
+     * @param nombre El nombre que se le quiere dar al Digimon.
+     * @param tipo El tipo que se le quiere dar al Digimon.
+     * @param ataque El ataque (entero) que se le quiere dar al Digimon.
+     * @param defensa La defensa (entero) que se le quiere dar al Digimon.
+     * @param nivel El nivel (entero) que se le quiere dar al Digimon.
+     * @param nomEvo El nombre del Digimon al que podrá evolucionar.
+     * @param lista Un HashMap en el que se almacenan todos los Digimones.
      * @see Digimon
      */
     public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, String nomEvo, HashMap<String,Digimon> lista){
@@ -91,7 +91,7 @@ public class Util {
      * Recoge todos los Digimones encontrados en la BD Digimon y los almacena
      * en una colección HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un HashMap en el que se almacenan todos los digimones.
+     * @param lista Un HashMap en el que se almacenan todos los Digimones.
      * @see Digimon
      * @see Conexion
      */
@@ -122,7 +122,7 @@ public class Util {
      * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
      * en una coleccion HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un HashMap en el que se almacenan todos los usuarios.
+     * @param lista Un HashMap en el que se almacenan todos los Usuarios.
      * @see Usuario
      * @see Conexion
      */
