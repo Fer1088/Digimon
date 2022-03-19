@@ -73,7 +73,7 @@ public class Digimon/* implements Cloneable*/{
         this.nomDigEvo = d.nomDigEvo;
         this.estaEquipo = false;
     }
-    
+
     /*@Override
     public Object clone() {
         Object objeto = null;

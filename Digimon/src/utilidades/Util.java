@@ -10,11 +10,19 @@ import java.sql.*;
 import java.util.*;
 
 /**
- *
+ * Una clase para almacenar todas las utilidades que puedan llegar a
+ * utilizar otras clases.
+ * @version 1.0, 19/03/2022
  * @author jmanuel
  */
 public class Util {
     
+    /**
+     * Método utilizado para sacar por pantalla información detallada sobre
+     * una SQLException, como por ejemplo su código de error o el mensaje
+     * que produce.
+     * @param ex SQLException sobre la que el método va a trabajar.
+     */
     public static void muestraSQLException(SQLException ex){
         ex.printStackTrace(System.err);
         System.err.println("Código SQLState: " + ex.getSQLState());
@@ -27,6 +35,15 @@ public class Util {
         }
     }
     
+    /**
+     * Crea un usuario y lo añade a una colección que almacena todos los
+     * usuarios como valores, cada usuario es identificado por una clave
+     * definida con su nombre.
+     * @param nombre El nombre que se le quiere dar al usuario.
+     * @param contrasena La contraseña que se le quiere dar al usuario.
+     * @param lista Un HashMap en el que se almacenan todos los usuarios.
+     * @see Usuario 
+     */
     public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
         Usuario usuario = new Usuario(nombre, contrasena);
         try{
@@ -42,6 +59,19 @@ public class Util {
         }
     }
     
+    /**
+     * Crea un digimon y lo añade a una colección que almacena todos los
+     * digimones como valores, cada digimon es identificado por una clave
+     * definida con su nombre.
+     * @param nombre El nombre que se le quiere dar al digimon.
+     * @param tipo El tipo que se le quiere dar al digimon.
+     * @param ataque El ataque (entero) que se le quiere dar al digimon.
+     * @param defensa La defensa (entero) que se le quiere dar al digimon.
+     * @param nivel El nivel (entero) que se le quiere dar al digimon.
+     * @param nomEvo El nombre del digimon al que podrá evolucionar.
+     * @param lista Un HashMap en el que se almacenan todos los digimones.
+     * @see Digimon
+     */
     public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, String nomEvo, HashMap<String,Digimon> lista){
         Digimon digimon = new Digimon(nombre,tipo,nivel,ataque,defensa,nomEvo);
         try{
@@ -57,6 +87,14 @@ public class Util {
         }
     }
     
+    /**
+     * Recoge todos los Digimones encontrados en la BD Digimon y los almacena
+     * en una colección HashMap.
+     * @param c Conexión a la BD Digimon.
+     * @param lista Un HashMap en el que se almacenan todos los digimones.
+     * @see Digimon
+     * @see Conexion
+     */
     public static void recogeDigimones(Conexion c, HashMap<String,Digimon> lista){
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Digimon");
@@ -80,6 +118,14 @@ public class Util {
         }    
     }
     
+    /**
+     * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
+     * en una coleccion HashMap.
+     * @param c Conexión a la BD Digimon.
+     * @param lista Un HashMap en el que se almacenan todos los usuarios.
+     * @see Usuario
+     * @see Conexion
+     */
     public static void recogeUsuarios(Conexion c, HashMap<String,Usuario> lista){
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Usuario");
@@ -105,6 +151,17 @@ public class Util {
         }    
     }
     
+    /**
+     * Recoge todos los Digimones que tiene cada Usuario según su relación en
+     * la BD Digimon y los almacena en una colección HashMap.
+     * @param c Conexión a la BD Digimon.
+     * @param usu Un HashMap que contiene todos los Usuarios.
+     * @param dig Un HashMap que contiene todos los Digimones.
+     * @param usuDig Un HashMap que guarda un HashSet de Digimones para cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     * @see Conexion
+     */
     public static void recogeUsuDigi(Conexion c, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT NomUsu FROM Tiene GROUP BY NomUsu");
@@ -137,6 +194,12 @@ public class Util {
         }
     }
     
+    /**
+     * Escoge un Digimon al azar.
+     * @param dig Una colección de Digimones.
+     * @return Un Digimon aleatorio de entre todos los Digimones de la colección.
+     * @see Digimon
+     */
     public static Digimon randomizaDigimon(Collection<Digimon> dig){
         int numRnd = new Random().nextInt(dig.size());
         Iterator it = dig.iterator();
@@ -154,6 +217,15 @@ public class Util {
         return digimonRnd;
     }
     
+    /**
+     * Otorga a un Usuario un Digimon que no tenga en su colección.
+     * @param usu Usuario que va a recibir el Digimon.
+     * @param dig Un HashMap que contiene todos los Digimones.
+     * @param usuDig Un HashMap que guarda un HashSet de Digimones para cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     * @see randomizaDigimon
+     */
     public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         int tamano = usuDig.get(usu).size();
         
