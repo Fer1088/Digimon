@@ -126,6 +126,7 @@ public class Menus {
         System.out.println("");
         System.out.println("1) Iniciar sesión");
         System.out.println("2) Registrarse");
+        
         Util.imprimeIguales(23);
         System.out.println("");
         System.out.println("0) Salir");

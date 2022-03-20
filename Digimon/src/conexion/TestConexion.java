@@ -133,7 +133,104 @@ public class TestConexion {
         System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());*/
         
-        Menus.pantallaInicio();
+        byte opcion = 0;
+        do{
+            Menus.pantallaInicio();
+            opcion = SLeer1.datoByte("Elige: ");
+            switch(opcion){
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    do{
+                        Menus.menuPrincipal();
+                        opcion = SLeer1.datoByte("Elige: ");
+                        switch(opcion){
+                            case 1:
+                                do{
+                                    Menus.menuJugar();
+                                    opcion = SLeer1.datoByte("Elige: ");
+                                    switch(opcion){
+                                        case 1:
+                                            break;
+                                        case 2:
+                                            break;
+                                        case 3:
+                                            break;
+                                        case 4:
+                                            break;
+                                    }
+                                }while(opcion != 0);
+                                opcion = -1;
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                do{
+                                    Menus.menuOpciones();
+                                    opcion = SLeer1.datoByte("Elige: ");
+                                    switch(opcion){
+                                        case 1:
+                                            do{
+                                                Menus.menuUsuario();
+                                                opcion = SLeer1.datoByte("Elige: ");
+                                                switch(opcion){
+                                                    case 1:
+                                                        break;
+                                                    case 2:
+                                                        break;
+                                                    case 3:
+                                                        break;
+                                                    case 4:
+                                                        break;
+                                                }
+                                            }while(opcion != 0);
+                                            opcion = -1;
+                                            break;
+                                        case 2:
+                                            do{
+                                                Menus.menuDigimon();
+                                                opcion = SLeer1.datoByte("Elige: ");
+                                                switch(opcion){
+                                                    case 1:
+                                                        break;
+                                                    case 2:
+                                                        break;
+                                                    case 3:
+                                                        break;
+                                                    case 4:
+                                                        break;
+                                                }
+                                            }while(opcion != 0);
+                                            opcion = -1;
+                                            break;
+                                        case 3:
+                                            do{
+                                                Menus.menuBaseDatos();
+                                                opcion = SLeer1.datoByte("Elige: ");
+                                                switch(opcion){
+                                                    case 1:
+                                                        break;
+                                                    case 2:
+                                                        break;
+                                                }
+                                            }while(opcion != 0);
+                                            opcion = -1;
+                                            break;
+                                    }
+                                }while(opcion != 0);
+                                opcion = -1;
+                                break;
+                            default:
+                        }
+                    }while(opcion != 0);
+                    opcion = -1;
+                    break;
+            }
+        }while(opcion != 0);
         
         //con.cerrar();
     }
