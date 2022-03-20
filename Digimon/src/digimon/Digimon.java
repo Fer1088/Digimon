@@ -180,7 +180,8 @@ public class Digimon/* implements Cloneable*/{
 
     /**
      * Modifica la condición de estar en el Equipo del Digimon actual.
-     * @param estaEquipo true para hacer que el Digimon esté en el Equipo, false para que no esté en el Equipo.
+     * @param estaEquipo true para hacer que el Digimon esté en el Equipo,
+     * false para que no esté en el Equipo.
      */
     public void setEstaEquipo(boolean estaEquipo) {
         this.estaEquipo = estaEquipo;
@@ -198,7 +199,8 @@ public class Digimon/* implements Cloneable*/{
     /**
      * Modifica el nombre del Digimon al que el Digimon acual puede
      * digievolucionar.
-     * @param nomDigEvo El nombre del Digimon propuesto para el que puede digievolucionar.
+     * @param nomDigEvo El nombre del Digimon propuesto para el que
+     * puede digievolucionar.
      */
     private void setNomDigEvo(String nomDigEvo) {
         if(nomDigEvo == null){

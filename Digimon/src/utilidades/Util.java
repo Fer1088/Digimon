@@ -37,7 +37,7 @@ public class Util {
      * definida con su nombre.
      * @param nombre El nombre que se le quiere dar al Usuario.
      * @param contrasena La contraseña que se le quiere dar al Usuario.
-     * @param lista Un HashMap en el que se almacenan todos los Usuarios.
+     * @param lista Un mapa en el que se almacenan todos los Usuarios.
      * @see Usuario 
      */
     public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
@@ -65,7 +65,7 @@ public class Util {
      * @param defensa La defensa (entero) que se le quiere dar al Digimon.
      * @param nivel El nivel (entero) que se le quiere dar al Digimon.
      * @param nomEvo El nombre del Digimon al que podrá evolucionar.
-     * @param lista Un HashMap en el que se almacenan todos los Digimones.
+     * @param lista Un mapa en el que se almacenan todos los Digimones.
      * @see Digimon
      */
     public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, String nomEvo, HashMap<String,Digimon> lista){
@@ -87,7 +87,7 @@ public class Util {
      * Recoge todos los Digimones encontrados en la BD Digimon y los almacena
      * en una colección HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un HashMap en el que se almacenan todos los Digimones.
+     * @param lista Un mapa en el que se almacenan todos los Digimones.
      * @see Digimon
      * @see Conexion
      */
@@ -118,7 +118,7 @@ public class Util {
      * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
      * en una coleccion HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un HashMap en el que se almacenan todos los Usuarios.
+     * @param lista Un mapa en el que se almacenan todos los Usuarios.
      * @see Usuario
      * @see Conexion
      */
@@ -148,9 +148,10 @@ public class Util {
      * Recoge todos los Digimones que tiene cada Usuario según su relación en
      * la BD Digimon y los almacena en una colección HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param usu Un HashMap que contiene todos los Usuarios.
-     * @param dig Un HashMap que contiene todos los Digimones.
-     * @param usuDig Un HashMap que guarda un HashSet de Digimones para cada Usuario.
+     * @param usu Un mapa que contiene todos los Usuarios.
+     * @param dig Un mapa que contiene todos los Digimones.
+     * @param usuDig Un mapa que guarda una colección de Digimones para
+     * cada Usuario.
      * @see Usuario
      * @see Digimon
      * @see Conexion
@@ -187,7 +188,8 @@ public class Util {
     /**
      * Escoge un Digimon al azar.
      * @param dig Una colección de Digimones.
-     * @return Un Digimon aleatorio de entre todos los Digimones de la colección.
+     * @return Un Digimon aleatorio de entre todos los Digimones de
+     * la colección.
      * @see Digimon
      */
     public static Digimon randomizaDigimon(Collection<Digimon> dig){
@@ -210,7 +212,8 @@ public class Util {
     /**
      * Escoge un Usuario al azar.
      * @param usu Una colección de Usuarios.
-     * @return Un Usuario aleatorio de entre todos los Usuarios de la colección.
+     * @return Un Usuario aleatorio de entre todos los Usuarios de
+     * la colección.
      * @see Usuario
      */
     public static Usuario randomizaUsuario(Collection<Usuario> usu){
@@ -233,8 +236,9 @@ public class Util {
     /**
      * Otorga a un Usuario un Digimon que no tenga en su colección.
      * @param usu Usuario que va a recibir el Digimon.
-     * @param dig Un HashMap que contiene todos los Digimones.
-     * @param usuDig Un HashMap que guarda un HashSet de Digimones para cada Usuario.
+     * @param dig Un Mapa que contiene todos los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
      * @see Usuario
      * @see Digimon
      * @see randomizaDigimon
@@ -261,5 +265,115 @@ public class Util {
                 }
             }while(usuDig.get(usu).size() == tamano);
         }
-    }    
+    }
+
+    /**
+     * Realiza un combate entre 2 Digimones
+     * @param d1 Primer Digimon
+     * @param d2 Segundo Digimon
+     * @return true si el primer Digimon ha ganado, false si ha perdido.
+     */
+    public static boolean combate(Digimon d1, Digimon d2){
+        return new Random().nextBoolean();        
+    }
+    
+    /**
+     * Rellena el equipo de un Usuario con los 3 Digimones que ha asignado
+     * para su equipo.
+     * @param usu Usuario que ve su equipo rellenado.
+     * @param dig Colección de Digimones del Usuario.
+     * @return El equipo del Usuario ya completo.
+     */
+    public static Digimon[] rellenaEquipo(Usuario usu, HashSet<Digimon> dig){
+        Digimon[] equipo = new Digimon[3];
+        
+        int indice = 0;
+        for(Digimon d : dig){
+            if(d.isEstaEquipo() && indice < 3){
+                equipo[indice] = d;
+            }
+            indice++;
+        }
+        return equipo;
+    }
+    
+    /**
+     * Rellena el equipo de un Usuario con 3 Digimones aleatorios de su
+     * colección.
+     * @param usu Usuario que ve su equipo rellenado.
+     * @param dig Colección de Digimones del Usuario.
+     * @return El equipo del Usuario ya completo.
+     */
+    public static Digimon[] rellenaAleatorio(Usuario usu, HashSet<Digimon> dig){
+        Digimon[] equipo = new Digimon[3];
+        
+        int indice = 0;
+        while(indice < 3){
+            boolean repetido = false;
+            Digimon digimon = randomizaDigimon(dig);
+            for(int j=0; j<3; j++){
+                if(digimon == equipo[j]){
+                    repetido = true;
+                }
+            }
+            if(!repetido){
+                equipo[indice] = digimon;
+                indice++;
+            }
+        }
+        
+        return equipo;
+    }
+    
+    /**
+     * Da un token de digievolución a un Usuario por cada 5 partidas ganadas.
+     * @param usu Usuario que recibe el token.
+     */
+    public static void darToken(Usuario usu){
+        if(usu.getPartidasGan() % 5 == 0){
+            usu.incTokensEvo();
+        }
+    }
+    
+    /**
+     * Se realiza una partida entre dos Usuarios.
+     * @param u1 Primer Usuario.
+     * @param u2 Segundo Usuario.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @param equipo Si la partida es entre los Digimones que forman parte del
+     * equipo de cada Usuario, o si es entre Digimones aleatorios
+     * de cada Usuario.
+     */
+    public static void partida(Usuario u1, Usuario u2, HashMap<Usuario,HashSet<Digimon>> usuDig, boolean equipo){
+        Digimon[] equipo1 = null;
+        Digimon[] equipo2 = null;
+        
+        if(equipo){
+            equipo1 = rellenaEquipo(u1,usuDig.get(u1));
+            equipo2 = rellenaEquipo(u2,usuDig.get(u2));
+        }else{
+            equipo1 = rellenaAleatorio(u1,usuDig.get(u1));
+            equipo2 = rellenaAleatorio(u2,usuDig.get(u2));
+        }
+        
+        int cont = 0;
+        for(int i=0; i<3; i++){
+            if(combate(equipo1[i],equipo2[i])){
+                System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
+                cont++;
+            }else{
+                System.out.println(equipo2[i].getNomDig() + ": " + u2.getNombre());
+            }
+        }
+        
+        if(cont > 1){
+            u1.incPartidasGan();
+            darToken(u1);
+        }else{
+            u2.incPartidasGan();
+            darToken(u2);
+        }
+        
+    }
 }

@@ -82,18 +82,28 @@ public class TestConexion {
             }
         }*/
         
-        /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
-        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
+        /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
+        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
         
         for(Usuario u : USUDIGI.keySet()){
-            System.out.println(u.getNombre() + " " + u.isEsAdmin());
+            System.out.println(u.getNombre() + " " + u.isEsAdmin() + " " + u.getPartidasGan());
             System.out.println("=========");
             for(Digimon d : USUDIGI.get(u)){
+                if(!d.isEstaEquipo()){
+                    d.setEstaEquipo(true);
+                }
                 System.out.print(d.getNomDig() + ", tipo " + d.getTipo() +
                         " " + d.isEstaEquipo() + " " + d.getNomDigEvo() +
                         "nivel" + d.getNivel() + "\n");
                 System.out.println(d);
             }
+            System.out.println("");
+        }
+        
+        for(int i=0; i<10; i++){
+            partida(USUARIOS.get("Dulsesico"),USUARIOS.get("Antonio"),USUDIGI,false);
+            System.out.println("Dulses: " + USUARIOS.get("Dulsesico").getPartidasGan());
+            System.out.println("Antonio: " + USUARIOS.get("Antonio").getPartidasGan());
             System.out.println("");
         }
         /*recogeDigimones(con,DIGIMONES);

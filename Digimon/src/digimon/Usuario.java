@@ -32,7 +32,8 @@ public class Usuario {
      * @param nombre El nombre del Usuario.
      * @param contrasena La contraseña del Usuario.
      * @param partidasGan El número de partidas ganadas por el Usuario.
-     * @param tokensEvo El número de tokens que el Usuario tiene para poder digievolucionar a sus Digimones.
+     * @param tokensEvo El número de tokens que el Usuario tiene para
+     * poder digievolucionar a sus Digimones.
      * @param esAdmin Si el Usuario es Administrador (true), o no (false).
      */
     public Usuario(String nombre, String contrasena, int partidasGan, int tokensEvo, boolean esAdmin) {
@@ -122,7 +123,8 @@ public class Usuario {
 
     /**
      * Modifica la condición de Administrador del Usuario actual.
-     * @param esAdmin true para hacer Administrador al Usuario, false para que no sea Administrador.
+     * @param esAdmin true para hacer Administrador al Usuario,
+     * false para que no sea Administrador.
      */
     public void setEsAdmin(boolean esAdmin) {
         this.esAdmin = esAdmin;
