@@ -56,6 +56,20 @@ public class Conexion {
         this.nombre = nombre;
         this.contrasena = contrasena;
     }
+    
+    /**
+     * Constructor de Conexión, orientado a establecer una conexión con una BD
+     * mediante el uso de argumentos desde la terminal.
+     * @param param Un vector de cadenas de texto que contiene todos los
+     * valores de los atributos de la conexión.
+     */
+    public Conexion(String[] param){
+        this.host = param[0];
+        this.puerto = param[1];
+        this.baseDatos = param[2];
+        this.nombre = param[3];
+        this.contrasena = param[4];
+    }
 
     /**
      * Obtiene la propia conexión del DriverManager a la BD.

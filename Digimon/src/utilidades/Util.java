@@ -272,6 +272,7 @@ public class Util {
      * @param d1 Primer Digimon
      * @param d2 Segundo Digimon
      * @return true si el primer Digimon ha ganado, false si ha perdido.
+     * @see Digimon
      */
     public static boolean combate(Digimon d1, Digimon d2){
         return new Random().nextBoolean();        
@@ -283,6 +284,8 @@ public class Util {
      * @param usu Usuario que ve su equipo rellenado.
      * @param dig Colección de Digimones del Usuario.
      * @return El equipo del Usuario ya completo.
+     * @see Usuario
+     * @see Digimon
      */
     public static Digimon[] rellenaEquipo(Usuario usu, HashSet<Digimon> dig){
         Digimon[] equipo = new Digimon[3];
@@ -303,6 +306,8 @@ public class Util {
      * @param usu Usuario que ve su equipo rellenado.
      * @param dig Colección de Digimones del Usuario.
      * @return El equipo del Usuario ya completo.
+     * @see Usuario
+     * @see Digimon
      */
     public static Digimon[] rellenaAleatorio(Usuario usu, HashSet<Digimon> dig){
         Digimon[] equipo = new Digimon[3];
@@ -320,14 +325,14 @@ public class Util {
                 equipo[indice] = digimon;
                 indice++;
             }
-        }
-        
+        }        
         return equipo;
     }
     
     /**
      * Da un token de digievolución a un Usuario por cada 5 partidas ganadas.
      * @param usu Usuario que recibe el token.
+     * @see Usuario
      */
     public static void darToken(Usuario usu){
         if(usu.getPartidasGan() % 5 == 0){
@@ -344,6 +349,11 @@ public class Util {
      * @param equipo Si la partida es entre los Digimones que forman parte del
      * equipo de cada Usuario, o si es entre Digimones aleatorios
      * de cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     * @see rellenaEquipo
+     * @see rellenaAleatorio
+     * @see darToken
      */
     public static void partida(Usuario u1, Usuario u2, HashMap<Usuario,HashSet<Digimon>> usuDig, boolean equipo){
         Digimon[] equipo1 = null;
@@ -373,7 +383,6 @@ public class Util {
         }else{
             u2.incPartidasGan();
             darToken(u2);
-        }
-        
+        }        
     }
 }

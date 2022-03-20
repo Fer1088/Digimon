@@ -10,13 +10,18 @@ import static utilidades.Util.*;
  */
 public class TestConexion {
 
+    public static HashMap<String,Usuario> usuarios = new HashMap<>();
+    public static HashMap<String,Digimon> digimones = new HashMap<>();
+    public static HashMap<Usuario,HashSet<Digimon>> usuDigi = new HashMap<>();
+    
     public static void main(String[] args){
         
-        final HashMap<String,Usuario> USUARIOS = new HashMap<>();
+        /*final HashMap<String,Usuario> USUARIOS = new HashMap<>();
         final HashMap<String,Digimon> DIGIMONES = new HashMap<>();
-        final HashMap<Usuario,HashSet<Digimon>> USUDIGI = new HashMap<>();
+        final HashMap<Usuario,HashSet<Digimon>> USUDIGI = new HashMap<>();*/
         
-        Conexion con = new Conexion("localhost","3306","Digimon","jmanuel","");
+        //Conexion con = new Conexion("localhost","3306","Digimon","jmanuel","");
+        Conexion con = new Conexion(args);
         con.conectar();
         
         /*recogeUsuarios(con,USUARIOS);
@@ -67,9 +72,9 @@ public class TestConexion {
         
         System.out.println(USUDIGI);*/
         
-        recogeUsuarios(con,USUARIOS);
-        recogeDigimones(con,DIGIMONES);
-        recogeUsuDigi(con,USUARIOS,DIGIMONES,USUDIGI);
+        recogeUsuarios(con,usuarios);
+        recogeDigimones(con,digimones);
+        recogeUsuDigi(con,usuarios,digimones,usuDigi);
         
         /*for(Usuario u : USUDIGI.keySet()){
             if(u.getNombre().equals("Dulsesico")){
@@ -83,12 +88,12 @@ public class TestConexion {
         }*/
         
         /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
-        otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
+        otorgaDigimon(usuarios.get("Dulsesico"),digimones,usuDigi);
         
-        for(Usuario u : USUDIGI.keySet()){
+        for(Usuario u : usuDigi.keySet()){
             System.out.println(u.getNombre() + " " + u.isEsAdmin() + " " + u.getPartidasGan());
             System.out.println("=========");
-            for(Digimon d : USUDIGI.get(u)){
+            for(Digimon d : usuDigi.get(u)){
                 if(!d.isEstaEquipo()){
                     d.setEstaEquipo(true);
                 }
@@ -101,9 +106,9 @@ public class TestConexion {
         }
         
         for(int i=0; i<10; i++){
-            partida(USUARIOS.get("Dulsesico"),USUARIOS.get("Antonio"),USUDIGI,false);
-            System.out.println("Dulses: " + USUARIOS.get("Dulsesico").getPartidasGan());
-            System.out.println("Antonio: " + USUARIOS.get("Antonio").getPartidasGan());
+            partida(usuarios.get("Dulsesico"),usuarios.get("Antonio"),usuDigi,false);
+            System.out.println("Dulses: " + usuarios.get("Dulsesico").getPartidasGan());
+            System.out.println("Antonio: " + usuarios.get("Antonio").getPartidasGan());
             System.out.println("");
         }
         /*recogeDigimones(con,DIGIMONES);
