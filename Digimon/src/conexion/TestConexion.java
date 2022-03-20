@@ -2,6 +2,7 @@ package conexion;
 
 import digimon.*;
 import java.util.*;
+import static utilidades.Menus.*;
 import static utilidades.Util.*;
 
 /**
@@ -10,9 +11,9 @@ import static utilidades.Util.*;
  */
 public class TestConexion {
 
-    public static HashMap<String,Usuario> usuarios = new HashMap<>();
-    public static HashMap<String,Digimon> digimones = new HashMap<>();
-    public static HashMap<Usuario,HashSet<Digimon>> usuDigi = new HashMap<>();
+    private static HashMap<String,Usuario> usuarios;
+    private static HashMap<String,Digimon> digimones;
+    private static HashMap<Usuario,HashSet<Digimon>> usuDigi;
     
     public static void main(String[] args){
         
@@ -72,9 +73,9 @@ public class TestConexion {
         
         System.out.println(USUDIGI);*/
         
-        recogeUsuarios(con,usuarios);
-        recogeDigimones(con,digimones);
-        recogeUsuDigi(con,usuarios,digimones,usuDigi);
+        usuarios = recogeUsuarios(con);
+        digimones = recogeDigimones(con);
+        usuDigi = recogeUsuDigi(con,usuarios,digimones);
         
         /*for(Usuario u : USUDIGI.keySet()){
             if(u.getNombre().equals("Dulsesico")){
@@ -87,7 +88,9 @@ public class TestConexion {
             }
         }*/
         
-        /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
+        //otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
+        
+        /*
         usuDigi.get(usuarios.get("Dulsesico")).add(digimones.get("Josepomon"));
         
         for(Usuario u : usuDigi.keySet()){
@@ -111,6 +114,8 @@ public class TestConexion {
             System.out.println("Antonio: " + usuarios.get("Antonio").getPartidasGan());
             System.out.println("");
         }
+        */
+        
         /*recogeDigimones(con,DIGIMONES);
         HashSet<Digimon> digi = new HashSet<>();
         digi.add(DIGIMONES.get("Felipomon"));
@@ -129,6 +134,8 @@ public class TestConexion {
         System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());*/
                 
+        pantallaInicio();
+        
         con.cerrar();
     }
 }

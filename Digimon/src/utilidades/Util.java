@@ -87,11 +87,13 @@ public class Util {
      * Recoge todos los Digimones encontrados en la BD Digimon y los almacena
      * en una colección HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un mapa en el que se almacenan todos los Digimones.
+     * @return Un mapa en el que se almacenan todos los Digimones.
      * @see Digimon
      * @see Conexion
      */
-    public static void recogeDigimones(Conexion c, HashMap<String,Digimon> lista){
+    public static HashMap<String,Digimon> recogeDigimones(Conexion c){
+        HashMap<String,Digimon> lista = new HashMap<>();
+        
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Digimon");
             if(res){
@@ -111,18 +113,22 @@ public class Util {
             }
         }catch(SQLException e){
             muestraSQLException(e);
-        }    
+        }
+        
+        return lista;
     }
     
     /**
      * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
      * en una coleccion HashMap.
      * @param c Conexión a la BD Digimon.
-     * @param lista Un mapa en el que se almacenan todos los Usuarios.
+     * @return Un mapa en el que se almacenan todos los Usuarios.
      * @see Usuario
      * @see Conexion
      */
-    public static void recogeUsuarios(Conexion c, HashMap<String,Usuario> lista){
+    public static HashMap<String,Usuario> recogeUsuarios(Conexion c){
+        HashMap<String,Usuario> lista = new HashMap<>();
+        
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Usuario");
             if(res){
@@ -142,6 +148,8 @@ public class Util {
         }catch(SQLException e){
             muestraSQLException(e);
         }    
+        
+        return lista;
     }
     
     /**
@@ -150,13 +158,14 @@ public class Util {
      * @param c Conexión a la BD Digimon.
      * @param usu Un mapa que contiene todos los Usuarios.
      * @param dig Un mapa que contiene todos los Digimones.
-     * @param usuDig Un mapa que guarda una colección de Digimones para
-     * cada Usuario.
+     * @return Un mapa que guarda una colección de Digimones para cada Usuario.
      * @see Usuario
      * @see Digimon
      * @see Conexion
      */
-    public static void recogeUsuDigi(Conexion c, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+    public static HashMap<Usuario,HashSet<Digimon>> recogeUsuDigi(Conexion c, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+        HashMap<Usuario,HashSet<Digimon>> usuDig = new HashMap<>();
+        
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT NomUsu FROM Tiene GROUP BY NomUsu");
             if(res){
@@ -183,6 +192,8 @@ public class Util {
         }catch(SQLException ex){
             muestraSQLException(ex);
         }
+        
+        return usuDig;
     }
     
     /**
@@ -244,13 +255,14 @@ public class Util {
      * @see randomizaDigimon
      */
     public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        int tamano = usuDig.get(usu).size();
+        
         HashSet<Digimon> setDig = new HashSet<>(usuDig.get(usu));
         for(Digimon d : usuDig.get(usu)){
             if(d.getNivel() != 1){
                 setDig.remove(d);
             }
         }
-        int tamano = setDig.size();
         
         HashMap<String,Digimon> digimones = new HashMap<>(dig);
         for(Digimon d : dig.values()){
@@ -274,10 +286,9 @@ public class Util {
                 }
 
                 if(insertar){
-                    setDig.add(digRnd);
                     usuDig.get(usu).add(digRnd);
                 }
-            }while(setDig.size() == tamano);
+            }while(usuDig.get(usu).size() == tamano);
         }
     }
 
