@@ -208,6 +208,29 @@ public class Util {
     }
     
     /**
+     * Escoge un Usuario al azar.
+     * @param usu Una colección de Usuarios.
+     * @return Un Usuario aleatorio de entre todos los Usuarios de la colección.
+     * @see Usuario
+     */
+    public static Usuario randomizaUsuario(Collection<Usuario> usu){
+        int numRnd = new Random().nextInt(usu.size());
+        Iterator it = usu.iterator();
+        
+        int indice = 0;
+        Usuario usuarioRnd = null;
+        
+        while(it.hasNext()){
+            usuarioRnd = (Usuario) it.next();
+            if(indice == numRnd){
+                return usuarioRnd;
+            }
+            indice++;
+        }
+        return usuarioRnd;
+    }
+    
+    /**
      * Otorga a un Usuario un Digimon que no tenga en su colección.
      * @param usu Usuario que va a recibir el Digimon.
      * @param dig Un HashMap que contiene todos los Digimones.
