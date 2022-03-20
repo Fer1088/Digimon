@@ -330,11 +330,13 @@ public class Util {
     }
     
     /**
-     * Da un token de digievolución a un Usuario por cada 5 partidas ganadas.
+     * Incrementa en uno el número de partidas del Usuario y le da un
+     * token de digievolución por cada 5 partidas ganadas.
      * @param usu Usuario que recibe el token.
      * @see Usuario
      */
-    public static void darToken(Usuario usu){
+    public static void ganaPartida(Usuario usu){
+        usu.incPartidasGan();
         if(usu.getPartidasGan() % 5 == 0){
             usu.incTokensEvo();
         }
@@ -370,19 +372,17 @@ public class Util {
         int cont = 0;
         for(int i=0; i<3; i++){
             if(combate(equipo1[i],equipo2[i])){
-                System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
+                //System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
                 cont++;
-            }else{
+            }/*else{
                 System.out.println(equipo2[i].getNomDig() + ": " + u2.getNombre());
-            }
+            }*/
         }
         
         if(cont > 1){
-            u1.incPartidasGan();
-            darToken(u1);
+            ganaPartida(u1);
         }else{
-            u2.incPartidasGan();
-            darToken(u2);
+            ganaPartida(u2);
         }        
     }
 }
