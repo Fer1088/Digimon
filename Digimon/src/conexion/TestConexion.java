@@ -88,7 +88,7 @@ public class TestConexion {
         }*/
         
         /*otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);*/
-        otorgaDigimon(usuarios.get("Dulsesico"),digimones,usuDigi);
+        usuDigi.get(usuarios.get("Dulsesico")).add(digimones.get("Josepomon"));
         
         for(Usuario u : usuDigi.keySet()){
             System.out.println(u.getNombre() + " " + u.isEsAdmin() + " " + u.getPartidasGan());

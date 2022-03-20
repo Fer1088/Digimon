@@ -234,7 +234,7 @@ public class Util {
     }
     
     /**
-     * Otorga a un Usuario un Digimon que no tenga en su colección.
+     * Otorga a un Usuario un Digimon de nivel 1 que no tenga en su colección.
      * @param usu Usuario que va a recibir el Digimon.
      * @param dig Un Mapa que contiene todos los Digimones.
      * @param usuDig Un Mapa que guarda una colección de Digimones para
@@ -244,16 +244,29 @@ public class Util {
      * @see randomizaDigimon
      */
     public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
-        int tamano = usuDig.get(usu).size();
+        HashSet<Digimon> setDig = new HashSet<>(usuDig.get(usu));
+        for(Digimon d : usuDig.get(usu)){
+            if(d.getNivel() != 1){
+                setDig.remove(d);
+            }
+        }
+        int tamano = setDig.size();
         
-        if(usuDig.get(usu).size() != dig.values().size()){
+        HashMap<String,Digimon> digimones = new HashMap<>(dig);
+        for(Digimon d : dig.values()){
+            if(d.getNivel() != 1){
+                digimones.remove(d.getNomDig());
+            }
+        }
+        
+        if(setDig.size() != digimones.size()){
             do{
-                Digimon digRnd = randomizaDigimon(dig.values());
+                Digimon digRnd = randomizaDigimon(digimones.values());
                 String nomDigRnd = digRnd.getNomDig();
 
                 boolean insertar = true;
                 String nomDig = null;
-                for(Digimon d : usuDig.get(usu)){
+                for(Digimon d : setDig){
                     nomDig = d.getNomDig();
                     if(nomDig.equals(nomDigRnd)){
                         insertar = false;
@@ -261,9 +274,10 @@ public class Util {
                 }
 
                 if(insertar){
+                    setDig.add(digRnd);
                     usuDig.get(usu).add(digRnd);
                 }
-            }while(usuDig.get(usu).size() == tamano);
+            }while(setDig.size() == tamano);
         }
     }
 
@@ -363,7 +377,7 @@ public class Util {
      * @see Digimon
      * @see rellenaEquipo
      * @see rellenaAleatorio
-     * @see darToken
+     * @see ganaPartida
      */
     public static void partida(Usuario u1, Usuario u2, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Digimon> dig, boolean equipo){
         Digimon[] equipo1 = null;
