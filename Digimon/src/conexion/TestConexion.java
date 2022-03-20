@@ -2,8 +2,7 @@ package conexion;
 
 import digimon.*;
 import java.util.*;
-import static utilidades.Menus.*;
-import static utilidades.Util.*;
+import utilidades.*;
 
 /**
  *
@@ -22,8 +21,8 @@ public class TestConexion {
         final HashMap<Usuario,HashSet<Digimon>> USUDIGI = new HashMap<>();*/
         
         //Conexion con = new Conexion("localhost","3306","Digimon","jmanuel","");
-        Conexion con = new Conexion(args);
-        con.conectar();
+        /*Conexion con = new Conexion(args);
+        con.conectar();*/
         
         /*recogeUsuarios(con,USUARIOS);
         System.out.println(USUARIOS);
@@ -73,9 +72,9 @@ public class TestConexion {
         
         System.out.println(USUDIGI);*/
         
-        usuarios = recogeUsuarios(con);
-        digimones = recogeDigimones(con);
-        usuDigi = recogeUsuDigi(con,usuarios,digimones);
+        usuarios = Util.recogeUsuarios(args);
+        digimones = Util.recogeDigimones(args);
+        usuDigi = Util.recogeUsuDigi(args,usuarios,digimones);
         
         /*for(Usuario u : USUDIGI.keySet()){
             if(u.getNombre().equals("Dulsesico")){
@@ -90,7 +89,7 @@ public class TestConexion {
         
         //otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
         
-        /*
+       /* 
         usuDigi.get(usuarios.get("Dulsesico")).add(digimones.get("Josepomon"));
         
         for(Usuario u : usuDigi.keySet()){
@@ -133,9 +132,9 @@ public class TestConexion {
         /*System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());
         System.out.println(((Digimon) it.next()).getNomDig());*/
-                
-        pantallaInicio();
         
-        con.cerrar();
+        Menus.pantallaInicio();
+        
+        //con.cerrar();
     }
 }

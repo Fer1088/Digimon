@@ -12,6 +12,8 @@ import java.util.*;
  * @author jmanuel
  */
 public class Util {
+
+    // Métodos para el control de excepciones.
     
     /**
      * Método utilizado para sacar por pantalla información detallada sobre
@@ -30,6 +32,8 @@ public class Util {
             t = t.getCause();
         }
     }
+
+    // Métodos para la creación de instancias.
     
     /**
      * Crea un usuario y lo añade a una colección que almacena todos los
@@ -82,16 +86,21 @@ public class Util {
             System.err.println(e.getMessage());
         }
     }
+
+    // Métodos para la recolección de datos de la BD.
     
     /**
      * Recoge todos los Digimones encontrados en la BD Digimon y los almacena
      * en una colección HashMap.
-     * @param c Conexión a la BD Digimon.
+     * @param args Argumentos necesarios para conectar con la BD.
      * @return Un mapa en el que se almacenan todos los Digimones.
      * @see Digimon
      * @see Conexion
      */
-    public static HashMap<String,Digimon> recogeDigimones(Conexion c){
+    public static HashMap<String,Digimon> recogeDigimones(String[] args){
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
         HashMap<String,Digimon> lista = new HashMap<>();
         
         try(Statement st = c.getConexion().createStatement()){
@@ -113,6 +122,8 @@ public class Util {
             }
         }catch(SQLException e){
             muestraSQLException(e);
+        }finally{
+            c.cerrar();
         }
         
         return lista;
@@ -121,12 +132,15 @@ public class Util {
     /**
      * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
      * en una coleccion HashMap.
-     * @param c Conexión a la BD Digimon.
+     * @param args Argumentos necesarios para conectar con la BD.
      * @return Un mapa en el que se almacenan todos los Usuarios.
      * @see Usuario
      * @see Conexion
      */
-    public static HashMap<String,Usuario> recogeUsuarios(Conexion c){
+    public static HashMap<String,Usuario> recogeUsuarios(String[] args){
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
         HashMap<String,Usuario> lista = new HashMap<>();
         
         try(Statement st = c.getConexion().createStatement()){
@@ -147,7 +161,9 @@ public class Util {
             }
         }catch(SQLException e){
             muestraSQLException(e);
-        }    
+        }finally{
+            c.cerrar();
+        }
         
         return lista;
     }
@@ -155,7 +171,7 @@ public class Util {
     /**
      * Recoge todos los Digimones que tiene cada Usuario según su relación en
      * la BD Digimon y los almacena en una colección HashMap.
-     * @param c Conexión a la BD Digimon.
+     * @param args Argumentos necesarios para conectar con la BD.
      * @param usu Un mapa que contiene todos los Usuarios.
      * @param dig Un mapa que contiene todos los Digimones.
      * @return Un mapa que guarda una colección de Digimones para cada Usuario.
@@ -163,7 +179,10 @@ public class Util {
      * @see Digimon
      * @see Conexion
      */
-    public static HashMap<Usuario,HashSet<Digimon>> recogeUsuDigi(Conexion c, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+    public static HashMap<Usuario,HashSet<Digimon>> recogeUsuDigi(String[] args, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
         HashMap<Usuario,HashSet<Digimon>> usuDig = new HashMap<>();
         
         try(Statement st = c.getConexion().createStatement()){
@@ -191,10 +210,14 @@ public class Util {
             }
         }catch(SQLException ex){
             muestraSQLException(ex);
+        }finally{
+            c.cerrar();
         }
         
         return usuDig;
     }
+
+    // Métodos para la aleatorización de instancias.
     
     /**
      * Escoge un Digimon al azar.
@@ -243,6 +266,8 @@ public class Util {
         }
         return usuarioRnd;
     }
+    
+    // Métodos relacionados con el juego en sí.
     
     /**
      * Otorga a un Usuario un Digimon de nivel 1 que no tenga en su colección.
@@ -417,5 +442,27 @@ public class Util {
         }else{
             ganaPartida(u2,dig,usuDig);
         }        
+    }
+    
+    // Métodos de formato de texto
+    
+    /**
+     * Imprime 100 saltos de línea para tratar de "limpiar" la salida por
+     * consola.
+     */
+    public static void limpiar(){
+        for(int i=0; i<100; i++){
+            System.out.println("");
+        }
+    }
+    
+    /**
+     * Imprime "=" en la misma línea un número de veces determinado.
+     * @param n Número de veces que imprime "=".
+     */
+    public static void imprimeIguales(int n){
+        for(int i=0; i<n; i++){
+            System.out.print("=");
+        }
     }
 }
