@@ -106,7 +106,7 @@ public class TestConexion {
         }
         
         for(int i=0; i<10; i++){
-            partida(usuarios.get("Dulsesico"),usuarios.get("Antonio"),usuDigi,false);
+            partida(usuarios.get("Dulsesico"),usuarios.get("Antonio"),usuDigi,digimones,false);
             System.out.println("Dulses: " + usuarios.get("Dulsesico").getPartidasGan());
             System.out.println("Antonio: " + usuarios.get("Antonio").getPartidasGan());
             System.out.println("");

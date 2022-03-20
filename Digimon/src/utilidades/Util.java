@@ -333,12 +333,19 @@ public class Util {
      * Incrementa en uno el número de partidas del Usuario y le da un
      * token de digievolución por cada 5 partidas ganadas.
      * @param usu Usuario que recibe el token.
+     * @param dig Un Mapa que contiene todos los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
      * @see Usuario
+     * @see Digimon
      */
-    public static void ganaPartida(Usuario usu){
+    public static void ganaPartida(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         usu.incPartidasGan();
         if(usu.getPartidasGan() % 5 == 0){
             usu.incTokensEvo();
+        }
+        if(usu.getPartidasGan() % 10 == 0){
+            otorgaDigimon(usu,dig,usuDig);
         }
     }
     
@@ -348,16 +355,17 @@ public class Util {
      * @param u2 Segundo Usuario.
      * @param usuDig Un Mapa que guarda una colección de Digimones para
      * cada Usuario.
+     * @param dig Un Mapa que contiene todos los Digimones.
      * @param equipo Si la partida es entre los Digimones que forman parte del
-     * equipo de cada Usuario, o si es entre Digimones aleatorios
-     * de cada Usuario.
+     * equipo de cada Usuario (true), o si es entre Digimones aleatorios
+     * de cada Usuario (false).
      * @see Usuario
      * @see Digimon
      * @see rellenaEquipo
      * @see rellenaAleatorio
      * @see darToken
      */
-    public static void partida(Usuario u1, Usuario u2, HashMap<Usuario,HashSet<Digimon>> usuDig, boolean equipo){
+    public static void partida(Usuario u1, Usuario u2, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Digimon> dig, boolean equipo){
         Digimon[] equipo1 = null;
         Digimon[] equipo2 = null;
         
@@ -380,9 +388,9 @@ public class Util {
         }
         
         if(cont > 1){
-            ganaPartida(u1);
+            ganaPartida(u1,dig,usuDig);
         }else{
-            ganaPartida(u2);
+            ganaPartida(u2,dig,usuDig);
         }        
     }
 }
