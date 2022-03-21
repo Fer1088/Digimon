@@ -89,24 +89,24 @@ public class TestConexion {
         
         //otorgaDigimon(USUARIOS.get("Dulsesico"),DIGIMONES,USUDIGI);
         
-/*       
+       
         usuDigi.get(usuarios.get("Dulsesico")).add(digimones.get("Josepomon"));
         
         for(Usuario u : usuDigi.keySet()){
-            System.out.println(u.getNombre() + " " + u.isEsAdmin() + " " + u.getPartidasGan());
-            System.out.println("=========");
+            //System.out.println(u.getNombre() + " " + u.isEsAdmin() + " " + u.getPartidasGan());
+            //System.out.println("=========");
             for(Digimon d : usuDigi.get(u)){
                 if(!d.isEstaEquipo()){
                     d.setEstaEquipo(true);
                 }
-                System.out.print(d.getNomDig() + ", tipo " + d.getTipo() +
+                /*System.out.print(d.getNomDig() + ", tipo " + d.getTipo() +
                         " " + d.isEstaEquipo() + " " + d.getNomDigEvo() +
-                        "nivel" + d.getNivel() + "\n");
-                System.out.println(d);
+                        "nivel" + d.getNivel() + "\n");*/
+                //System.out.println(d);
             }
-            System.out.println("");
+            //System.out.println("");
         }
-        
+/*        
         for(int i=0; i<10; i++){
             Util.partida(usuarios.get("Dulsesico"),usuarios.get("Antonio"),usuDigi,digimones,false);
             System.out.println("Dulses: " + usuarios.get("Dulsesico").getPartidasGan());
@@ -143,6 +143,9 @@ public class TestConexion {
         
         SLeer1.limpiar();*/
         
+        Usuario usuario = null;
+        Usuario contrincante = null;
+        
         byte opcion = 0;
         do{
             Menus.pantallaInicio();
@@ -150,7 +153,8 @@ public class TestConexion {
             SLeer1.limpiar();
             switch(opcion){
                 case 1:                    
-                    Usuario usuario = Util.iniciarSesion(usuarios);
+                    usuario = Util.iniciarSesion(usuarios);
+                    Util.pausa();
                     if(usuario != null){
                         do{
                             if(usuario.isEsAdmin()){
@@ -164,13 +168,29 @@ public class TestConexion {
                                             opcion = SLeer1.datoByte("Elige: ");
                                             SLeer1.limpiar();
                                             switch(opcion){
-                                                case 1:                                                    
+                                                case 1:
+                                                    contrincante = Util.pideContrincante(usuarios);
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                    Util.pausa();
                                                     break;
-                                                case 2:                                                    
+                                                case 2:
+                                                    contrincante = Util.pideContrincante(usuarios);
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                    Util.pausa();
                                                     break;
-                                                case 3:                                                    
+                                                case 3:
+                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                    Util.pausa();
                                                     break;
-                                                case 4:                                                    
+                                                case 4:
+                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                    Util.pausa();
                                                     break;
                                             }
                                         }while(opcion != 0);
@@ -255,13 +275,29 @@ public class TestConexion {
                                             opcion = SLeer1.datoByte("Elige: ");
                                             SLeer1.limpiar();
                                             switch(opcion){
-                                                case 1:                                                    
+                                                case 1:
+                                                    contrincante = Util.pideContrincante(usuarios);
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                    Util.pausa();
                                                     break;
-                                                case 2:                                                    
+                                                case 2:
+                                                    contrincante = Util.pideContrincante(usuarios);
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                    Util.pausa();
                                                     break;
-                                                case 3:                                                    
+                                                case 3:
+                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                    Util.pausa();
                                                     break;
-                                                case 4:                                                    
+                                                case 4:
+                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    Util.limpiar();
+                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                    Util.pausa();
                                                     break;
                                             }
                                         }while(opcion != 0);
@@ -278,7 +314,7 @@ public class TestConexion {
                     opcion = -1;
                     break;
                 case 2:
-                    Util.registrar(usuarios,digimones,usuDigi);
+                    Util.registrarUsuario(usuarios,digimones,usuDigi);
                     opcion = -1;
                     break;
             }

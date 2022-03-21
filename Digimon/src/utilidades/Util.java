@@ -33,60 +33,28 @@ public class Util {
         }
     }
 
-    // Métodos para la creación de instancias.
+    // Métodos para la inicialización de instancias.
     
     /**
-     * Crea un usuario y lo añade a una colección que almacena todos los
-     * usuarios como valores, cada usuario es identificado por una clave
-     * definida con su nombre.
-     * @param nombre El nombre que se le quiere dar al Usuario.
-     * @param contrasena La contraseña que se le quiere dar al Usuario.
-     * @param lista Un mapa en el que se almacenan todos los Usuarios.
-     * @see Usuario 
+     * Inicializa un Usuario dado otrogándole 3 Digimones iniciales de
+     * nivel 1 y añadiéndolos a su equipo.
+     * @param usuario Usuario que se quiere inicializar.
+     * @param usu Un mapa en el que se almacenan todos los Usuarios.
+     * @param dig Un mapa en el que se almacenan todos los Digimones.
+     * @param usuDig Un mapa que guarda una colección de Digimones para cada Usuario.
      */
-    public static void creaUsuario(String nombre, String contrasena, HashMap<String,Usuario> lista){
-        Usuario usuario = new Usuario(nombre, contrasena);
-        try{
-            if(lista.containsKey(usuario.getNombre())) {
-                throw new Exception("Ya existe un Usuario con ese nombre.");
-            }
-            else{
-                lista.put(usuario.getNombre(), usuario);
-            }
+    public static void inicializaUsuario(Usuario usuario,HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        HashSet<Digimon> digimones = new HashSet<>();
+        usuDig.put(usuario, digimones);
+        for(int i=0; i<3; i++){
+            otorgaDigimon(usuario,dig,usuDig);
         }
-        catch(Exception e){
-            System.err.println(e.getMessage());
+        
+        for(Digimon d : usuDig.get(usuario)){
+            d.setEstaEquipo(true);
         }
     }
     
-    /**
-     * Crea un digimon y lo añade a una colección que almacena todos los
-     * digimones como valores, cada digimon es identificado por una clave
-     * definida con su nombre.
-     * @param nombre El nombre que se le quiere dar al Digimon.
-     * @param tipo El tipo que se le quiere dar al Digimon.
-     * @param ataque El ataque (entero) que se le quiere dar al Digimon.
-     * @param defensa La defensa (entero) que se le quiere dar al Digimon.
-     * @param nivel El nivel (entero) que se le quiere dar al Digimon.
-     * @param nomEvo El nombre del Digimon al que podrá evolucionar.
-     * @param lista Un mapa en el que se almacenan todos los Digimones.
-     * @see Digimon
-     */
-    public static void creaDigimon(String nombre, String tipo, int ataque, int defensa, int nivel, String nomEvo, HashMap<String,Digimon> lista){
-        Digimon digimon = new Digimon(nombre,tipo,nivel,ataque,defensa,nomEvo);
-        try{
-            if(lista.containsKey(digimon.getNomDig())) {
-                throw new Exception("Ya existe un Digimon con ese nombre.");
-            }
-            else{
-                lista.put(digimon.getNomDig(), digimon);
-            }
-        }
-        catch(Exception e){
-            System.err.println(e.getMessage());
-        }
-    }
-
     // Métodos para la recolección de datos de la BD.
     
     /**
@@ -299,6 +267,28 @@ public class Util {
     // Métodos relacionados con el juego en sí.
     
     /**
+     * Pide al usuario actual que introduzca el nombre de su contrincante,
+     * su contrincante debe ser un Usuario ya existente.
+     * @param usu Un Mapa que contiene todos los Usuarios.
+     * @return Usuario contrincante
+     * @see Usuario
+     * @see compruebaNombre
+     */
+    public static Usuario pideContrincante(HashMap<String,Usuario> usu){
+        String nombre = null;
+        
+        do{
+            nombre = SLeer1.datoString("Introduce el nombre de usuario "
+                    + "contra el que te quieres enfrentar: ");
+            if(!compruebaNombre(nombre,usu)){
+                System.err.println("Ese usuario no existe.");
+            }
+        }while(!compruebaNombre(nombre,usu));
+
+        return usu.get(nombre);
+    }
+    
+    /**
      * Otorga a un Usuario un Digimon de nivel 1 que no tenga en su colección.
      * @param usu Usuario que va a recibir el Digimon.
      * @param dig Un Mapa que contiene todos los Digimones.
@@ -459,17 +449,21 @@ public class Util {
         int cont = 0;
         for(int i=0; i<3; i++){
             if(combate(equipo1[i],equipo2[i])){
-                //System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
+                System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
                 cont++;
-            }/*else{
+            }else{
                 System.out.println(equipo2[i].getNomDig() + ": " + u2.getNombre());
-            }*/
+            }
         }
         
         if(cont > 1){
             ganaPartida(u1,dig,usuDig);
+            imprimeIguales(23);
+            System.out.println("\nHa ganado " + u1.getNombre());
         }else{
             ganaPartida(u2,dig,usuDig);
+            imprimeIguales(23);
+            System.out.println("\nHa ganado " + u2.getNombre());
         }        
     }
     
@@ -494,6 +488,16 @@ public class Util {
             System.out.print("=");
         }
     }
+    
+    /**
+     * Establece una pausa en el programa pidiendo la entrada de teclado.
+     */
+    public static void pausa(){
+        System.out.println("\nPulsa Intro para continuar");
+        SLeer1.limpiar();
+    }
+    
+    // Métodos relacionados con la pantalla de inicio.
     
     /**
      * Comprueba si hay algún Usuario cuyo nombre sea coincidente con
@@ -551,22 +555,24 @@ public class Util {
         if(contador == 5){
             System.err.println("Has agotado tus 5 intentos.");
         }else{
-            //System.out.println("¡Bienvenido de nuevo, " + nombre + "!");
+            limpiar();
+            System.out.println("¡Bienvenido de nuevo, " + nombre + "!");
             usuario = usu.get(nombre);
         }
         return usuario;
     }
     
     /**
-     * Registro de usuarios nuevos.
+     * Registro de nuevos usuarios.
      * @param usu Un Mapa que contiene todos los Usuarios.
      * @param dig Un Mapa que contiene todos los Digimones.
      * @param usuDig Un Mapa que contiene una colección de Digimones para
      * cada uno de los Usuarios.
      * @see Usuario
      * @see Digimon
+     * @see inicializaUsuario
      */
-    public static void registrar(HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+    public static void registrarUsuario(HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         String nombre = null;
         String contra = null;
         Usuario usuario = null;
@@ -591,14 +597,6 @@ public class Util {
         usuario = new Usuario(nombre,contra);
         usu.put(nombre, usuario);
         
-        HashSet<Digimon> digimones = new HashSet<>();
-        usuDig.put(usuario, digimones);
-        for(int i=0; i<3; i++){
-            otorgaDigimon(usuario,dig,usuDig);
-        }
-        
-        for(Digimon d : usuDig.get(usuario)){
-            d.setEstaEquipo(true);
-        }
+        inicializaUsuario(usuario,usu,dig,usuDig);
     }
 }
