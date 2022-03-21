@@ -55,7 +55,6 @@ public class Usuario {
         this.partidasGan = Integer.parseInt(param[2]);
         this.tokensEvo = Integer.parseInt(param[3]);
         this.esAdmin = Boolean.parseBoolean(param[4]);
-        System.out.println(param[4]);
     }
     
     /**

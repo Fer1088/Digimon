@@ -33,7 +33,7 @@ public class Util {
         }
     }
 
-    // Métodos para la inicialización de instancias.
+    // Métodos para la inicialización o manejo de instancias.
     
     /**
      * Inicializa un Usuario dado otrogándole 3 Digimones iniciales de
@@ -52,6 +52,31 @@ public class Util {
         
         for(Digimon d : usuDig.get(usuario)){
             d.setEstaEquipo(true);
+        }
+    }
+    
+    /**
+     * Hacer administrador a otro Usuario registrado.
+     * @param usu Un mapa en el que se almacenan todos los Usuarios.
+     */
+    public static void hacerAdmin(HashMap<String,Usuario> usu){
+        String nombre = null;
+        
+        do{
+            nombre = SLeer1.datoString("Introduce el nombre del usuario: ");
+            if(!compruebaNombre(nombre,usu)){
+                System.err.println("Ese usuario no existe.");
+            }
+        }while(!compruebaNombre(nombre,usu));
+        
+        if(!usu.get(nombre).isEsAdmin()){
+            usu.get(nombre).setEsAdmin(true);
+            System.out.println("");
+            System.out.println("Usuario " + nombre + " es ahora admin.");
+        }
+        else{
+            System.out.println("");
+            System.out.println("Usuario " + nombre + " ya era admin.");
         }
     }
     
@@ -264,6 +289,34 @@ public class Util {
         return usuarioRnd;
     }
     
+    /**
+     * Escoge un Usuario al azar, excluyendo a un Usuario de la colección.
+     * @param usu Una colección de Usuarios.
+     * @param u El Usuario a excluir.
+     * @return Un Usuario aleatorio de entre todos los Usuarios de
+     * la colección (menos uno).
+     * @see Usuario
+     */
+    public static Usuario randomizaUsuario(Collection<Usuario> usu, Usuario u){
+        int numRnd = new Random().nextInt(usu.size());
+        
+        HashSet<Usuario> usuarios = new HashSet<>(usu);
+        usuarios.remove(u);
+        Iterator it = usuarios.iterator();
+        
+        int indice = 0;
+        Usuario usuarioRnd = null;
+        
+        while(it.hasNext()){
+            usuarioRnd = (Usuario) it.next();
+            if(indice == numRnd){
+                return usuarioRnd;
+            }
+            indice++;
+        }
+        return usuarioRnd;
+    }
+    
     // Métodos relacionados con el juego en sí.
     
     /**
@@ -363,8 +416,8 @@ public class Util {
         for(Digimon d : dig){
             if(d.isEstaEquipo() && indice < 3){
                 equipo[indice] = d;
-            }
-            indice++;
+                indice++;
+            }      
         }
         return equipo;
     }
@@ -379,14 +432,15 @@ public class Util {
      * @see Digimon
      */
     public static Digimon[] rellenaAleatorio(Usuario usu, HashSet<Digimon> dig){
-        Digimon[] equipo = new Digimon[3];
+        /*Digimon[] equipo = new Digimon[3];
+        boolean repetido = false;
         
         int indice = 0;
         while(indice < 3){
-            boolean repetido = false;
+            repetido = false;
             Digimon digimon = randomizaDigimon(dig);
             for(int j=0; j<3; j++){
-                if(digimon == equipo[j]){
+                if(digimon.getNomDig().equals(equipo[j].getNomDig())){
                     repetido = true;
                 }
             }
@@ -395,7 +449,14 @@ public class Util {
                 indice++;
             }
         }        
-        return equipo;
+        return equipo;*/
+        Digimon[] d = new Digimon[3];
+        HashSet<Digimon> equipo = new HashSet<>(dig);
+        while(equipo.size() > 3){
+            equipo.remove(randomizaDigimon(equipo));
+        }
+        
+        return equipo.toArray(d);
     }
     
     /**
@@ -446,13 +507,19 @@ public class Util {
             equipo2 = rellenaAleatorio(u2,usuDig.get(u2));
         }
         
+        System.out.println(u1.getNombre() + " vs " + u2.getNombre());
+        imprimeIguales(23);
+        System.out.println("");
+        
         int cont = 0;
         for(int i=0; i<3; i++){
+            System.out.println("Combate " + (i+1));
+            System.out.println(equipo1[i].getNomDig() + " vs " + equipo2[i].getNomDig());
             if(combate(equipo1[i],equipo2[i])){
-                System.out.println(equipo1[i].getNomDig() + ": " + u1.getNombre());
+                System.out.println("Ganador: " + equipo1[i].getNomDig() + " de " + u1.getNombre());
                 cont++;
             }else{
-                System.out.println(equipo2[i].getNomDig() + ": " + u2.getNombre());
+                System.out.println("Ganador: " + equipo2[i].getNomDig() + " de " + u2.getNombre());
             }
         }
         
@@ -510,6 +577,19 @@ public class Util {
      */
     public static boolean compruebaNombre(String nombre,HashMap<String,Usuario> usu){
         return usu.containsKey(nombre);
+    }
+    
+    /**
+     * Comprueba si hay algún Digimon cuyo nombre sea coincidente con
+     * la cadena de caracteres pasada por parámetro.
+     * @param nombre La cadena de texto cuyo contenido va a ser evaluado.
+     * @param dig Un Mapa que contiene todos los Digimones.
+     * @return true si la cadena coincide con el nombre de algún Digimon,
+     * false si no coincide con el nombre de ninguno.
+     * @see Digimon
+     */
+    public static boolean compruebaNomDig(String nombre,HashMap<String,Digimon> dig){
+        return dig.containsKey(nombre);
     }
     
     /**
@@ -593,6 +673,7 @@ public class Util {
             }
         }while(!contra.equals(rep));
         
+        System.out.println("");
         System.out.println("Usuario " + nombre + " registrado.");
         usuario = new Usuario(nombre,contra);
         usu.put(nombre, usuario);

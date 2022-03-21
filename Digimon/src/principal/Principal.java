@@ -8,7 +8,8 @@ import digimon.*;
 import utilidades.*;
 
 /**
- *
+ * Clase principal del proyecto Digimon.
+ * @version 1.0, 21/03/2022
  * @author jmanuel
  */
 public class Principal {
@@ -96,11 +97,15 @@ public class Principal {
                                                                 break;
                                                             case 2:                                                                
                                                                 break;
-                                                            case 3:                                                                
+                                                            case 3:
+                                                                Util.registrarUsuario(usuarios,digimones,usuDigi);
+                                                                Util.pausa();
                                                                 break;
                                                             case 4:                                                                
                                                                 break;
                                                             case 5:
+                                                                Util.hacerAdmin(usuarios);
+                                                                Util.pausa();
                                                                 break;
                                                         }
                                                     }while(opcion != 0);
@@ -162,7 +167,7 @@ public class Principal {
                                                     Util.pausa();
                                                     break;
                                                 case 2:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
                                                     Util.limpiar();
                                                     Util.partida(usuario, contrincante, usuDigi, digimones, true);
                                                     Util.pausa();
@@ -174,7 +179,7 @@ public class Principal {
                                                     Util.pausa();
                                                     break;
                                                 case 4:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
                                                     Util.limpiar();
                                                     Util.partida(usuario, contrincante, usuDigi, digimones, false);
                                                     Util.pausa();
