@@ -139,94 +139,155 @@ public class TestConexion {
             opcion = SLeer1.datoByte("Elige: ");
             switch(opcion){
                 case 1:
+                    SLeer1.limpiar();
+                    Usuario usuario = Util.iniciarSesion(usuarios);
+                    if(usuario != null){
+                        do{
+                            if(usuario.isEsAdmin()){
+                                Menus.menuPrincipalAdmin();
+                                opcion = SLeer1.datoByte("Elige: ");
+                                switch(opcion){
+                                    case 1:
+                                        SLeer1.limpiar();
+                                        do{
+                                            Menus.menuJugar();
+                                            opcion = SLeer1.datoByte("Elige: ");
+                                            switch(opcion){
+                                                case 1:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 2:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 3:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 4:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                            }
+                                        }while(opcion != 0);
+                                        opcion = -1;
+                                        break;
+                                    case 2:
+                                        SLeer1.limpiar();
+                                        break;
+                                    case 3:
+                                        SLeer1.limpiar();
+                                        break;
+                                    case 4:
+                                        SLeer1.limpiar();
+                                        do{
+                                            Menus.menuOpciones();
+                                            opcion = SLeer1.datoByte("Elige: ");
+                                            switch(opcion){
+                                                case 1:
+                                                    SLeer1.limpiar();
+                                                    do{
+                                                        Menus.menuUsuario();
+                                                        opcion = SLeer1.datoByte("Elige: ");
+                                                        switch(opcion){
+                                                            case 1:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 2:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 3:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 4:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                        }
+                                                    }while(opcion != 0);
+                                                    opcion = -1;
+                                                    break;
+                                                case 2:
+                                                    SLeer1.limpiar();
+                                                    do{
+                                                        Menus.menuDigimon();
+                                                        opcion = SLeer1.datoByte("Elige: ");
+                                                        switch(opcion){
+                                                            case 1:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 2:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 3:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 4:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                        }
+                                                    }while(opcion != 0);
+                                                    opcion = -1;
+                                                    break;
+                                                case 3:
+                                                    SLeer1.limpiar();
+                                                    do{
+                                                        Menus.menuBaseDatos();
+                                                        opcion = SLeer1.datoByte("Elige: ");
+                                                        switch(opcion){
+                                                            case 1:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                            case 2:
+                                                                SLeer1.limpiar();
+                                                                break;
+                                                        }
+                                                    }while(opcion != 0);
+                                                    opcion = -1;
+                                                    break;
+                                            }
+                                        }while(opcion != 0);
+                                        opcion = -1;
+                                        break;
+                                }
+                            }
+                            else{
+                                Menus.menuPrincipal();
+                                opcion = SLeer1.datoByte("Elige: ");
+                                switch(opcion){
+                                    case 1:
+                                        do{
+                                            SLeer1.limpiar();
+                                            Menus.menuJugar();
+                                            opcion = SLeer1.datoByte("Elige: ");
+                                            switch(opcion){
+                                                case 1:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 2:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 3:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                                case 4:
+                                                    SLeer1.limpiar();
+                                                    break;
+                                            }
+                                        }while(opcion != 0);
+                                        opcion = -1;
+                                        break;
+                                    case 2:
+                                        SLeer1.limpiar();
+                                        break;
+                                    case 3:
+                                        SLeer1.limpiar();
+                                        break;
+                                }
+                            }
+                        }while(opcion != 0);
+                    }
+                    opcion = -1;
                     break;
                 case 2:
-                    break;
-                case 3:
-                    do{
-                        Menus.menuPrincipal();
-                        opcion = SLeer1.datoByte("Elige: ");
-                        switch(opcion){
-                            case 1:
-                                do{
-                                    Menus.menuJugar();
-                                    opcion = SLeer1.datoByte("Elige: ");
-                                    switch(opcion){
-                                        case 1:
-                                            break;
-                                        case 2:
-                                            break;
-                                        case 3:
-                                            break;
-                                        case 4:
-                                            break;
-                                    }
-                                }while(opcion != 0);
-                                opcion = -1;
-                                break;
-                            case 2:
-                                break;
-                            case 3:
-                                break;
-                            case 4:
-                                do{
-                                    Menus.menuOpciones();
-                                    opcion = SLeer1.datoByte("Elige: ");
-                                    switch(opcion){
-                                        case 1:
-                                            do{
-                                                Menus.menuUsuario();
-                                                opcion = SLeer1.datoByte("Elige: ");
-                                                switch(opcion){
-                                                    case 1:
-                                                        break;
-                                                    case 2:
-                                                        break;
-                                                    case 3:
-                                                        break;
-                                                    case 4:
-                                                        break;
-                                                }
-                                            }while(opcion != 0);
-                                            opcion = -1;
-                                            break;
-                                        case 2:
-                                            do{
-                                                Menus.menuDigimon();
-                                                opcion = SLeer1.datoByte("Elige: ");
-                                                switch(opcion){
-                                                    case 1:
-                                                        break;
-                                                    case 2:
-                                                        break;
-                                                    case 3:
-                                                        break;
-                                                    case 4:
-                                                        break;
-                                                }
-                                            }while(opcion != 0);
-                                            opcion = -1;
-                                            break;
-                                        case 3:
-                                            do{
-                                                Menus.menuBaseDatos();
-                                                opcion = SLeer1.datoByte("Elige: ");
-                                                switch(opcion){
-                                                    case 1:
-                                                        break;
-                                                    case 2:
-                                                        break;
-                                                }
-                                            }while(opcion != 0);
-                                            opcion = -1;
-                                            break;
-                                    }
-                                }while(opcion != 0);
-                                opcion = -1;
-                                break;
-                            default:
-                        }
-                    }while(opcion != 0);
+                    SLeer1.limpiar();
+                    Util.registrar(usuarios,digimones,usuDigi);
                     opcion = -1;
                     break;
             }

@@ -99,9 +99,26 @@ public class Menus {
     }
     
     /**
-     * Imprime el menú principal del programa.
+     * Imprime el menú principal del programa para un Usuario normal.
      */
     public static void menuPrincipal(){
+        Util.limpiar();
+
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("1) Jugar");
+        System.out.println("2) Tu equipo");
+        System.out.println("3) Tus digimones");
+
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("0) Cerrar sesión");
+    }
+    
+    /**
+     * Imprime el menú principal del programa para un administrador.
+     */
+    public static void menuPrincipalAdmin(){
         Util.limpiar();
 
         Util.imprimeIguales(23);

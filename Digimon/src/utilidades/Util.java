@@ -444,7 +444,7 @@ public class Util {
         }        
     }
     
-    // Métodos de formato de texto
+    // Métodos para el formato de texto
     
     /**
      * Imprime 100 saltos de línea para tratar de "limpiar" la salida por
@@ -463,6 +463,79 @@ public class Util {
     public static void imprimeIguales(int n){
         for(int i=0; i<n; i++){
             System.out.print("=");
+        }
+    }
+    
+    public static boolean compruebaNombre(String nombre,HashMap<String,Usuario> usu){
+        return usu.containsKey(nombre);
+    }
+    
+    public static boolean compruebaContra(String nombre,String contra,HashMap<String,Usuario> usu){
+        return usu.get(nombre).getContrasena().equals(contra);
+    }
+    
+    public static Usuario iniciarSesion(HashMap<String,Usuario> usu){
+        String nombre = null;
+        String contra = null;
+        Usuario usuario = null;
+        
+        do{
+            nombre = SLeer1.datoString("Nombre de usuario: ");
+            if(!compruebaNombre(nombre,usu)){
+                System.err.println("Ese usuario no existe.");
+            }
+        }while(!compruebaNombre(nombre,usu));
+        
+        int contador = 0;
+        do{
+            contra = SLeer1.datoString("Contraseña: ");
+            if(!compruebaContra(nombre,contra,usu)){
+                System.err.println("Identificación fallida.");
+                contador++;
+            }
+        }while(!compruebaContra(nombre,contra,usu) && contador != 5);
+        if(contador == 5){
+            System.err.println("Has agotado tus 5 intentos.");
+        }else{
+            System.out.println("¡Bienvenido de nuevo, " + nombre + "!");
+            usuario = usu.get(nombre);
+        }
+        return usuario;
+    }
+    
+    public static void registrar(HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        String nombre = null;
+        String contra = null;
+        Usuario usuario = null;
+        
+        do{
+            nombre = SLeer1.datoString("Introduce el nombre de usuario: ");
+            if(compruebaNombre(nombre,usu)){
+                System.err.println("Ese usuario ya existe.");
+            }
+        }while(compruebaNombre(nombre,usu));
+        
+        contra = SLeer1.datoString("Introduce la contraseña: ");
+        String rep = null;
+        do{
+            rep = SLeer1.datoString("Vuelve a introducirla: ");
+            if(!contra.equals(rep)){
+                System.err.println("Las contraseñas no coinciden.");
+            }
+        }while(!contra.equals(rep));
+        
+        System.out.println("Usuario " + nombre + " registrado.");
+        usuario = new Usuario(nombre,contra);
+        usu.put(nombre, usuario);
+        
+        HashSet<Digimon> digimones = new HashSet<>();
+        usuDig.put(usuario, digimones);
+        for(int i=0; i<3; i++){
+            otorgaDigimon(usuario,dig,usuDig);
+        }
+        
+        for(Digimon d : usuDig.get(usuario)){
+            d.setEstaEquipo(true);
         }
     }
 }
