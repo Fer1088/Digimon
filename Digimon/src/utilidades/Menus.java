@@ -57,6 +57,7 @@ public class Menus {
         System.out.println("2) Mostrar Usuario");
         System.out.println("3) Añadir Usuario");
         System.out.println("4) Eliminar Usuario");
+        System.out.println("5) Hacer Admin");
 
         Util.imprimeIguales(23);
         System.out.println("");

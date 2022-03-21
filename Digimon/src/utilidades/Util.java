@@ -102,13 +102,16 @@ public class Util {
         c.conectar();
         
         HashMap<String,Digimon> lista = new HashMap<>();
+        String[] param = null;
         
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Digimon");
             if(res){
                 ResultSet rs = st.getResultSet();
+                ResultSetMetaData metars = rs.getMetaData();
+                param = new String[metars.getColumnCount()];
                 while(rs.next()){
-                    String nomDig = rs.getString(1);
+                    /*String nomDig = rs.getString(1);
                     int atacDig = rs.getInt(2);
                     int defDig = rs.getInt(3);
                     String tipoDig = rs.getString(4);
@@ -117,7 +120,17 @@ public class Util {
 
                     Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig,nomDigEvo);
 
-                    lista.put(nomDig, digimon);
+                    lista.put(nomDig, digimon);*/
+                    param[0] = rs.getString(1);
+                    param[1] = rs.getString(2);
+                    param[2] = rs.getString(3);
+                    param[3] = rs.getString(4);
+                    param[4] = rs.getString(5);
+                    param[5] = rs.getString(6);
+                    
+                    Digimon digimon = new Digimon(param);
+                    
+                    lista.put(digimon.getNomDig(),digimon);
                 }
             }
         }catch(SQLException e){
@@ -142,21 +155,37 @@ public class Util {
         c.conectar();
         
         HashMap<String,Usuario> lista = new HashMap<>();
+        String[] param = null;
         
         try(Statement st = c.getConexion().createStatement()){
             boolean res = st.execute("SELECT * FROM Usuario");
             if(res){
                 ResultSet rs = st.getResultSet();
+                ResultSetMetaData metars = rs.getMetaData();
+                param = new String[metars.getColumnCount()];
                 while(rs.next()){
-                    String nomUsu = rs.getString(1);
+                    /*String nomUsu = rs.getString(1);
                     String contUsu = rs.getString(2);
                     int partidasGan = rs.getInt(3);
                     int tokensEvo = rs.getInt(4);
                     boolean esAdmin = rs.getBoolean(5);
 
                     Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo,esAdmin);
+                    
+                    lista.put(nomUsu, usuario);*/
+                    param[0] = rs.getString(1);
+                    param[1] = rs.getString(2);
+                    param[2] = rs.getString(3);
+                    param[3] = rs.getString(4);
+                    if(rs.getBoolean(5)){
+                        param[4] = "true";
+                    }else{
+                        param[4] = "false";
+                    }
+                    
+                    Usuario usuario = new Usuario(param);
 
-                    lista.put(nomUsu, usuario);
+                    lista.put(usuario.getNombre(), usuario);
                 }
             }
         }catch(SQLException e){
@@ -466,14 +495,39 @@ public class Util {
         }
     }
     
+    /**
+     * Comprueba si hay algún Usuario cuyo nombre sea coincidente con
+     * la cadena de caracteres pasada por parámetro.
+     * @param nombre La cadena de texto cuyo contenido va a ser evaluado.
+     * @param usu Un Mapa que contiene todos los Usuarios.
+     * @return true si la cadena coincide con el nombre de algún Usuario,
+     * false si no coincide con el nombre de ninguno.
+     * @see Usuario
+     */
     public static boolean compruebaNombre(String nombre,HashMap<String,Usuario> usu){
         return usu.containsKey(nombre);
     }
     
+    /**
+     * Comprueba si la contraseña pasada por parámetro coincide con
+     * la contraseña del Usuario, identificado por su nombre.
+     * @param nombre El nombre del Usuario.
+     * @param contra Contraseña a evaluar.
+     * @param usu Un Mapa que contiene todos los Usuarios.
+     * @return true si la contraseña es correcta, false en caso contrario.
+     * @see Usuario
+     */
     public static boolean compruebaContra(String nombre,String contra,HashMap<String,Usuario> usu){
         return usu.get(nombre).getContrasena().equals(contra);
     }
     
+    /**
+     * Inicio de sesión para los Usuarios, tanto Administradores como
+     * Usuarios comunes.
+     * @param usu Un Mapa que contiene todos los Usuarios.
+     * @return El Usuario que ha logrado iniciar sesión.
+     * @see Usuario
+     */
     public static Usuario iniciarSesion(HashMap<String,Usuario> usu){
         String nombre = null;
         String contra = null;
@@ -497,12 +551,21 @@ public class Util {
         if(contador == 5){
             System.err.println("Has agotado tus 5 intentos.");
         }else{
-            System.out.println("¡Bienvenido de nuevo, " + nombre + "!");
+            //System.out.println("¡Bienvenido de nuevo, " + nombre + "!");
             usuario = usu.get(nombre);
         }
         return usuario;
     }
     
+    /**
+     * Registro de usuarios nuevos.
+     * @param usu Un Mapa que contiene todos los Usuarios.
+     * @param dig Un Mapa que contiene todos los Digimones.
+     * @param usuDig Un Mapa que contiene una colección de Digimones para
+     * cada uno de los Usuarios.
+     * @see Usuario
+     * @see Digimon
+     */
     public static void registrar(HashMap<String,Usuario> usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         String nombre = null;
         String contra = null;

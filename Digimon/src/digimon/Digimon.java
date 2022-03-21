@@ -58,6 +58,21 @@ public class Digimon/* implements Cloneable*/{
     }
     
     /**
+     * Constructor de Digimon, orientado a la extracción de valores de la
+     * BD Digimon por medio de un vector de cadenas de caracteres.
+     * @param param Un vector que contiene cadenas de caracteres. 
+     */
+    public Digimon(String[] param){
+        this.nomDig = param[0];
+        this.ataque = Integer.parseInt(param[1]);
+        this.defensa = Integer.parseInt(param[2]);
+        this.estaEquipo = false;
+        this.setTipo(param[3]);
+        this.setNivel(Integer.parseInt(param[4]));
+        this.setNomDigEvo(param[5]);
+    }
+    
+    /**
      * Constructor copia de Digimon, copia los valores de los atributos de un
      * Digimon a los atributos de otro nuevo.
      * @param d El Digimon que se quiere copiar.

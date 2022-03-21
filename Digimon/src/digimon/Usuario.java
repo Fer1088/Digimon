@@ -45,6 +45,20 @@ public class Usuario {
     }
     
     /**
+     * Constructor de Usuario, orientado al volcado de valores desde
+     * la BD Digimon por medio de un vector de cadenas de caracteres.
+     * @param param Un vector que contiene cadenas de caracteres.
+     */
+    public Usuario(String[] param){
+        this.nombre = param[0];
+        this.contrasena = param[1];
+        this.partidasGan = Integer.parseInt(param[2]);
+        this.tokensEvo = Integer.parseInt(param[3]);
+        this.esAdmin = Boolean.parseBoolean(param[4]);
+        System.out.println(param[4]);
+    }
+    
+    /**
      * Obtiene el nombre del Usuario.
      * @return El nombre actual del Usuario.
      */

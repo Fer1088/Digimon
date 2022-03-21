@@ -12,7 +12,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- *
+ * Recopilación de métodos relacionados con la entrada de datos.
  * @author Luis
  */
 public class SLeer1 {
