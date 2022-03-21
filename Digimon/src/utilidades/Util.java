@@ -104,16 +104,6 @@ public class Util {
                 ResultSetMetaData metars = rs.getMetaData();
                 param = new String[metars.getColumnCount()];
                 while(rs.next()){
-                    /*String nomDig = rs.getString(1);
-                    int atacDig = rs.getInt(2);
-                    int defDig = rs.getInt(3);
-                    String tipoDig = rs.getString(4);
-                    int nivDig = rs.getInt(5);
-                    String nomDigEvo = rs.getString(6);
-
-                    Digimon digimon = new Digimon(nomDig,tipoDig,nivDig,atacDig,defDig,nomDigEvo);
-
-                    lista.put(nomDig, digimon);*/
                     param[0] = rs.getString(1);
                     param[1] = rs.getString(2);
                     param[2] = rs.getString(3);
@@ -157,15 +147,6 @@ public class Util {
                 ResultSetMetaData metars = rs.getMetaData();
                 param = new String[metars.getColumnCount()];
                 while(rs.next()){
-                    /*String nomUsu = rs.getString(1);
-                    String contUsu = rs.getString(2);
-                    int partidasGan = rs.getInt(3);
-                    int tokensEvo = rs.getInt(4);
-                    boolean esAdmin = rs.getBoolean(5);
-
-                    Usuario usuario = new Usuario(nomUsu,contUsu,partidasGan,tokensEvo,esAdmin);
-                    
-                    lista.put(nomUsu, usuario);*/
                     param[0] = rs.getString(1);
                     param[1] = rs.getString(2);
                     param[2] = rs.getString(3);
@@ -432,24 +413,6 @@ public class Util {
      * @see Digimon
      */
     public static Digimon[] rellenaAleatorio(Usuario usu, HashSet<Digimon> dig){
-        /*Digimon[] equipo = new Digimon[3];
-        boolean repetido = false;
-        
-        int indice = 0;
-        while(indice < 3){
-            repetido = false;
-            Digimon digimon = randomizaDigimon(dig);
-            for(int j=0; j<3; j++){
-                if(digimon.getNomDig().equals(equipo[j].getNomDig())){
-                    repetido = true;
-                }
-            }
-            if(!repetido){
-                equipo[indice] = digimon;
-                indice++;
-            }
-        }        
-        return equipo;*/
         Digimon[] d = new Digimon[3];
         HashSet<Digimon> equipo = new HashSet<>(dig);
         while(equipo.size() > 3){
@@ -606,6 +569,31 @@ public class Util {
     }
     
     /**
+     * Comprueba si el tipo de Digimon que indica el Usuario existe o no.
+     * @param tipo El tipo propuesto por el Usuario.
+     * @return true si el tipo existe, false en caso contrario.
+     */
+    public static boolean compruebaTipo(String tipo){
+        /*for(Digimon.Tipos t : Digimon.Tipos.values()){
+            if(t.equals(Digimon.Tipos.valueOf(tipo))){
+                return true;
+            }
+        }
+        return false;*/
+        
+        Digimon.Tipos[] tipos = Digimon.Tipos.values();
+        String[] t = new String[tipos.length];
+        
+        for(int i=0; i<tipos.length; i++){
+            t[i] = tipos[i].name();
+            if(tipo.equals(t[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Inicio de sesión para los Usuarios, tanto Administradores como
      * Usuarios comunes.
      * @param usu Un Mapa que contiene todos los Usuarios.
@@ -679,5 +667,99 @@ public class Util {
         usu.put(nombre, usuario);
         
         inicializaUsuario(usuario,usu,dig,usuDig);
+    }
+    
+    //Métodos para añadir Digimones y borrar tanto Digimones como Usuarios.
+    
+    /**
+     * Crea un Digimon y lo añade al mapa que los contiene a todos.
+     * @param dig Un mapa que contiene todos los Digimones.
+     */
+    public static void anyadeDigimon(HashMap<String,Digimon> dig){
+        String nomDig = null;
+        String tipo = null;
+        byte nivel = 1;
+        int atq = 0;
+        int def = 0;
+        String nomDigEvo = null;
+        
+        do{
+            nomDig = SLeer1.datoString("Introduce el nombre del Digimon: ");
+            if(compruebaNomDig(nomDig,dig)){
+                System.err.println("Ya existe un Digimon con ese nombre.");
+            }
+        }while(compruebaNomDig(nomDig,dig));
+        
+        do{
+            tipo = SLeer1.datoString("Introduce el tipo del Digimon: ").toUpperCase();
+            if(!compruebaTipo(tipo)){
+                System.err.println("Ese tipo no existe.");
+            }
+        }while(!compruebaTipo(tipo));
+        
+        do{
+            nivel = SLeer1.datoByte("Introduce el nivel del Digimon: ");
+            if(nivel < 0 || nivel > 3){
+                System.err.println("Su nivel debe estar entre 1 y 3.");
+            }
+        }while(nivel < 0 || nivel > 3);
+        
+        atq = SLeer1.datoInt("Introduce su ataque: ");
+        def = SLeer1.datoInt("Introduce su defensa: ");
+        
+        SLeer1.limpiar();
+        
+        if(nivel < 3){
+            do{
+                nomDigEvo = SLeer1.datoString("Introduce el nombre del Digimon al que quieres que evolucione: ");
+                if(!compruebaNomDig(nomDigEvo,dig)){
+                    System.err.println("No existe un Digimon con ese nombre.");
+                }
+            }while(!compruebaNomDig(nomDigEvo,dig));
+        }
+        
+        Digimon digimon = new Digimon(nomDig,tipo,nivel,atq,def,nomDigEvo);
+        dig.put(nomDig,digimon);
+        
+        System.out.println("");
+        System.out.println("Digimon " + nomDig + " añadido");
+    }
+    
+    /**
+     * Pide el nombre de un Usuario para eliminar a ese Usuario.
+     * @param usu Un mapa que contiene todos los Usuarios.
+     */
+    public static void borraUsuario(HashMap<String,Usuario> usu){
+        String nombre = null;
+        
+        do{
+            nombre = SLeer1.datoString("Introduce el nombre del Usuario: ");
+            if(!compruebaNombre(nombre,usu)){
+                System.err.println("No existe un Usuario con ese nombre.");
+            }
+        }while(!compruebaNombre(nombre,usu));
+        
+        usu.remove(nombre);
+        System.out.println("");
+        System.out.println("Eliminado Usuario: " + nombre);
+    }
+    
+    /**
+     * Pide el nombre de un Digimon para eliminar a ese Digimon.
+     * @param dig Un mapa que contiene todos los Digimones.
+     */
+    public static void borraDigimon(HashMap<String,Digimon> dig){
+        String nomDig = null;
+        
+        do{
+            nomDig = SLeer1.datoString("Introduce el nombre del Digimon: ");
+            if(!compruebaNomDig(nomDig,dig)){
+                System.err.println("No existe un Digimon con ese nombre.");
+            }
+        }while(!compruebaNomDig(nomDig,dig));
+        
+        dig.remove(nomDig);
+        System.out.println("");
+        System.out.println("Eliminado Digimon: " + nomDig);
     }
 }

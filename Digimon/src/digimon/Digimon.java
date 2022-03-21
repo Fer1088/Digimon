@@ -26,17 +26,6 @@ public class Digimon/* implements Cloneable*/{
     private boolean estaEquipo;
     private String nomDigEvo;
 
-    /*public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def,String nombreEvo) {
-        nomDig = Nombre;
-        tipo=t;
-        nivel = lvl;
-        ataque = ataq;
-        defensa= def;
-        estaEquipo = false;
-        nomDigEvo = nombreEvo;
-        
-    }*/
-
     /**
      * Constructor de Digimon, orientado tanto a la extracción de valores de la
      * BD Digimon como a la creación de nuevos Digimones.
@@ -88,17 +77,6 @@ public class Digimon/* implements Cloneable*/{
         this.estaEquipo = estaEquipo;
     }
 
-    /*@Override
-    public Object clone() {
-        Object objeto = null;
-        try{
-            objeto = super.clone();
-        }catch(CloneNotSupportedException ex){
-            ex.printStackTrace();
-        }
-        return objeto;
-    }*/
-    
     /**
      * Obtiene el nombre del Digimon.
      * @return El nombre actual del Digimon.

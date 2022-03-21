@@ -101,7 +101,9 @@ public class Principal {
                                                                 Util.registrarUsuario(usuarios,digimones,usuDigi);
                                                                 Util.pausa();
                                                                 break;
-                                                            case 4:                                                                
+                                                            case 4:
+                                                                Util.borraUsuario(usuarios);
+                                                                Util.pausa();
                                                                 break;
                                                             case 5:
                                                                 Util.hacerAdmin(usuarios);
@@ -121,9 +123,13 @@ public class Principal {
                                                                 break;
                                                             case 2:                                                                
                                                                 break;
-                                                            case 3:                                                                
+                                                            case 3:
+                                                                Util.anyadeDigimon(digimones);
+                                                                Util.pausa();
                                                                 break;
-                                                            case 4:                                                                
+                                                            case 4:
+                                                                Util.borraDigimon(digimones);
+                                                                Util.pausa();
                                                                 break;
                                                         }
                                                     }while(opcion != 0);
