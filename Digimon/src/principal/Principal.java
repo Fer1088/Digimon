@@ -18,6 +18,10 @@ public class Principal {
     private static HashMap<String,Digimon> digimones;
     private static HashMap<Usuario,HashSet<Digimon>> usuDigi;
     
+    /**
+     * Implementación del menú completo del programa, con un juego funcional.
+     * @param args Argumentos pasados como parámetro desde terminal.
+     */
     public static void main(String[] args){
         
         usuarios = Util.recogeUsuarios(args);
@@ -56,7 +60,7 @@ public class Principal {
                                                     Util.pausa();
                                                     break;
                                                 case 2:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
                                                     Util.limpiar();
                                                     Util.partida(usuario, contrincante, usuDigi, digimones, true);
                                                     Util.pausa();
@@ -68,7 +72,7 @@ public class Principal {
                                                     Util.pausa();
                                                     break;
                                                 case 4:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values());
+                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
                                                     Util.limpiar();
                                                     Util.partida(usuario, contrincante, usuDigi, digimones, false);
                                                     Util.pausa();
@@ -77,7 +81,10 @@ public class Principal {
                                         }while(opcion != 0);
                                         opcion = -1;
                                         break;
-                                    case 2:                                        
+                                    case 2:
+                                        Util.reiniciaEquipo(usuario, usuDigi);
+                                        Util.estableceEquipo(usuario, usuDigi);
+                                        Util.pausa();
                                         break;
                                     case 3:                                        
                                         break;
@@ -194,7 +201,10 @@ public class Principal {
                                         }while(opcion != 0);
                                         opcion = -1;
                                         break;
-                                    case 2:                                        
+                                    case 2:
+                                        Util.reiniciaEquipo(usuario, usuDigi);
+                                        Util.estableceEquipo(usuario, usuDigi);
+                                        Util.pausa();
                                         break;
                                     case 3:                                        
                                         break;
