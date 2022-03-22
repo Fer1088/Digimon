@@ -79,6 +79,7 @@ public class Util {
             System.out.println("Usuario " + nombre + " ya era admin.");
         }
     }
+
     
     // Métodos para la recolección de datos de la BD.
     
@@ -98,6 +99,7 @@ public class Util {
         String[] param = null;
         
         try(Statement st = c.getConexion().createStatement()){
+
             boolean res = st.execute("SELECT * FROM Digimon");
             if(res){
                 ResultSet rs = st.getResultSet();
@@ -124,6 +126,7 @@ public class Util {
         
         return lista;
     }
+
     
     /**
      * Recoge todos los Usuarios encontrados en la BD Digimon y los almacena
@@ -141,6 +144,7 @@ public class Util {
         String[] param = null;
         
         try(Statement st = c.getConexion().createStatement()){
+
             boolean res = st.execute("SELECT * FROM Usuario");
             if(res){
                 ResultSet rs = st.getResultSet();
@@ -170,6 +174,7 @@ public class Util {
         
         return lista;
     }
+
     
     /**
      * Recoge todos los Digimones que tiene cada Usuario según su relación en
@@ -189,6 +194,7 @@ public class Util {
         HashMap<Usuario,HashSet<Digimon>> usuDig = new HashMap<>();
         
         try(Statement st = c.getConexion().createStatement()){
+
             boolean res = st.execute("SELECT NomUsu FROM Tiene GROUP BY NomUsu");
             if(res){
                 ResultSet rs = st.getResultSet();
@@ -373,6 +379,7 @@ public class Util {
             }while(usuDig.get(usu).size() == tamano);
         }
     }
+
     
     /**
      * Realiza un combate entre 2 Digimones
@@ -685,6 +692,7 @@ public class Util {
     /**
      * Crea un Digimon y lo añade al mapa que los contiene a todos.
      * @param dig Un mapa que contiene todos los Digimones.
+     * @param c Una conexion a la base de datos.
      * @see Digimon
      * @see compruebaNomDig
      * @see compruebaTipo
@@ -696,10 +704,12 @@ public class Util {
         int atq = 0;
         int def = 0;
         String nomDigEvo = null;
-        
         char aceptar = 'S';
-        
-        do{
+        Conexion c = new Conexion("localhost", "3306", "Digimon", "root", "");
+        c.conectar();
+       
+        try ( Statement st = c.getConexion().createStatement()) {
+            do{
             nomDig = SLeer1.datoString("Introduce el nombre del Digimon: ");
             if(compruebaNomDig(nomDig,dig.values())){
                 System.err.println("Ya existe un Digimon con ese nombre.");
@@ -729,7 +739,9 @@ public class Util {
             aceptar = SLeer1.datoChar("¿Puede digievolucionar? (S/n): ");
             if(aceptar == 'n'){
                 aceptar = 'N';
+
             }
+
 
             if(aceptar != 'N'){
                 do{
@@ -739,15 +751,30 @@ public class Util {
                     }
                 }while(!compruebaNomDig(nomDigEvo,dig.values()));
             }
+
         }
-        
+        st.executeUpdate("INSERT INTO Digimon VALUES ('" + nomDig + "', '" + atq + "', '"  + def + "', '" + tipo + "', '" + nivel + "',  '" + nomDigEvo + "' )");
         Digimon digimon = new Digimon(nomDig,tipo,nivel,atq,def,nomDigEvo);
         dig.put(nomDig,digimon);
         
         System.out.println("");
         System.out.println("Digimon " + nomDig + " añadido");
+            
+        } catch (SQLException e) {
+            muestraSQLException(e);
+        } finally {
+            c.cerrar();
+
+        }
+        
+        
+
+        
+
+
     }
     
+
     /**
      * Pide el nombre de un Usuario para eliminar a ese Usuario.
      * @param usu Un mapa que contiene todos los Usuarios.
@@ -915,3 +942,4 @@ public class Util {
         usu.decTokensEvo();
     }
 }
+
