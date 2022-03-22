@@ -196,14 +196,10 @@ public class Digimon/* implements Cloneable*/{
      * puede digievolucionar.
      */
     private void setNomDigEvo(String nomDigEvo) {
-        if(nomDigEvo == null){
-            this.nomDigEvo = "";
+        if(this.nivel < 3){
+            this.nomDigEvo = nomDigEvo;
         }else{
-            if(this.nivel < 3){
-                this.nomDigEvo = nomDigEvo;
-            }else{
-                this.nomDigEvo = "";
-            }
+            this.nomDigEvo = null;
         }
     }
 

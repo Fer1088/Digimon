@@ -37,7 +37,7 @@ public class Principal {
             opcion = SLeer1.datoByte("Elige: ");
             SLeer1.limpiar();
             switch(opcion){
-                case 1:                    
+                case 1:
                     usuario = Util.iniciarSesion(usuarios);
                     Util.pausa();
                     if(usuario != null){
@@ -47,9 +47,9 @@ public class Principal {
                                 opcion = SLeer1.datoByte("Elige: ");
                                 SLeer1.limpiar();
                                 switch(opcion){
-                                    case 1:                                        
+                                    case 1:
                                         do{
-                                            Menus.menuJugar();
+                                            Menus.menuJugar(usuario);
                                             opcion = SLeer1.datoByte("Elige: ");
                                             SLeer1.limpiar();
                                             switch(opcion){
@@ -86,15 +86,19 @@ public class Principal {
                                         Util.estableceEquipo(usuario, usuDigi);
                                         Util.pausa();
                                         break;
-                                    case 3:                                        
+                                    case 3:
                                         break;
-                                    case 4:                                        
+                                    case 4:
+                                        Util.digievolucion(usuario, digimones, usuDigi);
+                                        Util.pausa();
+                                        break;
+                                    case 5:
                                         do{
                                             Menus.menuOpciones();
                                             opcion = SLeer1.datoByte("Elige: ");
                                             SLeer1.limpiar();
                                             switch(opcion){
-                                                case 1:                                                    
+                                                case 1:
                                                     do{
                                                         Menus.menuUsuario();
                                                         opcion = SLeer1.datoByte("Elige: ");
@@ -120,7 +124,7 @@ public class Principal {
                                                     }while(opcion != 0);
                                                     opcion = -1;
                                                     break;
-                                                case 2:                                                    
+                                                case 2:
                                                     do{
                                                         Menus.menuDigimon();
                                                         opcion = SLeer1.datoByte("Elige: ");
@@ -142,7 +146,7 @@ public class Principal {
                                                     }while(opcion != 0);
                                                     opcion = -1;
                                                     break;
-                                                case 3:                                                    
+                                                case 3:
                                                     do{
                                                         Menus.menuBaseDatos();
                                                         opcion = SLeer1.datoByte("Elige: ");
@@ -169,7 +173,7 @@ public class Principal {
                                 switch(opcion){
                                     case 1:
                                         do{                                            
-                                            Menus.menuJugar();
+                                            Menus.menuJugar(usuario);
                                             opcion = SLeer1.datoByte("Elige: ");
                                             SLeer1.limpiar();
                                             switch(opcion){
@@ -206,7 +210,11 @@ public class Principal {
                                         Util.estableceEquipo(usuario, usuDigi);
                                         Util.pausa();
                                         break;
-                                    case 3:                                        
+                                    case 3:
+                                        break;
+                                    case 4:
+                                        Util.digievolucion(usuario, digimones, usuDigi);
+                                        Util.pausa();
                                         break;
                                 }
                             }

@@ -334,6 +334,9 @@ public class Util {
      */
     public static void otorgaDigimon(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
         int tamano = usuDig.get(usu).size();
+        Digimon digimon = null;
+        Digimon digRnd = null;
+        String nomDigRnd = null;
         
         HashSet<Digimon> setDig = new HashSet<>(usuDig.get(usu));
         for(Digimon d : usuDig.get(usu)){
@@ -351,8 +354,9 @@ public class Util {
         
         if(setDig.size() != digimones.size()){
             do{
-                Digimon digRnd = randomizaDigimon(digimones.values());
-                String nomDigRnd = digRnd.getNomDig();
+                digimon = randomizaDigimon(digimones.values());
+                digRnd = new Digimon(digimon,false);
+                nomDigRnd = digRnd.getNomDig();
 
                 boolean insertar = true;
                 String nomDig = null;
@@ -369,7 +373,7 @@ public class Util {
             }while(usuDig.get(usu).size() == tamano);
         }
     }
-
+    
     /**
      * Realiza un combate entre 2 Digimones
      * @param d1 Primer Digimon
@@ -437,8 +441,6 @@ public class Util {
         usu.incPartidasGan();
         if(usu.getPartidasGan() % 5 == 0){
             usu.incTokensEvo();
-            System.out.println("");
-            System.out.println("¡Has obtenido un token de digievolución!");
         }
         if(usu.getPartidasGan() % 10 == 0){
             otorgaDigimon(usu,dig,usuDig);
@@ -589,13 +591,6 @@ public class Util {
      * @see Digimon
      */
     public static boolean compruebaTipo(String tipo){
-        /*for(Digimon.Tipos t : Digimon.Tipos.values()){
-            if(t.equals(Digimon.Tipos.valueOf(tipo))){
-                return true;
-            }
-        }
-        return false;*/
-        
         Digimon.Tipos[] tipos = Digimon.Tipos.values();
         String[] t = new String[tipos.length];
         
@@ -702,6 +697,8 @@ public class Util {
         int def = 0;
         String nomDigEvo = null;
         
+        char aceptar = 'S';
+        
         do{
             nomDig = SLeer1.datoString("Introduce el nombre del Digimon: ");
             if(compruebaNomDig(nomDig,dig.values())){
@@ -728,13 +725,20 @@ public class Util {
         
         SLeer1.limpiar();
         
-        if(nivel < 3){
-            do{
-                nomDigEvo = SLeer1.datoString("Introduce el nombre del Digimon al que quieres que evolucione: ");
-                if(!compruebaNomDig(nomDigEvo,dig.values())){
-                    System.err.println("No existe un Digimon con ese nombre.");
-                }
-            }while(!compruebaNomDig(nomDigEvo,dig.values()));
+        if(nivel != 3){
+            aceptar = SLeer1.datoChar("¿Puede digievolucionar? (S/n): ");
+            if(aceptar == 'n'){
+                aceptar = 'N';
+            }
+
+            if(aceptar != 'N'){
+                do{
+                    nomDigEvo = SLeer1.datoString("Introduce el nombre del Digimon al que quieres que evolucione: ");
+                    if(!compruebaNomDig(nomDigEvo,dig.values())){
+                        System.err.println("No existe un Digimon con ese nombre.");
+                    }
+                }while(!compruebaNomDig(nomDigEvo,dig.values()));
+            }
         }
         
         Digimon digimon = new Digimon(nomDig,tipo,nivel,atq,def,nomDigEvo);
@@ -814,22 +818,100 @@ public class Util {
      */
     public static void estableceEquipo(Usuario u, HashMap<Usuario,HashSet<Digimon>> usuDig){
         String nomDig = null;
+        boolean yaesta = false;
         
         for(byte i=0; i<3; i++){
             do{
+                yaesta = false;
                 nomDig = SLeer1.datoString("Introduce el nombre del Digimon " + (i+1) + ": ");
-                if((!compruebaNomDig(nomDig,usuDig.get(u)))){
+                if(!compruebaNomDig(nomDig,usuDig.get(u))){
                     System.err.println("Ese Digimon no está disponible en tu colección (o simplemente no existe).");
+                }else{
+                    for(Digimon d : usuDig.get(u)){
+                        if(d.getNomDig().equals(nomDig)){
+                            if(!d.isEstaEquipo()){
+                                d.setEstaEquipo(true);
+                            }else{
+                                yaesta = true;
+                                System.err.println("Ya has metido a ese Digimon en tu equipo.");
+                            }
+                        }
+                    }
                 }
-            }while(!compruebaNomDig(nomDig,usuDig.get(u)));
-            for(Digimon d : usuDig.get(u)){
-                if(d.getNomDig().equals(nomDig)){
-                    d.setEstaEquipo(true);
-                }
-            }
+            }while(!compruebaNomDig(nomDig,usuDig.get(u)) || yaesta); 
         }
         
         System.out.println("");
         System.out.println("Equipo establecido.");
+    }
+    
+    //Métodos para la digievolución.
+    
+    /**
+     * Otorga a un Usuario un Digimon concreto que no tenga en su colección.
+     * @param usu Usuario que va a recibir el Digimon.
+     * @param dig Digimon que va a ser recibido por el Usuario.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     */
+    public static void otorgaDigimon(Usuario usu, Digimon dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        boolean insertar = true;
+        
+        for(Digimon d : usuDig.get(usu)){
+            if(d.getNomDig().equals(dig.getNomDig())){
+                insertar = false;
+            }
+        }
+        
+        if(insertar){
+            usuDig.get(usu).add(dig);
+        }
+    }
+    
+    /**
+     * Digievoluciona el Digimon que un Usuario te pida.
+     * @param usu Usuario que posee el Digimon.
+     * @param dig Un mapa que contiene todos los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     * @see otorgaDigimon
+     */
+    public static void digievolucion(Usuario usu, HashMap<String,Digimon> dig, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        String nomDig = null;
+        String nomDigEvo = null;
+        HashSet<Digimon> digimones = new HashSet<>(usuDig.get(usu));
+        
+        System.out.println("Tokens restantes: " + usu.getTokensEvo());
+        do{
+            nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar: ");
+            nomDigEvo = dig.get(nomDig).getNomDigEvo();
+            if(dig.get(nomDig).getNomDigEvo() == null){
+                System.err.println("Ese Digimon ya ha alcanzado su máximo estado");
+            }else if(compruebaNomDig(nomDigEvo,digimones)){
+                System.err.println("Ya tienes su evolución, no puedes tener Digimones repetidos.");
+            }
+        }while((nomDigEvo == null) || (compruebaNomDig(nomDigEvo,digimones)));
+        
+        Digimon digimon = new Digimon(dig.get(nomDigEvo),false);
+        
+        for(Digimon d : digimones){
+            if(d.isEstaEquipo()){
+                digimon.setEstaEquipo(true);
+            }
+            if(d.getNomDig().equals(nomDig)){
+                usuDig.get(usu).remove(d);
+            }
+        }
+        
+        otorgaDigimon(usu,digimon,usuDig);
+        
+        System.out.println("");
+        System.out.println("¡Enhorabuena, tu " + nomDig + " se ha convertido"
+                + " en un " + nomDigEvo + "!");
+        usu.decTokensEvo();
     }
 }

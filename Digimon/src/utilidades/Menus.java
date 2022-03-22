@@ -4,6 +4,8 @@
  */
 package utilidades;
 
+import digimon.Usuario;
+
 /**
  * Una clase para almacenar todos los menús que van a usarse en el programa.
  * @version 1.0, 20/03/2022
@@ -100,6 +102,30 @@ public class Menus {
     }
     
     /**
+     * Imprime los modos de juego del programa, añadiendo información
+     * adicional del Usuario.
+     * @param u Usuario del que mostrar información adicional.
+     */
+    public static void menuJugar(Usuario u){
+        Util.limpiar();
+
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("1) Tu equipo vs Usuario");
+        System.out.println("2) Tu equipo vs ???");
+        System.out.println("3) ??? vs Usuario");
+        System.out.println("4) ??? vs ???");
+        
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("Partidas ganadas: " + u.getPartidasGan());
+
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("0) Ir atrás");
+    }
+    
+    /**
      * Imprime el menú principal del programa para un Usuario normal.
      */
     public static void menuPrincipal(){
@@ -110,6 +136,7 @@ public class Menus {
         System.out.println("1) Jugar");
         System.out.println("2) Tu equipo");
         System.out.println("3) Tus digimones");
+        System.out.println("4) Digievolucionar");
 
         Util.imprimeIguales(23);
         System.out.println("");
@@ -127,7 +154,8 @@ public class Menus {
         System.out.println("1) Jugar");
         System.out.println("2) Tu equipo");
         System.out.println("3) Tus digimones");
-        System.out.println("4) Opciones");
+        System.out.println("4) Digievolucionar");
+        System.out.println("5) Opciones");
 
         Util.imprimeIguales(23);
         System.out.println("");
