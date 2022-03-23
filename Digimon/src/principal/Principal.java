@@ -6,7 +6,7 @@ package principal;
 import java.util.*;
 import digimon.*;
 import utilidades.*;
-
+import conexion.Conexion;
 /**
  * Clase principal del proyecto Digimon.
  * @version 1.0, 21/03/2022
@@ -23,10 +23,10 @@ public class Principal {
      * @param args Argumentos pasados como parámetro desde terminal.
      */
     public static void main(String[] args){
-        
-        usuarios = Util.recogeUsuarios(args);
-        digimones = Util.recogeDigimones(args);
-        usuDigi = Util.recogeUsuDigi(args,usuarios,digimones);
+        Conexion c = new Conexion("localhost", "3306", "Digimon", "root", "");
+        usuarios = Util.recogeUsuarios(c);
+        digimones = Util.recogeDigimones(c);
+        usuDigi = Util.recogeUsuDigi(c,usuarios,digimones);
         
         Usuario usuario = null;
         Usuario contrincante = null;
@@ -82,8 +82,8 @@ public class Principal {
                                         opcion = -1;
                                         break;
                                     case 2:
-                                        Util.reiniciaEquipo(usuario, usuDigi);
-                                        Util.estableceEquipo(usuario, usuDigi);
+                                        Util.reiniciaEquipo(c,usuario, usuDigi);
+                                        Util.estableceEquipo(c, usuario, usuDigi);
                                         Util.pausa();
                                         break;
                                     case 3:
@@ -206,8 +206,8 @@ public class Principal {
                                         opcion = -1;
                                         break;
                                     case 2:
-                                        Util.reiniciaEquipo(usuario, usuDigi);
-                                        Util.estableceEquipo(usuario, usuDigi);
+                                        Util.reiniciaEquipo(c,usuario, usuDigi);
+                                        Util.estableceEquipo(c, usuario, usuDigi);
                                         Util.pausa();
                                         break;
                                     case 3:
