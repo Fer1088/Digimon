@@ -13,10 +13,36 @@ import utilidades.*;
  * @author jmanuel
  */
 public class Principal {
+
+    public static HashMap<String, Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public static HashMap<String, Digimon> getDigimones() {
+        return digimones;
+    }
+
+    public static HashMap<Usuario, HashSet<Digimon>> getUsuDigi() {
+        return usuDigi;
+    }
+
+    public static void setUsuarios(HashMap<String, Usuario> usuarios) {
+        Principal.usuarios = usuarios;
+    }
+
+    public static void setDigimones(HashMap<String, Digimon> digimones) {
+        Principal.digimones = digimones;
+    }
+
+    public static void setUsuDigi(HashMap<Usuario, HashSet<Digimon>> usuDigi) {
+        Principal.usuDigi = usuDigi;
+    }
     
     private static HashMap<String,Usuario> usuarios;
     private static HashMap<String,Digimon> digimones;
     private static HashMap<Usuario,HashSet<Digimon>> usuDigi;
+    
+    
     
     /**
      * Implementación del menú completo del programa, con un juego funcional.
