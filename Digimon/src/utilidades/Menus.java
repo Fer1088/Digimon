@@ -13,21 +13,20 @@ import digimon.Usuario;
  */
 public class Menus {
     
-    /**
-     * Imprime las opciones relacionadas con la BD.
-     */
+/*
     public static void menuBaseDatos(){
         Util.limpiar();
 
         Util.imprimeIguales(23);
         System.out.println("");
-        System.out.println("1) Actualizar registros");
+        System.out.println("1) Actualizar tablas BD");
         System.out.println("2) Reinicializar BD");
 
         Util.imprimeIguales(23);
         System.out.println("");
         System.out.println("0) Ir atrás");    
     }
+*/
     
     /**
      * Imprime las opciones relacionadas con los Digimones.
@@ -76,7 +75,8 @@ public class Menus {
         System.out.println("");
         System.out.println("1) Usuarios");
         System.out.println("2) Digimones");
-        System.out.println("3) Base de datos");
+        //System.out.println("3) Base de datos");
+        System.out.println("3) Actualizar tablas BD");
 
         Util.imprimeIguales(23);
         System.out.println("");
