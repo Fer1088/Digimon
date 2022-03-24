@@ -707,6 +707,19 @@ public class Util {
         }while(compruebaNomDig(nomDig,dig.values()));
         
         do{
+            System.out.print("Tipos: ");
+            Digimon.Tipos[] tipos = Digimon.Tipos.values();
+            /*for(Digimon.Tipos t : tipos){
+                System.out.print(t.name().toLowerCase() + ", ");
+            }*/
+            for(int i=0; i<tipos.length; i++){
+                System.out.print(tipos[i]);
+                if(!(i == tipos.length - 1)){
+                    System.out.print(", ");
+                }
+            }
+            System.out.println("");
+            
             tipo = SLeer1.datoString("Introduce el tipo del Digimon: ").toUpperCase();
             if(!compruebaTipo(tipo)){
                 System.err.println("Ese tipo no existe.");
@@ -886,32 +899,41 @@ public class Util {
         HashSet<Digimon> digimones = new HashSet<>(usuDig.get(usu));
         
         System.out.println("Tokens restantes: " + usu.getTokensEvo());
+        
         do{
-            nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar: ");
-            nomDigEvo = dig.get(nomDig).getNomDigEvo();
-            if(dig.get(nomDig).getNomDigEvo() == null){
-                System.err.println("Ese Digimon ya ha alcanzado su máximo estado");
-            }else if(compruebaNomDig(nomDigEvo,digimones)){
-                System.err.println("Ya tienes su evolución, no puedes tener Digimones repetidos.");
+            nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar (0 para salir): ");
+            if(!nomDig.equals("0") && compruebaNomDig(nomDig,digimones)){
+                //while(compruebaNomDig(nomDigEvo,digimones)){
+                    //nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar: ");
+                nomDigEvo = dig.get(nomDig).getNomDigEvo();
+                if(dig.get(nomDig).getNomDigEvo() == null){
+                    System.err.println("Ese Digimon ya ha alcanzado su máximo estado");
+                }else if(compruebaNomDig(nomDigEvo,digimones)){
+                    System.err.println("Ya tienes su evolución, no puedes tener Digimones repetidos.");
+                }
+                //}while((nomDigEvo == null) || (compruebaNomDig(nomDigEvo,digimones)));
+                //}
+
+                else{
+                    Digimon digimon = new Digimon(dig.get(nomDigEvo),false);
+
+                    for(Digimon d : digimones){
+                        if(d.isEstaEquipo()){
+                            digimon.setEstaEquipo(true);
+                        }
+                        if(d.getNomDig().equals(nomDig)){
+                            usuDig.get(usu).remove(d);
+                        }
+                    }
+
+                    otorgaDigimon(usu,digimon,usuDig);
+
+                    System.out.println("");
+                    System.out.println("¡Enhorabuena, tu " + nomDig + " se ha convertido"
+                            + " en un " + nomDigEvo + "!");
+                    usu.decTokensEvo();
+                }
             }
-        }while((nomDigEvo == null) || (compruebaNomDig(nomDigEvo,digimones)));
-        
-        Digimon digimon = new Digimon(dig.get(nomDigEvo),false);
-        
-        for(Digimon d : digimones){
-            if(d.isEstaEquipo()){
-                digimon.setEstaEquipo(true);
-            }
-            if(d.getNomDig().equals(nomDig)){
-                usuDig.get(usu).remove(d);
-            }
-        }
-        
-        otorgaDigimon(usu,digimon,usuDig);
-        
-        System.out.println("");
-        System.out.println("¡Enhorabuena, tu " + nomDig + " se ha convertido"
-                + " en un " + nomDigEvo + "!");
-        usu.decTokensEvo();
+        }while(!nomDig.equals("0"));
     }
 }

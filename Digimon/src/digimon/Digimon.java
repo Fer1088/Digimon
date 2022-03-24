@@ -5,7 +5,7 @@ package digimon;
  * @version 1.0, 19/03/2022
  * @author jmanuel
  */
-public class Digimon/* implements Cloneable*/{
+public class Digimon {
 
     /**
      * Tipos que el Digimon puede tomar.
