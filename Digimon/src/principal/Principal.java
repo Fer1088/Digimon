@@ -27,7 +27,7 @@ public class Principal {
         usuarios = Util.recogeUsuarios(args);
         digimones = Util.recogeDigimones(args);
         usuDigi = Util.recogeUsuDigi(args,usuarios,digimones);
-        
+
         Usuario usuario = null;
         Usuario contrincante = null;
         
@@ -157,7 +157,14 @@ public class Principal {
                                                         opcion = SLeer1.datoByte("Elige: ");
                                                         SLeer1.limpiar();
                                                         switch(opcion){
-                                                            case 1:                                                                
+                                                            case 1:
+                                                                Util.eliminaUsuarios(args, usuarios);
+                                                                Util.eliminaDigimones(args, digimones);
+                                                                Util.eliminaUsuDig(args, usuDigi, usuarios, digimones);
+                                                                Util.insertaUsuarios(args, usuarios);
+                                                                Util.insertaDigimones(args, digimones);
+                                                                Util.insertaUsuDig(args, usuDigi, usuarios, digimones);
+                                                                Util.pausa();
                                                                 break;
                                                             case 2:
                                                                 Util.reiniciaBD(args);
@@ -234,6 +241,6 @@ public class Principal {
                     opcion = -1;
                     break;
             }
-        }while(opcion != 0);        
+        }while(opcion != 0);
     }
 }

@@ -242,6 +242,215 @@ public class Util {
         }
     }
     
+    public static void insertaUsuarios(String[] args, HashMap<String,Usuario> usuarios){
+        HashMap<String,Usuario> usuariosBD = recogeUsuarios(args);
+        ArrayList<Usuario> nuevos = new ArrayList<>();
+        
+        for(Usuario u : usuarios.values()){
+            if(!usuariosBD.containsKey(u.getNombre())){
+                nuevos.add(u);
+            }
+        }
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Usuario VALUES (?,?,?,?,?)")){
+            for(Usuario u : nuevos){
+                st.setString(1, u.getNombre());
+                st.setString(2, u.getContrasena());
+                st.setInt(3, u.getPartidasGan());
+                st.setInt(4, u.getTokensEvo());
+                st.setBoolean(5, u.isEsAdmin());
+                
+                st.executeUpdate();
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    public static void eliminaUsuarios(String[] args, HashMap<String,Usuario> usuarios){
+        HashMap<String,Usuario> usuariosBD = recogeUsuarios(args);
+        ArrayList<Usuario> borrados = new ArrayList<>();
+        
+        for(Usuario u : usuariosBD.values()){
+            if(!usuarios.containsKey(u.getNombre())){
+                borrados.add(u);
+            }
+        }
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("DELETE FROM Usuario WHERE NomUsu = ?")){
+            for(Usuario u : borrados){
+                st.setString(1, u.getNombre());
+                
+                st.executeUpdate();
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    public static void insertaDigimones(String[] args, HashMap<String,Digimon> digimones){
+        HashMap<String,Digimon> digimonesBD = recogeDigimones(args);
+        ArrayList<Digimon> nuevos = new ArrayList<>();
+        
+        for(Digimon d : digimones.values()){
+            if(!digimonesBD.containsKey(d.getNomDig())){
+                nuevos.add(d);
+            }
+        }
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Digimon VALUES (?,?,?,?,?,?)")){
+            for(Digimon d : nuevos){
+                st.setString(1, d.getNomDig());
+                st.setInt(2, d.getAtaque());
+                st.setInt(3, d.getDefensa());
+                st.setString(4, d.getTipo().toString());
+                st.setInt(5, d.getNivel());
+                st.setString(6, d.getNomDigEvo());
+                
+                st.executeUpdate();
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    public static void eliminaDigimones(String[] args, HashMap<String,Digimon> digimones){
+        HashMap<String,Digimon> digimonesBD = recogeDigimones(args);
+        ArrayList<Digimon> borrados = new ArrayList<>();
+        
+        for(Digimon d : digimonesBD.values()){
+            if(!digimones.containsKey(d.getNomDig())){
+                borrados.add(d);
+            }
+        }
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("DELETE FROM Digimon WHERE NomDig = ?")){
+            for(Digimon d : borrados){
+                st.setString(1, d.getNomDig());
+                
+                st.executeUpdate();
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    public static HashMap<String,HashMap<String,Boolean>> diffUsuDig(HashMap<Usuario,HashSet<Digimon>> usuDig1, HashMap<Usuario,HashSet<Digimon>> usuDig2){
+        HashMap<String,HashMap<String,Boolean>> diff = new HashMap<>();
+        for(Usuario u : usuDig1.keySet()){
+            HashMap<String,Boolean> digimones = new HashMap<>();
+            boolean cambia = false;
+            for(Digimon d : usuDig1.get(u)){
+                boolean existe = false;
+                if(usuDig2.containsKey(u)){
+                    for(Digimon g : usuDig2.get(u)){
+                        if(g.getNomDig().equals(d.getNomDig())){
+                            existe = true;
+                        }
+                    }
+                }
+                if(!existe){
+                    digimones.put(d.getNomDig(),d.isEstaEquipo());
+                    cambia = true;
+                }                
+            }
+            if(cambia){
+                diff.put(u.getNombre(), digimones);
+            }
+        }
+        return diff;
+    }
+    
+    public static void insertaUsuDig(String[] args, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+        HashMap<Usuario,HashSet<Digimon>> usuDigBD = recogeUsuDigi(args,usu,dig);
+        HashMap<String,HashMap<String,Boolean>> nuevos = diffUsuDig(usuDig,usuDigBD);
+        //HashMap<String,HashMap<String,Boolean>> nuevos = new HashMap<>();
+        
+        /*for(Usuario u : usuDig.keySet()){
+            HashMap<String,Boolean> digimones = new HashMap<>();
+            boolean cambia = false;
+            for(Digimon d : usuDig.get(u)){
+                boolean existe = false;
+                if(usuDigBD.containsKey(u)){
+                    for(Digimon g : usuDigBD.get(u)){
+                        if(g.getNomDig().equals(d.getNomDig())){
+                            existe = true;
+                        }
+                    }
+                }
+                if(!existe){
+                    digimones.put(d.getNomDig(),d.isEstaEquipo());
+                    cambia = true;
+                }                
+            }
+            if(cambia){
+                nuevos.put(u.getNombre(), digimones);
+            }
+        }*/
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Tiene VALUES (?,?,?)")){
+            for(String usuario : nuevos.keySet()){
+                for(String digimon : nuevos.get(usuario).keySet()){
+                    st.setString(1, digimon);
+                    st.setString(2, usuario);
+                    st.setBoolean(3, nuevos.get(usuario).get(digimon));
+                    
+                    st.executeUpdate();
+                }
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    public static void eliminaUsuDig(String[] args, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+        HashMap<Usuario,HashSet<Digimon>> usuDigBD = recogeUsuDigi(args,usu,dig);
+        HashMap<String,HashMap<String,Boolean>> borrados = diffUsuDig(usuDigBD,usuDig);
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(PreparedStatement st = c.getConexion().prepareStatement("DELETE FROM Tiene WHERE NomDig = ? AND NomUsu = ?")){
+            for(String usuario : borrados.keySet()){
+                for(String digimon : borrados.get(usuario).keySet()){
+                    st.setString(1, digimon);
+                    st.setString(2, usuario);
+                    
+                    st.executeUpdate();
+                }
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
     // Métodos para la aleatorización de instancias.
     
     /**
