@@ -202,7 +202,6 @@ public class Util {
                             String nomDig = rs1.getString(1);
                             boolean estaEquipo = rs1.getBoolean(2);
                             
-                            //Digimon digimon = (Digimon)dig.get(nomDig).clone();
                             Digimon digimon = new Digimon(dig.get(nomDig),estaEquipo);
                             
                             digimones.add(digimon);
@@ -226,6 +225,8 @@ public class Util {
      * Reinicializa la Base de Datos Digimon, dejando únicamente
      * un Usuario administrador 'Admin'.
      * @param args Argumentos necesarios para conectar con la BD.
+     * @see Conexion
+     * @see muestraSQLException
      */
     public static void reiniciaBD(String[] args){        
         Conexion c = new Conexion(args);
@@ -242,6 +243,16 @@ public class Util {
         }
     }
     
+    /**
+     * Inserta los Usuarios que han sido añadidos desde el programa a
+     * la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuarios Un mapa que contiene todos los Usuarios.
+     * @see Usuario
+     * @see Conexion
+     * @see recogeUsuarios
+     * @see muestraSQLException
+     */
     public static void insertaUsuarios(String[] args, HashMap<String,Usuario> usuarios){
         HashMap<String,Usuario> usuariosBD = recogeUsuarios(args);
         ArrayList<Usuario> nuevos = new ArrayList<>();
@@ -272,6 +283,16 @@ public class Util {
         }
     }
     
+    /**
+     * Elimina los Usuarios que han sido borrados desde el programa a 
+     * la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuarios Un mapa que contiene todos los Usuarios.
+     * @see Usuario
+     * @see Conexion
+     * @see recogeUsuarios
+     * @see muestraSQLException
+     */
     public static void eliminaUsuarios(String[] args, HashMap<String,Usuario> usuarios){
         HashMap<String,Usuario> usuariosBD = recogeUsuarios(args);
         ArrayList<Usuario> borrados = new ArrayList<>();
@@ -298,6 +319,16 @@ public class Util {
         }
     }
     
+    /**
+     * Inserta los Digimones que han sido añadidos desde el programa a
+     * la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param digimones Un mapa que contiene todos los Digimones.
+     * @see Digimon
+     * @see Conexion
+     * @see recogeUsuarios
+     * @see muestraSQLException
+     */
     public static void insertaDigimones(String[] args, HashMap<String,Digimon> digimones){
         HashMap<String,Digimon> digimonesBD = recogeDigimones(args);
         ArrayList<Digimon> nuevos = new ArrayList<>();
@@ -329,6 +360,16 @@ public class Util {
         }
     }
     
+    /**
+     * Elimina los Digimones que han sido borrados desde el programa a 
+     * la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param digimones Un mapa que contiene todos los Digimones.
+     * @see Digimon
+     * @see Conexion
+     * @see recogeUsuarios
+     * @see muestraSQLException
+     */
     public static void eliminaDigimones(String[] args, HashMap<String,Digimon> digimones){
         HashMap<String,Digimon> digimonesBD = recogeDigimones(args);
         ArrayList<Digimon> borrados = new ArrayList<>();
@@ -355,6 +396,17 @@ public class Util {
         }
     }
     
+    /**
+     * Señala las diferencias entre dos mapas de Usuarios, con sus
+     * respectivos Digimones (cada Usuario de cada uno de los mapas).
+     * diferentes.
+     * @param usuDig1 Primer mapa de Usuarios y Digimones.
+     * @param usuDig2 Segundo mapa de Usuarios y Digimones.
+     * @return Un mapa que contiene los nombres de cada Digimon de
+     * un Usuario, junto con su condición de estar en el equipo.
+     * @see Usuario
+     * @see Digimon
+     */
     public static HashMap<String,HashMap<String,Boolean>> diffUsuDig(HashMap<Usuario,HashSet<Digimon>> usuDig1, HashMap<Usuario,HashSet<Digimon>> usuDig2){
         HashMap<String,HashMap<String,Boolean>> diff = new HashMap<>();
         for(Usuario u : usuDig1.keySet()){
@@ -381,32 +433,18 @@ public class Util {
         return diff;
     }
     
+    /**
+     * Inserta la relación entre un Usuario y varios Digimones, creada
+     * desde el programa, en la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuDig Un mapa que guarda una colección de Digimones
+     * para cada Usuario.
+     * @param usu Un mapa que contiene todos los Usuarios.
+     * @param dig Un mapa que contiene todos los Digimones.
+     */
     public static void insertaUsuDig(String[] args, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
         HashMap<Usuario,HashSet<Digimon>> usuDigBD = recogeUsuDigi(args,usu,dig);
         HashMap<String,HashMap<String,Boolean>> nuevos = diffUsuDig(usuDig,usuDigBD);
-        //HashMap<String,HashMap<String,Boolean>> nuevos = new HashMap<>();
-        
-        /*for(Usuario u : usuDig.keySet()){
-            HashMap<String,Boolean> digimones = new HashMap<>();
-            boolean cambia = false;
-            for(Digimon d : usuDig.get(u)){
-                boolean existe = false;
-                if(usuDigBD.containsKey(u)){
-                    for(Digimon g : usuDigBD.get(u)){
-                        if(g.getNomDig().equals(d.getNomDig())){
-                            existe = true;
-                        }
-                    }
-                }
-                if(!existe){
-                    digimones.put(d.getNomDig(),d.isEstaEquipo());
-                    cambia = true;
-                }                
-            }
-            if(cambia){
-                nuevos.put(u.getNombre(), digimones);
-            }
-        }*/
         
         Conexion c = new Conexion(args);
         c.conectar();
@@ -428,6 +466,21 @@ public class Util {
         }
     }
     
+    /**
+     * Elimina la relación entre un Usuario y varios Digimones, borrada
+     * desde el programa, en la base de datos.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuDig Un mapa que guarda una colección de Digimones
+     * para cada Usuario.
+     * @param usu Un mapa que contiene todos los Usuarios.
+     * @param dig Un mapa que contiene todos los Digimones.
+     * @see Usuario
+     * @see Digimon
+     * @see Conexion
+     * @see recogeUsuDigi
+     * @see diffUsuDig
+     * @see muestraSQLException
+     */
     public static void eliminaUsuDig(String[] args, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
         HashMap<Usuario,HashSet<Digimon>> usuDigBD = recogeUsuDigi(args,usu,dig);
         HashMap<String,HashMap<String,Boolean>> borrados = diffUsuDig(usuDigBD,usuDig);
@@ -640,19 +693,6 @@ public class Util {
         int mayor = (porc1 > porc2) ? porc1 : porc2;
         int menor = (porc1 == mayor) ? porc2 : porc1;
         boolean iguales = porc1 == porc2;
-        /*
-        if(porc1 > porc2){
-            mayor = porc1;
-            menor = porc2;
-        }else if(porc1 < porc2){
-            mayor = porc2;
-            menor = porc1;
-        }else{
-            mayor = porc1;
-            menor = porc2;
-            iguales = true;
-        }
-        */
 
         Random rnd = new Random();
         int numRnd = rnd.nextInt(10);
@@ -991,9 +1031,7 @@ public class Util {
         do{
             System.out.print("Tipos: ");
             Digimon.Tipos[] tipos = Digimon.Tipos.values();
-            /*for(Digimon.Tipos t : tipos){
-                System.out.print(t.name().toLowerCase() + ", ");
-            }*/
+
             for(int i=0; i<tipos.length; i++){
                 System.out.print(tipos[i]);
                 if(!(i == tipos.length - 1)){
@@ -1185,16 +1223,12 @@ public class Util {
         do{
             nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar (0 para salir): ");
             if(!nomDig.equals("0") && compruebaNomDig(nomDig,digimones)){
-                //while(compruebaNomDig(nomDigEvo,digimones)){
-                    //nomDig = SLeer1.datoString("Introduce el nombre del Digimon que quieres digievolucionar: ");
                 nomDigEvo = dig.get(nomDig).getNomDigEvo();
                 if(dig.get(nomDig).getNomDigEvo() == null){
                     System.err.println("Ese Digimon ya ha alcanzado su máximo estado");
                 }else if(compruebaNomDig(nomDigEvo,digimones)){
                     System.err.println("Ya tienes su evolución, no puedes tener Digimones repetidos.");
                 }
-                //}while((nomDigEvo == null) || (compruebaNomDig(nomDigEvo,digimones)));
-                //}
 
                 else{
                     Digimon digimon = new Digimon(dig.get(nomDigEvo),false);

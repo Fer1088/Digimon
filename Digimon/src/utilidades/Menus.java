@@ -79,7 +79,6 @@ public class Menus {
         System.out.println("1) Usuarios");
         System.out.println("2) Digimones");
         System.out.println("3) Base de datos");
-        //System.out.println("3) Actualizar tablas BD");
 
         Util.imprimeIguales(23);
         System.out.println("");
