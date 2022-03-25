@@ -48,37 +48,42 @@ public class Principal {
                                 SLeer1.limpiar();
                                 switch(opcion){
                                     case 1:
-                                        do{
-                                            Menus.menuJugar(usuario);
-                                            opcion = SLeer1.datoByte("Elige: ");
-                                            SLeer1.limpiar();
-                                            switch(opcion){
-                                                case 1:
-                                                    contrincante = Util.pideContrincante(usuarios);
-                                                    Util.limpiar();
-                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
-                                                    Util.pausa();
-                                                    break;
-                                                case 2:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
-                                                    Util.limpiar();
-                                                    Util.partida(usuario, contrincante, usuDigi, digimones, true);
-                                                    Util.pausa();
-                                                    break;
-                                                case 3:
-                                                    contrincante = Util.pideContrincante(usuarios);
-                                                    Util.limpiar();
-                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
-                                                    Util.pausa();
-                                                    break;
-                                                case 4:
-                                                    contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
-                                                    Util.limpiar();
-                                                    Util.partida(usuario, contrincante, usuDigi, digimones, false);
-                                                    Util.pausa();
-                                                    break;
-                                            }
-                                        }while(opcion != 0);
+                                        if(digimones.size() < 3){
+                                            System.out.println("No hay suficientes Digimones para jugar :(");
+                                            Util.pausa();
+                                        }else{
+                                            do{
+                                                Menus.menuJugar(usuario);
+                                                opcion = SLeer1.datoByte("Elige: ");
+                                                SLeer1.limpiar();
+                                                switch(opcion){
+                                                    case 1:
+                                                        contrincante = Util.pideContrincante(usuarios);
+                                                        Util.limpiar();
+                                                        Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                        Util.pausa();
+                                                        break;
+                                                    case 2:
+                                                        contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
+                                                        Util.limpiar();
+                                                        Util.partida(usuario, contrincante, usuDigi, digimones, true);
+                                                        Util.pausa();
+                                                        break;
+                                                    case 3:
+                                                        contrincante = Util.pideContrincante(usuarios);
+                                                        Util.limpiar();
+                                                        Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                        Util.pausa();
+                                                        break;
+                                                    case 4:
+                                                        contrincante = Util.randomizaUsuario(usuarios.values(),usuario);
+                                                        Util.limpiar();
+                                                        Util.partida(usuario, contrincante, usuDigi, digimones, false);
+                                                        Util.pausa();
+                                                        break;
+                                                }
+                                            }while(opcion != 0);
+                                        }
                                         opcion = -1;
                                         break;
                                     case 2:
