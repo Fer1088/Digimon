@@ -106,7 +106,7 @@ public class Digimon {
      * @param tipo El tipo propuesto para el Digimon.
      */
     private void setTipo(String tipo) {
-        this.tipo = Tipos.valueOf(tipo);
+        this.tipo = Tipos.valueOf(tipo.toUpperCase());
     }
 
     /**
