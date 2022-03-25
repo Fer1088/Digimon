@@ -403,16 +403,13 @@ public class Util {
         int fuerza2 = calcularFuerza(d2);
         int suma = fuerza1 + fuerza2;
         
-        //System.out.println(fuerza1 + " " + fuerza2 + " " + suma);
-        
         int porc1 = fuerza1 * 10 / suma;
         int porc2 = fuerza2 * 10 / suma;
         
-        //System.out.println(porc1 + " " + porc2);
-        
-        int mayor = 0;
-        int menor = 0;
-        boolean iguales = false;
+        int mayor = (porc1 > porc2) ? porc1 : porc2;
+        int menor = (porc1 == mayor) ? porc2 : porc1;
+        boolean iguales = porc1 == porc2;
+        /*
         if(porc1 > porc2){
             mayor = porc1;
             menor = porc2;
@@ -424,21 +421,11 @@ public class Util {
             menor = porc2;
             iguales = true;
         }
-        
-        //System.out.println("Mayor: " + mayor);
-        //System.out.println("Menor: " + menor);
-        
+        */
+
         Random rnd = new Random();
         int numRnd = rnd.nextInt(10);
-        
-        //System.out.println(numRnd);
-        
-        /*if(numRnd < mayor){
-            return mayor == porc1;
-        }else if(numRnd > menor){
-            return menor == porc1;
-        }*/
-        
+
         if(!iguales){
             if(numRnd < mayor){
                 return mayor == porc1;
