@@ -220,6 +220,28 @@ public class Util {
         return usuDig;
     }
 
+    // Métodos para la modificación de la BD.
+    
+    /**
+     * Reinicializa la Base de Datos Digimon, dejando únicamente
+     * un Usuario administrador 'Admin'.
+     * @param args Argumentos necesarios para conectar con la BD.
+     */
+    public static void reiniciaBD(String[] args){        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        try(Statement st = c.getConexion().createStatement()){
+            st.executeUpdate("DELETE FROM Tiene");
+            st.executeUpdate("DELETE FROM Digimon");
+            st.executeUpdate("DELETE FROM Usuario WHERE NomUsu <> 'Admin'");
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
     // Métodos para la aleatorización de instancias.
     
     /**

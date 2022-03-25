@@ -147,18 +147,20 @@ public class Principal {
                                                     opcion = -1;
                                                     break;
                                                 case 3:
-                                                    /*do{
+                                                    do{
                                                         Menus.menuBaseDatos();
                                                         opcion = SLeer1.datoByte("Elige: ");
                                                         SLeer1.limpiar();
                                                         switch(opcion){
                                                             case 1:                                                                
                                                                 break;
-                                                            case 2:                                                                
+                                                            case 2:
+                                                                Util.reiniciaBD(args);
+                                                                Util.pausa();
                                                                 break;
                                                         }
                                                     }while(opcion != 0);
-                                                    opcion = -1;*/
+                                                    opcion = -1;
                                                     break;
                                             }
                                         }while(opcion != 0);
