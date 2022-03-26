@@ -41,7 +41,7 @@ CREATE TABLE `Digimon` (
 
 LOCK TABLES `Digimon` WRITE;
 /*!40000 ALTER TABLE `Digimon` DISABLE KEYS */;
-INSERT INTO `Digimon` VALUES ('Felipomon',65,58,'ANIMAL',23,NULL),('Josepomon',28,28,'VIRUS',23,NULL),('Sambon',69,23,'VACUNA',8,NULL);
+INSERT INTO `Digimon` VALUES ('Felipomon',65,58,'ANIMAL',1,NULL),('Josepomon',28,28,'VIRUS',1,NULL),('Sambon',69,23,'VACUNA',1,NULL);
 /*!40000 ALTER TABLE `Digimon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -69,7 +69,7 @@ CREATE TABLE `Tiene` (
 
 LOCK TABLES `Tiene` WRITE;
 /*!40000 ALTER TABLE `Tiene` DISABLE KEYS */;
-INSERT INTO `Tiene` VALUES ('Felipomon','Antonio',0),('Felipomon','Dulsesico',1),('Felipomon','Manolo',0),('Josepomon','Antonio',1),('Josepomon','Manolo',0),('Sambon','Antonio',0),('Sambon','Dulsesico',0);
+INSERT INTO `Tiene` VALUES ('Felipomon','Admin',1),('Felipomon','Antonio',1),('Felipomon','Dulsesico',1),('Felipomon','Manolo',1),('Josepomon','Admin',1),('Josepomon','Antonio',1),('Josepomon','Dulsesico',1),('Josepomon','Manolo',1),('Sambon','Admin',1),('Sambon','Antonio',1),('Sambon','Dulsesico',1),('Sambon','Manolo',1);
 /*!40000 ALTER TABLE `Tiene` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,6 +85,7 @@ CREATE TABLE `Usuario` (
   `ContUsu` varchar(50) COLLATE utf8_spanish_ci DEFAULT NULL,
   `PartidasGan` int(11) DEFAULT NULL,
   `TokensEvo` int(11) DEFAULT NULL,
+  `EsAdmin` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`NomUsu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -95,7 +96,7 @@ CREATE TABLE `Usuario` (
 
 LOCK TABLES `Usuario` WRITE;
 /*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
-INSERT INTO `Usuario` VALUES ('Antonio','cosas',9,1),('Dulsesico','ososos',777,23),('Manolo','bombo',23,4);
+INSERT INTO `Usuario` VALUES ('Admin','1234',0,0,1),('Antonio','cosas',9,1,1),('Dulsesico','ososos',777,23,0),('Manolo','bombo',23,4,1);
 /*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +109,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-17 12:44:19
+-- Dump completed on 2022-03-25 12:47:44
