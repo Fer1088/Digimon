@@ -87,13 +87,34 @@ public class Principal {
                                         opcion = -1;
                                         break;
                                     case 2:
-                                        Util.reiniciaEquipo(usuario, usuDigi);
-                                        Util.estableceEquipo(usuario, usuDigi);
-                                        Util.pausa();
+                                        do{
+                                            Menus.menuEquipo();
+                                            opcion = SLeer1.datoByte("Elige: ");
+                                            SLeer1.limpiar();
+                                            switch(opcion){
+                                                case 1:
+                                                    Util.limpiar();
+                                                    Util.listaDigimonsEquipo(usuario, usuDigi);
+                                                    Util.pausa();
+                                                    break;
+                                                case 2:
+                                                    Util.reiniciaEquipo(usuario, usuDigi);
+                                                    Util.limpiar();
+                                                    Util.estableceEquipo(usuario, usuDigi);
+                                                    Util.pausa();
+                                                    break;
+                                            }
+                                        }while(opcion != 0);
+                                        opcion = -1;
                                         break;
                                     case 3:
+                                        Util.limpiar();
+                                        Util.listaDigimonsUsuario(usuario, usuDigi);
+                                        Util.pausa();
                                         break;
                                     case 4:
+                                        Util.limpiar();
+                                        Util.listaDigiEvolucionables(usuario, usuDigi);
                                         Util.digievolucion(usuario, digimones, usuDigi);
                                         Util.pausa();
                                         break;
@@ -109,19 +130,29 @@ public class Principal {
                                                         opcion = SLeer1.datoByte("Elige: ");
                                                         SLeer1.limpiar();
                                                         switch(opcion){
-                                                            case 1:                                                                
+                                                            case 1:
+                                                                Util.limpiar();
+                                                                Util.listaUsuarios(usuarios);
+                                                                Util.pausa();
                                                                 break;
-                                                            case 2:                                                                
+                                                            case 2:
+                                                                Util.limpiar();
+                                                                Util.listaUsuarios(usuarios);
+                                                                Util.muestraUsuario(usuarios);
+                                                                Util.pausa();
                                                                 break;
                                                             case 3:
+                                                                Util.limpiar();
                                                                 Util.registrarUsuario(usuarios,digimones,usuDigi);
                                                                 Util.pausa();
                                                                 break;
                                                             case 4:
+                                                                Util.limpiar();
                                                                 Util.borraUsuario(usuarios);
                                                                 Util.pausa();
                                                                 break;
                                                             case 5:
+                                                                Util.limpiar();
                                                                 Util.hacerAdmin(usuarios);
                                                                 Util.pausa();
                                                                 break;
@@ -135,15 +166,24 @@ public class Principal {
                                                         opcion = SLeer1.datoByte("Elige: ");
                                                         SLeer1.limpiar();
                                                         switch(opcion){
-                                                            case 1:                                                                
+                                                            case 1:
+                                                                Util.limpiar();
+                                                                Util.listaDigimons(digimones);
+                                                                Util.pausa();
                                                                 break;
-                                                            case 2:                                                                
+                                                            case 2:
+                                                                Util.limpiar();
+                                                                Util.listaDigimons(digimones);
+                                                                Util.muestraDigimon(digimones);
+                                                                Util.pausa();
                                                                 break;
                                                             case 3:
+                                                                Util.limpiar();
                                                                 Util.anyadeDigimon(digimones);
                                                                 Util.pausa();
                                                                 break;
                                                             case 4:
+                                                                Util.limpiar();
                                                                 Util.borraDigimon(digimones);
                                                                 Util.pausa();
                                                                 break;
@@ -220,13 +260,34 @@ public class Principal {
                                         opcion = -1;
                                         break;
                                     case 2:
-                                        Util.reiniciaEquipo(usuario, usuDigi);
-                                        Util.estableceEquipo(usuario, usuDigi);
-                                        Util.pausa();
+                                        do{
+                                            Menus.menuEquipo();
+                                            opcion = SLeer1.datoByte("Elige: ");
+                                            SLeer1.limpiar();
+                                            switch(opcion){
+                                                case 1:
+                                                    Util.limpiar();
+                                                    Util.listaDigimonsEquipo(usuario, usuDigi);
+                                                    Util.pausa();
+                                                    break;
+                                                case 2:
+                                                    Util.reiniciaEquipo(usuario, usuDigi);
+                                                    Util.limpiar();
+                                                    Util.estableceEquipo(usuario, usuDigi);
+                                                    Util.pausa();
+                                                    break;
+                                            }
+                                        }while(opcion != 0);
+                                        opcion = -1;
                                         break;
                                     case 3:
+                                        Util.limpiar();
+                                        Util.listaDigimonsUsuario(usuario, usuDigi);
+                                        Util.pausa();
                                         break;
                                     case 4:
+                                        Util.limpiar();
+                                        Util.listaDigiEvolucionables(usuario, usuDigi);
                                         Util.digievolucion(usuario, digimones, usuDigi);
                                         Util.pausa();
                                         break;
@@ -237,6 +298,7 @@ public class Principal {
                     opcion = -1;
                     break;
                 case 2:
+                    Util.limpiar();
                     Util.registrarUsuario(usuarios,digimones,usuDigi);
                     opcion = -1;
                     break;

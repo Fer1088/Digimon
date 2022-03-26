@@ -85,6 +85,19 @@ public class Menus {
         System.out.println("0) Ir atrás");
     }
     
+    public static void menuEquipo(){
+        Util.limpiar();
+        
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("1) Ver equipo");
+        System.out.println("2) Modificar equipo");
+        
+        Util.imprimeIguales(23);
+        System.out.println("");
+        System.out.println("0) Ir atrás");
+    }
+    
     /**
      * Imprime los modos de juego del programa.
      */

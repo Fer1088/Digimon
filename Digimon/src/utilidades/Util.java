@@ -347,7 +347,7 @@ public class Util {
                 st.setString(1, d.getNomDig());
                 st.setInt(2, d.getAtaque());
                 st.setInt(3, d.getDefensa());
-                st.setString(4, d.getTipo().toString());
+                st.setString(4, d.getTipo().name());
                 st.setInt(5, d.getNivel());
                 st.setString(6, d.getNomDigEvo());
                 
@@ -1252,4 +1252,179 @@ public class Util {
             }
         }while(!nomDig.equals("0"));
     }
+    
+    //Métodos para mostrar Usuarios y Digimones
+    
+    /**
+     * Lista todos los Usuarios registrados.
+     * @param usuarios Un mapa que contiene todos los Usuarios.
+     * @see Usuario
+     */
+    public static void listaUsuarios(HashMap<String,Usuario> usuarios) {
+        int indice = 0;
+        for (String u : usuarios.keySet()) {
+            System.out.print(u);
+            indice++;
+            if(indice != usuarios.size()){
+                System.out.print(", ");
+                if(indice % 5 == 0){
+                    System.out.println("");
+                }
+            }
+        }
+        System.out.println("");
+    }
+
+    /**
+     * Lista todos los Digimones añadidos.
+     * @param digimones Un mapa que contiene todos los Digimones.
+     * @see Digimon
+     */
+    public static void listaDigimons(HashMap<String,Digimon> digimones) {
+        int indice = 0;
+        for (String d : digimones.keySet()) {
+            System.out.print(d);
+            indice++;
+            if(indice != digimones.size()){
+                System.out.print(", ");
+                if(indice % 5 == 0){
+                    System.out.println("");
+                }
+            }
+        }
+        System.out.println("");
+    }
+
+    /**
+     * Lista todos los Digimones de un Usuario concreto.
+     * @param usuario Usuario del que se van a listar los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     */
+    public static void listaDigimonsUsuario(Usuario usuario, HashMap<Usuario,HashSet<Digimon>> usuDig) {
+        System.out.println("Tus Digimones: ");
+        int indice = 0;
+        for (Digimon d : usuDig.get(usuario)) {
+            System.out.print(d.getNomDig());
+            indice++;
+            if(indice != usuDig.get(usuario).size()){
+                System.out.print(", ");
+                if(indice % 5 == 0){
+                    System.out.println("");
+                }
+            }
+        }
+        System.out.println("");
+    }
+    
+    /**
+     * Lista los Digimones de un Usuario concreto que están en su equipo.
+     * @param usuario Usuario del que se van a listar los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @see Usuario
+     * @see Digimon
+     */
+    public static void listaDigimonsEquipo(Usuario usuario, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        System.out.println("Tu Equipo: ");
+        int indice = 0;
+        for (Digimon d : usuDig.get(usuario)) {
+            if(d.isEstaEquipo()){
+                System.out.print(d.getNomDig());
+                indice++;
+                if(indice != usuDig.get(usuario).size()){
+                    System.out.print(", ");
+                }
+            }
+        }
+        System.out.println("");
+    }
+    
+    /**
+     * Lista los Digimones de un Usuario concreto que pueden digievolucionar.
+     * @param usuario Usuario del que se van a listar los Digimones.
+     * @param usuDig Un Mapa que guarda una colección de Digimones para
+     * cada Usuario.
+     * @see Usuario
+     * @see Digimon 
+     */
+    public static void listaDigiEvolucionables(Usuario usuario, HashMap<Usuario,HashSet<Digimon>> usuDig){
+        System.out.println("Digimones que pueden digievolucionar: ");
+        int indice = 0;
+        for (Digimon d : usuDig.get(usuario)) {
+            if(d.getNomDigEvo() != null){
+                System.out.print(d.getNomDig());
+                indice++;
+                if(indice != usuDig.get(usuario).size()){
+                    System.out.print(", ");
+                    if(indice % 5 == 0){
+                        System.out.println("");
+                    }
+                }
+            }
+        }
+        System.out.println("");
+    }
+
+    /**
+     * Muestra detalladamente los datos de un Usuario concreto.
+     * @param usuarios Un mapa que contiene todos los Usuarios.
+     * @see Usuario
+     */
+    public static void muestraUsuario(HashMap<String,Usuario> usuarios) {
+        String nombre = null;
+        
+        do{
+            nombre = SLeer1.datoString("Introduce el nombre del Usuario: ");
+            if(!usuarios.containsKey(nombre)){
+                System.err.println("No existe un Usuario con ese nombre.");
+            }
+        }while(!usuarios.containsKey(nombre));
+        
+        Usuario usuario = usuarios.get(nombre);
+        
+        System.out.println("Nombre: " + usuario.getNombre());
+        System.out.println("Contraseña: " + usuario.getContrasena());
+        System.out.println("Partidas ganadas: " + usuario.getPartidasGan());
+        System.out.println("Tokens digievolución: " + usuario.getTokensEvo());
+        if(usuario.isEsAdmin()){
+            System.out.println("Administrador");
+        }else{
+            System.out.println("Usuario");
+        }
+        
+        System.out.println("");
+    }
+
+    /**
+     * Muestra detalladamente los datos de un Digimon concreto.
+     * @param digimones Un mapa que contiene todos los Digimones.
+     * @see Digimon
+     */
+    public static void muestraDigimon(HashMap<String,Digimon> digimones) {
+        String nomDig = null;
+        
+        do{
+            nomDig = SLeer1.datoString("Introduce el nombre del Digimon: ");
+            if(!digimones.containsKey(nomDig)){
+                System.err.println("No existe un Digimon con ese nombre.");
+            }
+        }while(!digimones.containsKey(nomDig));
+        
+        Digimon digimon = digimones.get(nomDig);
+        
+        System.out.println("Nombre: " + digimon.getNomDig());
+        System.out.println("Tipo: " + digimon.getTipo().name());
+        System.out.println("Ataque: " + digimon.getAtaque());
+        System.out.println("Defensa: " + digimon.getDefensa());
+        System.out.println("Nivel: " + digimon.getNivel());
+        if(digimon.getNomDigEvo() != null){
+            System.out.println("Digievoluciona a: " + digimon.getNomDigEvo());
+        }
+        
+        System.out.println("");
+    }
+
 }
