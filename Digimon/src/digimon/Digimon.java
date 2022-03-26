@@ -5,7 +5,7 @@ package digimon;
  * @version 1.0, 19/03/2022
  * @author jmanuel
  */
-public class Digimon/* implements Cloneable*/{
+public class Digimon {
 
     /**
      * Tipos que el Digimon puede tomar.
@@ -25,17 +25,6 @@ public class Digimon/* implements Cloneable*/{
     private int defensa;
     private boolean estaEquipo;
     private String nomDigEvo;
-
-    /*public Digimon(String Nombre, Tipos t,int lvl,int ataq,int def,String nombreEvo) {
-        nomDig = Nombre;
-        tipo=t;
-        nivel = lvl;
-        ataque = ataq;
-        defensa= def;
-        estaEquipo = false;
-        nomDigEvo = nombreEvo;
-        
-    }*/
 
     /**
      * Constructor de Digimon, orientado tanto a la extracción de valores de la
@@ -88,17 +77,6 @@ public class Digimon/* implements Cloneable*/{
         this.estaEquipo = estaEquipo;
     }
 
-    /*@Override
-    public Object clone() {
-        Object objeto = null;
-        try{
-            objeto = super.clone();
-        }catch(CloneNotSupportedException ex){
-            ex.printStackTrace();
-        }
-        return objeto;
-    }*/
-    
     /**
      * Obtiene el nombre del Digimon.
      * @return El nombre actual del Digimon.
@@ -128,7 +106,7 @@ public class Digimon/* implements Cloneable*/{
      * @param tipo El tipo propuesto para el Digimon.
      */
     private void setTipo(String tipo) {
-        this.tipo = Tipos.valueOf(tipo);
+        this.tipo = Tipos.valueOf(tipo.toUpperCase());
     }
 
     /**
@@ -218,14 +196,10 @@ public class Digimon/* implements Cloneable*/{
      * puede digievolucionar.
      */
     private void setNomDigEvo(String nomDigEvo) {
-        if(nomDigEvo == null){
-            this.nomDigEvo = "";
+        if(this.nivel < 3){
+            this.nomDigEvo = nomDigEvo;
         }else{
-            if(this.nivel < 3){
-                this.nomDigEvo = nomDigEvo;
-            }else{
-                this.nomDigEvo = "";
-            }
+            this.nomDigEvo = null;
         }
     }
 
