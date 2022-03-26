@@ -85,6 +85,9 @@ public class Menus {
         System.out.println("0) Ir atrás");
     }
     
+    /**
+     * Imprime los distintos modos de interactuar con el Equipo.
+     */
     public static void menuEquipo(){
         Util.limpiar();
         
