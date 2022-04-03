@@ -233,8 +233,13 @@ public class Util {
         c.conectar();
         
         try(Statement st = c.getConexion().createStatement()){
+            st.executeUpdate("SET FOREIGN_KEY_CHECKS=0");
+            
             st.executeUpdate("DELETE FROM Tiene");
             st.executeUpdate("DELETE FROM Digimon");
+            
+            st.executeUpdate("SET FOREIGN_KEY_CHECKS=1");
+            
             st.executeUpdate("DELETE FROM Usuario WHERE NomUsu <> 'Admin'");
         }catch(SQLException e){
             muestraSQLException(e);
@@ -281,6 +286,85 @@ public class Util {
         }finally{
             c.cerrar();
         }
+    }
+    
+    /**
+     * Compara los Usuarios existentes en la sesión actual de juego con los
+     * encontrados en la BD.
+     * @param usu1 Un mapa que contiene todos los Usuarios (de la sesión
+     * actual de juego).
+     * @param usu2 Un mapa que contiene todos los Usuarios (de la BD).
+     * @return Un vector con todos los Usuarios existentes tanto en la BD
+     * como en la sesión actual del juego que hayan visto modificado
+     * alguno de sus atributos.
+     * @see Usuario
+     */
+    public static ArrayList modUsuarios(HashMap<String,Usuario> usu1, HashMap<String,Usuario> usu2){
+        ArrayList<Usuario> modificados = new ArrayList<>();
+        
+        for(Usuario u : usu1.values()){
+            if(usu2.containsKey(u.getNombre())){
+                modificados.add(u);
+            }
+        }
+        
+        boolean cambia = false;
+        for(Usuario u : usu2.values()){
+            cambia = false;
+            
+            for(Usuario v : modificados){
+                if(v.getNombre().equals(u.getNombre())){
+                    if(v.getTokensEvo() != u.getTokensEvo()){
+                        cambia = true;
+                    }else if(v.getPartidasGan() != u.getPartidasGan()){
+                        cambia = true;
+                    }else if(v.isEsAdmin() != u.isEsAdmin()){
+                        cambia = true;
+                    }
+                }
+            }
+            
+            if(!cambia){
+                modificados.remove(u);
+            }
+        }
+        
+        return modificados;
+    }
+    
+    /**
+     * Actualiza en la BD los atributos que hayan cambiado en los Usuarios.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuarios Un mapa que contiene todos los Usuarios.
+     * @see Usuario
+     * @see Conexion
+     * @see recogeUsuarios
+     * @see modUsuarios
+     * @see muestraSQLException
+     */
+    public static void actualizaUsuarios(String[] args, HashMap<String,Usuario> usuarios){
+        HashMap<String,Usuario> usuariosBD = recogeUsuarios(args);
+        ArrayList<Usuario> modificados = modUsuarios(usuarios, usuariosBD);
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        String consulta = "UPDATE Usuario SET PartidasGan = ?, TokensEvo = ?, EsAdmin = ? WHERE NomUsu = ?";
+        try(PreparedStatement st = c.getConexion().prepareStatement(consulta)){
+            for(Usuario u : modificados){
+                st.setInt(1, u.getPartidasGan());
+                st.setInt(2, u.getTokensEvo());
+                st.setBoolean(3, u.isEsAdmin());
+                st.setString(4, u.getNombre());
+                
+                st.executeUpdate();
+            }
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+        
     }
     
     /**
@@ -342,17 +426,21 @@ public class Util {
         Conexion c = new Conexion(args);
         c.conectar();
         
-        try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Digimon VALUES (?,?,?,?,?,?)")){
-            for(Digimon d : nuevos){
-                st.setString(1, d.getNomDig());
-                st.setInt(2, d.getAtaque());
-                st.setInt(3, d.getDefensa());
-                st.setString(4, d.getTipo().name());
-                st.setInt(5, d.getNivel());
-                st.setString(6, d.getNomDigEvo());
-                
-                st.executeUpdate();
+        try(Statement s = c.getConexion().createStatement()){
+            s.execute("SET FOREIGN_KEY_CHECKS=0");
+            try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Digimon VALUES (?,?,?,?,?,?)")){
+                for(Digimon d : nuevos){
+                    st.setString(1, d.getNomDig());
+                    st.setInt(2, d.getAtaque());
+                    st.setInt(3, d.getDefensa());
+                    st.setString(4, d.getTipo().name());
+                    st.setInt(5, d.getNivel());
+                    st.setString(6, d.getNomDigEvo());
+
+                    st.executeUpdate();
+                }
             }
+            s.execute("SET FOREIGN_KEY_CHECKS=1");
         }catch(SQLException e){
             muestraSQLException(e);
         }finally{
@@ -409,11 +497,15 @@ public class Util {
      */
     public static HashMap<String,HashMap<String,Boolean>> diffUsuDig(HashMap<Usuario,HashSet<Digimon>> usuDig1, HashMap<Usuario,HashSet<Digimon>> usuDig2){
         HashMap<String,HashMap<String,Boolean>> diff = new HashMap<>();
+        
+        boolean cambia = false;
+        boolean existe = false;
+        
         for(Usuario u : usuDig1.keySet()){
             HashMap<String,Boolean> digimones = new HashMap<>();
-            boolean cambia = false;
+            cambia = false;
             for(Digimon d : usuDig1.get(u)){
-                boolean existe = false;
+                existe = false;
                 if(usuDig2.containsKey(u)){
                     for(Digimon g : usuDig2.get(u)){
                         if(g.getNomDig().equals(d.getNomDig())){
@@ -449,12 +541,119 @@ public class Util {
         Conexion c = new Conexion(args);
         c.conectar();
         
-        try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Tiene VALUES (?,?,?)")){
-            for(String usuario : nuevos.keySet()){
-                for(String digimon : nuevos.get(usuario).keySet()){
-                    st.setString(1, digimon);
+        try(Statement s = c.getConexion().createStatement()){
+            s.execute("SET FOREIGN_KEY_CHECKS=0");
+            try(PreparedStatement st = c.getConexion().prepareStatement("INSERT INTO Tiene VALUES (?,?,?)")){
+                for(String usuario : nuevos.keySet()){
+                    for(String digimon : nuevos.get(usuario).keySet()){
+                        st.setString(1, digimon);
+                        st.setString(2, usuario);
+                        st.setBoolean(3, nuevos.get(usuario).get(digimon));
+
+                        st.executeUpdate();
+                    }
+                }
+            }
+            s.execute("SET FOREIGN_KEY_CHECKS=1");
+        }catch(SQLException e){
+            muestraSQLException(e);
+        }finally{
+            c.cerrar();
+        }
+    }
+    
+    /**
+     * Compara los Usuarios, junto a sus colecciones de Digimones, de la
+     * sesión actual de juego con los correspondientes de la BD.
+     * @param usuDig1 Un mapa que guarda una colección de Digimones
+     * para cada Usuario (de la sesión actual).
+     * @param usuDig2 Un mapa que guarda una colección de Digimones
+     * para cada Usuario (de la BD).
+     * @return Un Mapa con los nombres de los Usuarios y Digimones (junto
+     * al valor, de cada uno de los Digimones, de la condición de estar
+     * en el equipo de un Usuario) que se encuentran tanto en la sesión
+     * actual de juego como en la BD.
+     * @see Usuario
+     * @see Digimon
+     */
+    public static HashMap coincideUsuDig(HashMap<Usuario,HashSet<Digimon>> usuDig1, HashMap<Usuario,HashSet<Digimon>> usuDig2){
+        HashMap<String,HashMap<String,Boolean>> coinciden = new HashMap<>();
+        
+        for(Usuario u : usuDig1.keySet()){
+            if(usuDig2.containsKey(u)){
+                HashMap<String,Boolean> digimones = new HashMap<>();
+                for(Digimon d : usuDig1.get(u)){
+                    for(Digimon g : usuDig2.get(u)){
+                        if(g.getNomDig().equals(d.getNomDig())){
+                            digimones.put(d.getNomDig(), d.isEstaEquipo());
+                        }
+                    }
+                }
+                coinciden.put(u.getNombre(), digimones);
+            }
+        }
+        
+        return coinciden;
+    }
+    
+    /**
+     * Compara los valores de estar en equipo de cada Digimon de la
+     * colección de cada Usuario en la sesión actual del juego con la BD.
+     * @param usuDig1 Un mapa que guarda una colección de Digimones
+     * para cada Usuario (de la sesión actual).
+     * @param usuDig2 Un mapa que guarda una colección de Digimones
+     * para cada Usuario (de la BD).
+     * @return Un mapa con los nombres de Usuarios y Digimones de
+     * la sesión actual cuyo valor de la condición de "estar en equipo"
+     * de cada Digimon es distinto al de su equivalente en la BD.
+     * @see Usuario
+     * @see Digimon
+     * @see coincideUsuDig
+     */
+    public static HashMap modUsuDig(HashMap<Usuario,HashSet<Digimon>> usuDig1, HashMap<Usuario,HashSet<Digimon>> usuDig2){
+        HashMap<String,HashMap<String,Boolean>> modificados = coincideUsuDig(usuDig1, usuDig2);
+        HashMap<String,HashMap<String,Boolean>> originales = coincideUsuDig(usuDig2, usuDig2);
+        
+        for(String u : originales.keySet()){
+            for(String d : originales.get(u).keySet()){
+                if(Objects.equals(modificados.get(u).get(d), originales.get(u).get(d))){
+                    modificados.get(u).remove(d);
+                }
+            }
+        }
+        
+        return modificados;
+    }
+    
+    /**
+     * Actualiza en la Base de Datos el valor de la condición de los Digimones
+     * de la colección de cada Usuario de estar en el equipo de dicho Usuario.
+     * @param args Argumentos necesarios para conectar con la BD.
+     * @param usuDig Un mapa que guarda una colección de Digimones
+     * para cada Usuario.
+     * @param usu Un mapa que contiene todos los Usuarios.
+     * @param dig Un mapa que contiene todos los Digimones.
+     * @see Usuario
+     * @see Digimon
+     * @see Conexion
+     * @see recogeUsuDigi
+     * @see modUsuDig
+     * @see muestraSQLException
+     */
+    public static void actualizaUsuDig(String[] args, HashMap<Usuario,HashSet<Digimon>> usuDig, HashMap<String,Usuario> usu, HashMap<String,Digimon> dig){
+        HashMap<Usuario,HashSet<Digimon>> usuDigBD = recogeUsuDigi(args,usu,dig);
+        HashMap<String,HashMap<String,Boolean>> modificados = modUsuDig(usuDig, usuDigBD);
+        
+        Conexion c = new Conexion(args);
+        c.conectar();
+        
+        String consulta = "UPDATE Tiene SET EstaEquipo = ? WHERE NomUsu = ? AND NomDig = ?";
+        try(PreparedStatement st = c.getConexion().prepareStatement(consulta)){
+            for(String usuario : modificados.keySet()){
+                for(String digimon : modificados.get(usuario).keySet()){
+                    st.setBoolean(1, modificados.get(usuario).get(digimon));
                     st.setString(2, usuario);
-                    st.setBoolean(3, nuevos.get(usuario).get(digimon));
+                    st.setString(3, digimon);
                     
                     st.executeUpdate();
                 }
@@ -1228,16 +1427,14 @@ public class Util {
                     System.err.println("Ese Digimon ya ha alcanzado su máximo estado");
                 }else if(compruebaNomDig(nomDigEvo,digimones)){
                     System.err.println("Ya tienes su evolución, no puedes tener Digimones repetidos.");
-                }
-
-                else{
+                }else{
                     Digimon digimon = new Digimon(dig.get(nomDigEvo),false);
 
                     for(Digimon d : digimones){
-                        if(d.isEstaEquipo()){
-                            digimon.setEstaEquipo(true);
-                        }
                         if(d.getNomDig().equals(nomDig)){
+                            if(d.isEstaEquipo()){
+                                digimon.setEstaEquipo(true);
+                            }
                             usuDig.get(usu).remove(d);
                         }
                     }
@@ -1334,7 +1531,7 @@ public class Util {
             if(d.isEstaEquipo()){
                 System.out.print(d.getNomDig());
                 indice++;
-                if(indice != usuDig.get(usuario).size()){
+                if(indice != 3){
                     System.out.print(", ");
                 }
             }

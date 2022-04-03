@@ -198,12 +198,14 @@ public class Principal {
                                                         SLeer1.limpiar();
                                                         switch(opcion){
                                                             case 1:
+                                                                Util.eliminaUsuDig(args, usuDigi, usuarios, digimones);
                                                                 Util.eliminaUsuarios(args, usuarios);
                                                                 Util.eliminaDigimones(args, digimones);
-                                                                Util.eliminaUsuDig(args, usuDigi, usuarios, digimones);
+                                                                Util.actualizaUsuDig(args, usuDigi, usuarios, digimones);
+                                                                Util.actualizaUsuarios(args, usuarios);
+                                                                Util.insertaUsuDig(args, usuDigi, usuarios, digimones);
                                                                 Util.insertaUsuarios(args, usuarios);
                                                                 Util.insertaDigimones(args, digimones);
-                                                                Util.insertaUsuDig(args, usuDigi, usuarios, digimones);
                                                                 Util.pausa();
                                                                 break;
                                                             case 2:
